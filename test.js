@@ -3,6 +3,7 @@ let main = document.querySelector("main");
 let seasonsButton = document.getElementById("seasonsButton");
 let dataButton = document.getElementById("dataButton");
 let seasonButtons = document.getElementById("seasonButtons");
+let testButton = document.getElementById("testButton");
 
 
 function skillsDataset() {
@@ -429,6 +430,16 @@ function seasonCompetition(year) {
     }
 }
 
+
+testButton.addEventListener("click", function () {
+    main.innerHTML = "";
+    main.style.display = "block";
+    seasonButtons.style.display = "none";
+    let h1 = document.createElement("h1");
+    h1.textContent = "Område för att testa kod";
+    h1.style.textAlign = "center";
+    main.append(h1);
+});
 
 
 dataButton.addEventListener("click", function () {
