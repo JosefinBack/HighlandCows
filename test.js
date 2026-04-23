@@ -433,7 +433,7 @@ function seasonCompetition(year) {
 
 testButton.addEventListener("click", function () {
     main.innerHTML = "";
-    main.style.display = "block";
+    main.style.display = "grid";
     seasonButtons.style.display = "none";
     let h1 = document.createElement("h1");
     h1.textContent = "Område för att testa kod";
@@ -480,5 +480,9 @@ seasonsButton.addEventListener("click", function () {
         }
     }
 });
+
+
+
+//test av kod
 
 
