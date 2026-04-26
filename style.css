@@ -92,3 +92,12 @@ button {
     background-color: black;
     color: white;
 }
+
+
+#buttons {
+    border: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    text-align: center;
+}

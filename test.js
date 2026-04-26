@@ -4,6 +4,7 @@ let seasonsButton = document.getElementById("seasonsButton");
 let dataButton = document.getElementById("dataButton");
 let seasonButtons = document.getElementById("seasonButtons");
 let testButton = document.getElementById("testButton");
+let buttonsDiv = document.getElementById("buttons");
 
 
 function skillsDataset() {
@@ -271,17 +272,6 @@ function participantsDataset() {
     }
 };
 
-let seasong_year_0 = seasons.find(d => d.year === 0);
-let seasong_year_1 = seasons.find(d => d.year === 1);
-let seasong_year_2 = seasons.find(d => d.year === 2);
-let seasong_year_3 = seasons.find(d => d.year === 3);
-let seasong_year_4 = seasons.find(d => d.year === 4);
-let seasong_year_5 = seasons.find(d => d.year === 5);
-let seasong_year_6 = seasons.find(d => d.year === 6);
-let seasong_year_7 = seasons.find(d => d.year === 7);
-let seasong_year_8 = seasons.find(d => d.year === 8);
-let seasong_year_9 = seasons.find(d => d.year === 9);
-
 
 function seasonCompetition(year) {
     let competition_this_yaer = seasons.find(d => d.year === year);
@@ -431,19 +421,9 @@ function seasonCompetition(year) {
 }
 
 
-testButton.addEventListener("click", function () {
-    main.innerHTML = "";
-    main.style.display = "grid";
-    seasonButtons.style.display = "none";
-    let h1 = document.createElement("h1");
-    h1.textContent = "Område för att testa kod";
-    h1.style.textAlign = "center";
-    main.append(h1);
-});
-
-
 dataButton.addEventListener("click", function () {
     main.innerHTML = "";
+    main.style.display = "grid";
     seasonButtons.style.display = "none";
 
     skillsDataset();
@@ -458,6 +438,7 @@ dataButton.addEventListener("click", function () {
 let buttonYear = [];
 seasonsButton.addEventListener("click", function () {
     main.innerHTML = "";
+    main.style.display = "grid";
     seasonButtons.style.display = "block";
 
     let existing = document.querySelector(".buttonMeny");
@@ -483,6 +464,245 @@ seasonsButton.addEventListener("click", function () {
 
 
 
+testButton.addEventListener("click", function () {
+    main.innerHTML = "";
+    main.style.display = "flex";
+    main.style.flexDirection = "column";
+    seasonButtons.style.display = "none";
+    let h1 = document.createElement("h1");
+    h1.textContent = "Område för att testa kod";
+    h1.style.textAlign = "center";
+    main.append(h1);
+    buttonsDiv.append(playerButton);
+    buttonsDiv.append(coachesButton);
+
+});
+
+let playerButton = document.createElement("button");
+playerButton.textContent = "Player Info";
+
+playerButton.addEventListener("click", function () {
+    playerInfo(148);
+});
+
+let coachesButton = document.createElement("button");
+coachesButton.textContent = "Coaches";
+
+coachesButton.addEventListener("click", function () {
+    coachInfo();
+});
+
+
 //test av kod
 
+function coachInfo() {
+
+    let contentDIV = document.createElement("div");
+    contentDIV.style.display = "flex";
+    contentDIV.style.gap = "15px";
+    contentDIV.style.border = "none";
+
+    let coachCount = {};
+
+    for (let season of seasons) {
+        for (let coach of season.coaches) {
+            if (!coachCount[coach.coachId]) {
+                coachCount[coach.coachId] = 0;
+            }
+            coachCount[coach.coachId]++;
+        }
+    }
+
+    let resultDiv = document.createElement("div");
+    resultDiv.style.width = "300px";
+
+    let h2 = document.createElement("h2");
+    h2.textContent = "Antal tävlande per coach (alla säsonger)";
+    resultDiv.append(h2);
+
+    let coachID = 1;
+
+    for (let person in coachCount) {
+        let div = document.createElement("div");
+        div.textContent = `CoachID: ${coachID} : ${coachCount[person]}`;
+        coachID++;
+        resultDiv.append(div);
+    }
+    contentDIV.append(resultDiv);
+
+    //antal tävlande per coach per år
+    let result = {};
+
+    for (let season of seasons) {
+        let year = season.year;
+        result[year] = {};
+
+        for (let coach of season.coaches) {
+            if (!result[year][coach.coachId]) {
+                result[year][coach.coachId] = 0;
+            }
+            result[year][coach.coachId]++;
+        }
+    }
+
+    let resultDivYEAR = document.createElement("div");
+    let divInsideResultYear = document.createElement("div");
+    divInsideResultYear.style.display = "flex";
+    divInsideResultYear.style.gap = "5px";
+
+    let h2Year = document.createElement("h2");
+    h2Year.textContent = "Antal tävlande per coach per säsong";
+    resultDivYEAR.append(h2Year);
+
+    for (let year in result) {
+        let rowDiv = document.createElement("div");
+        rowDiv.style.display = "flex";
+        rowDiv.style.gap = "10px";
+
+        let yearTitle = document.createElement("div");
+        yearTitle.textContent = `Year ${year}:`;
+        yearTitle.style.fontWeight = "bold";
+
+        rowDiv.append(yearTitle);
+
+        for (let coachId in result[year]) {
+            let div = document.createElement("div");
+            div.textContent = `${coachId}, (${result[year][coachId]})`;
+
+            rowDiv.append(div);
+        }
+        resultDivYEAR.append(rowDiv);
+        contentDIV.append(resultDivYEAR);
+    }
+    main.append(contentDIV);
+};
+
+
+
+function playerInfo(player_id) {
+    let playerID;
+    let coachesArray = [];
+    let trainerArray = [];
+    let eventsArray = [];
+
+    for (let player of participants) {
+        if (player_id === player.id) {
+            playerID = player.id;
+        }
+    }
+
+    //loopa igenom en säsong i taget (game = en säsong)
+    for (let game of seasons) {
+        for (let coach of game.coaches) {
+            if (coach.participantId === playerID) {
+                let obj = {
+                    "year": game.year,
+                    "coach": coach.coachId
+                }
+                coachesArray.push(obj);
+            }
+        }
+    }
+
+    //loopa igenom en säsong i taget (game = en säsong)
+    for (let game of seasons) {
+        for (let trainer of game.trainers) {
+            if (trainer.participantId === playerID) {
+                let obj = {
+                    "year": game.year,
+                    "trainer": trainer.trainerId
+                }
+                trainerArray.push(obj);
+            }
+        }
+    }
+
+
+    for (let game of seasons) {
+        for (let playerPart of game.competitionDays) {
+            for (let event of playerPart.events) {
+
+                let scoreObj = event.scores.find(function (s) {
+                    return s.participantId === playerID;
+                });
+
+                if (scoreObj) {
+                    let obj = {
+                        year: game.year,
+                        day: playerPart.date,
+                        locationId: playerPart.locationId,
+                        event: event
+                    };
+
+                    eventsArray.push(obj);
+                }
+            }
+        }
+    }
+
+    main.innerHTML = "";
+
+    let title = document.createElement("h2");
+    title.textContent = `Spelare ${player_id}`;
+    main.append(title);
+
+    let contentDiv = document.createElement("div");
+    contentDiv.style.display = "flex";
+    contentDiv.style.gap = "20px";
+    let coachDiv = document.createElement("div");
+    let trainerDiv = document.createElement("div");
+
+    for (let item of coachesArray) {
+        let div = document.createElement("div");
+        div.style.width = "300px";
+        div.textContent = `Year: ${item.year}, Coach: ${item.coach}`;
+        coachDiv.append(div);
+    }
+
+    for (let item of trainerArray) {
+        let div = document.createElement("div");
+        div.style.width = "300px";
+        div.textContent = `Year: ${item.year}, Trainer: ${item.trainer}`;
+        trainerDiv.append(div);
+    };
+    contentDiv.append(coachDiv);
+    contentDiv.append(trainerDiv);
+    main.append(contentDiv);
+
+    let thisDIV = document.createElement("div");
+    thisDIV.classList.add("dayContainer");
+
+    for (let item of eventsArray) {
+
+        let gameDiv = document.createElement("div");
+        gameDiv.classList.add("bigDiv");
+
+        let title = document.createElement("div");
+        title.textContent = `Discipline ${item.event.disciplineId}`;
+
+        let info = document.createElement("div");
+        info.textContent = `${item.day.day}/${item.day.month} - Year: ${item.year}`;
+
+        gameDiv.append(title, info);
+        let sortedScores = item.event.scores.slice().sort(function (a, b) {
+            return b.score - a.score;
+        });
+
+        for (let score of sortedScores) {
+            let row = document.createElement("div");
+
+            row.textContent = `Player: ${score.participantId}, Score: ${score.score}`;
+
+            // markera din spelare
+            if (score.participantId === playerID) {
+                row.style.backgroundColor = "yellow";
+            }
+
+            gameDiv.append(row);
+            thisDIV.append(gameDiv);
+        }
+        main.append(thisDIV);
+    }
+
+};
 
