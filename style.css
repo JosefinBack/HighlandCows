@@ -96,7 +96,7 @@ button {
 
 #buttons {
     border: none;
-    display: flex;
+    display: none;
     gap: 20px;
     justify-content: center;
     text-align: center;

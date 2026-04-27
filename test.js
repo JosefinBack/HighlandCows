@@ -423,6 +423,7 @@ function seasonCompetition(year) {
 
 dataButton.addEventListener("click", function () {
     main.innerHTML = "";
+    buttonsDiv.style.display = "none";
     main.style.display = "grid";
     seasonButtons.style.display = "none";
 
@@ -439,6 +440,7 @@ let buttonYear = [];
 seasonsButton.addEventListener("click", function () {
     main.innerHTML = "";
     main.style.display = "grid";
+    buttonsDiv.style.display = "none";
     seasonButtons.style.display = "block";
 
     let existing = document.querySelector(".buttonMeny");
@@ -465,6 +467,7 @@ seasonsButton.addEventListener("click", function () {
 
 
 testButton.addEventListener("click", function () {
+    buttonsDiv.style.display = "flex";
     main.innerHTML = "";
     main.style.display = "flex";
     main.style.flexDirection = "column";
@@ -475,6 +478,7 @@ testButton.addEventListener("click", function () {
     main.append(h1);
     buttonsDiv.append(playerButton);
     buttonsDiv.append(coachesButton);
+    buttonsDiv.append(trainerButton);
 
 });
 
@@ -492,11 +496,106 @@ coachesButton.addEventListener("click", function () {
     coachInfo();
 });
 
+let trainerButton = document.createElement("button");
+trainerButton.textContent = "Trainers";
+
+trainerButton.addEventListener("click", function () {
+    trainerInfo()
+});
+
 
 //test av kod
 
-function coachInfo() {
+function trainerInfo() {
+    main.innerHTML = "";
+    let contentDIV = document.createElement("div");
+    contentDIV.style.display = "flex";
+    contentDIV.style.gap = "15px";
+    contentDIV.style.border = "none";
 
+    let trainerCount = {};
+
+    for (let season of seasons) {
+        for (let trainer of season.trainers) {
+            if (!trainerCount[trainer.trainerId]) {
+                trainerCount[trainer.trainerId] = 0;
+            }
+            trainerCount[trainer.trainerId]++;
+        }
+    }
+
+
+    let resultDiv = document.createElement("div");
+    resultDiv.style.width = "300px";
+
+    let h2 = document.createElement("h2");
+    h2.textContent = "Antal tävlande per tränare (alla säsonger)";
+    resultDiv.append(h2);
+
+    let trainerID = 1;
+
+    for (let person in trainerCount) {
+        let div = document.createElement("div");
+        div.textContent = `TrainerID: ${trainerID} : ${trainerCount[person]}`;
+        trainerID++;
+        resultDiv.append(div);
+    }
+    contentDIV.append(resultDiv);
+
+    //antal tävlande per tränare per år
+    let result = {};
+
+    for (let season of seasons) {
+        let year = season.year;
+        result[year] = {};
+
+        for (let trainer of season.trainers) {
+            if (!result[year][trainer.trainerId]) {
+                result[year][trainer.trainerId] = 0;
+            }
+            result[year][trainer.trainerId]++;
+        }
+    }
+
+
+    let resultDivYEAR = document.createElement("div");
+    let divInsideResultYear = document.createElement("div");
+    divInsideResultYear.style.display = "flex";
+    divInsideResultYear.style.gap = "5px";
+
+    let h2Year = document.createElement("h2");
+    h2Year.textContent = "Antal tävlande per tränare per säsong";
+    resultDivYEAR.append(h2Year);
+
+    for (let year in result) {
+        let rowDiv = document.createElement("div");
+        rowDiv.style.display = "flex";
+        rowDiv.style.gap = "10px";
+
+        let yearTitle = document.createElement("div");
+        yearTitle.textContent = `Year ${year}:`;
+        yearTitle.style.fontWeight = "bold";
+
+        rowDiv.append(yearTitle);
+
+        for (let trainerId in result[year]) {
+            let div = document.createElement("div");
+            div.textContent = `${trainerId}, (${result[year][trainerId]})`;
+
+            rowDiv.append(div);
+        }
+        resultDivYEAR.append(rowDiv);
+        contentDIV.append(resultDivYEAR);
+    }
+    main.append(contentDIV);
+
+};
+
+
+
+
+function coachInfo() {
+    main.innerHTML = "";
     let contentDIV = document.createElement("div");
     contentDIV.style.display = "flex";
     contentDIV.style.gap = "15px";
@@ -580,6 +679,7 @@ function coachInfo() {
 
 
 function playerInfo(player_id) {
+    main.innerHTML = "";
     let playerID;
     let coachesArray = [];
     let trainerArray = [];
