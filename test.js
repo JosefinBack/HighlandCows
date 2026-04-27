@@ -262,10 +262,8 @@ function participantsDataset() {
         let divName = document.createElement("div");
         divName.textContent = person.name;
 
-        //clan
-        let randomNumber = Math.floor(Math.random() * 6);
         let divClan = document.createElement("div");
-        divClan.textContent = clan[randomNumber].name;
+        divClan.textContent = person.clan;
 
         div.append(divId, divName, divClan);
         divParticioants.append(div);
@@ -805,4 +803,14 @@ function playerInfo(player_id) {
     }
 
 };
+
+
+//medlemar i varje clan
+function membersOfClan() {
+
+};
+
+
+
+//diagram
 

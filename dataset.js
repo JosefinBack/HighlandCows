@@ -88,136 +88,180 @@ const disciplines = [{
 
 const participants = [{
   "id": 148,
-  "name": "P171"
+  "name": "P171",
+  "clan": "test1"
 }, {
   "id": 65,
-  "name": "P030"
+  "name": "P030",
+  "clan": "test6"
 }, {
   "id": 189,
-  "name": "P060"
+  "name": "P060",
+  "clan": "test5"
 }, {
   "id": 268,
-  "name": "P106"
+  "name": "P106",
+  "clan": "test1"
 }, {
   "id": 180,
-  "name": "P212"
+  "name": "P212",
+  "clan": "test4"
 }, {
   "id": 296,
-  "name": "P190"
+  "name": "P190",
+  "clan": "test1"
 }, {
   "id": 141,
-  "name": "P181"
+  "name": "P181",
+  "clan": "test3"
 }, {
   "id": 179,
-  "name": "P154"
+  "name": "P154",
+  "clan": "test3"
 }, {
   "id": 76,
-  "name": "P055"
+  "name": "P055",
+  "clan": "test5"
 }, {
   "id": 173,
-  "name": "P215"
+  "name": "P215",
+  "clan": "test1"
 }, {
   "id": 214,
-  "name": "P252"
+  "name": "P252",
+  "clan": "test3"
 }, {
   "id": 169,
-  "name": "P016"
+  "name": "P016",
+  "clan": "test6"
 }, {
   "id": 269,
-  "name": "P247"
+  "name": "P247",
+  "clan": "test6"
 }, {
   "id": 122,
-  "name": "P240"
+  "name": "P240",
+  "clan": "test3"
 }, {
   "id": 58,
-  "name": "P175"
+  "name": "P175",
+  "clan": "test1"
 }, {
   "id": 270,
-  "name": "P176"
+  "name": "P176",
+  "clan": "test5"
 }, {
   "id": 206,
-  "name": "P255"
+  "name": "P255",
+  "clan": "test6"
 }, {
   "id": 150,
-  "name": "P172"
+  "name": "P172",
+  "clan": "test1"
 }, {
   "id": 190,
-  "name": "P300"
+  "name": "P300",
+  "clan": "test4"
 }, {
   "id": 68,
-  "name": "P029"
+  "name": "P029",
+  "clan": "test6"
 }, {
   "id": 82,
-  "name": "P057"
+  "name": "P057",
+  "clan": "test4"
 }, {
   "id": 156,
-  "name": "P001"
+  "name": "P001",
+  "clan": "test5"
 }, {
   "id": 159,
-  "name": "P078"
+  "name": "P078",
+  "clan": "test4"
 }, {
   "id": 201,
-  "name": "P056"
+  "name": "P056",
+  "clan": "test3"
 }, {
   "id": 124,
-  "name": "P144"
+  "name": "P144",
+  "clan": "test4"
 }, {
   "id": 149,
-  "name": "P107"
+  "name": "P107",
+  "clan": "test2"
 }, {
   "id": 235,
-  "name": "P043"
+  "name": "P043",
+  "clan": "test4"
 }, {
   "id": 170,
-  "name": "P124"
+  "name": "P124",
+  "clan": "test4"
 }, {
   "id": 11,
-  "name": "P258"
+  "name": "P258",
+  "clan": "test3"
 }, {
   "id": 19,
-  "name": "P274"
+  "name": "P274",
+  "clan": "test5"
 }, {
   "id": 290,
-  "name": "P237"
+  "name": "P237",
+  "clan": "test5"
 }, {
   "id": 181,
-  "name": "P201"
+  "name": "P201",
+  "clan": "test1"
 }, {
   "id": 12,
-  "name": "P170"
+  "name": "P170",
+  "clan": "test4"
 }, {
   "id": 195,
-  "name": "P285"
+  "name": "P285",
+  "clan": "test1"
 }, {
   "id": 182,
-  "name": "P079"
+  "name": "P079",
+  "clan": "test5"
 }, {
   "id": 6,
-  "name": "P123"
+  "name": "P123",
+  "clan": "test3"
 }, {
   "id": 239,
-  "name": "P189"
+  "name": "P189",
+  "clan": "test4"
 }, {
   "id": 125,
-  "name": "P010"
+  "name": "P010",
+  "clan": "test1"
 }, {
   "id": 140,
-  "name": "P213"
+  "name": "P213",
+  "clan": "test3"
 }, {
   "id": 81,
-  "name": "P095"
+  "name": "P095",
+  "clan": "test1"
 }, {
   "id": 160,
-  "name": "P047"
+  "name": "P047",
+  "clan": "test4"
 }, {
   "id": 192,
-  "name": "P033"
+  "name": "P033",
+  "clan": "test1"
 }, {
   "id": 274,
-  "name": "P063"
+  "name": "P063",
+  "clan": "test1"
 }, {
   "id": 119,
-  "name": "P254"
+  "name": "P254",
+  "clan": "test1"
 }]
 
 const clan = [{
