@@ -333,39 +333,39 @@ const coaches = [{
 const trainers = [{
   "id": 1,
   "name": "Alasdair MacGregor",
-  "disciplineId": 2
+  "disciplineId": "Fluff-styling"
 }, {
   "id": 2,
   "name": "Fiona Campbell",
-  "disciplineId": 4
+  "disciplineId": "Whiskey-kicking"
 }, {
   "id": 3,
   "name": "Hamish Robertson",
-  "disciplineId": 2
+  "disciplineId": "Fluff-styling"
 }, {
   "id": 4,
   "name": "Catriona Fraser",
-  "disciplineId": 2
+  "disciplineId": "Fluff-styling"
 }, {
   "id": 5,
   "name": "Angus McDonald",
-  "disciplineId": 3
+  "disciplineId": "Mountain-race"
 }, {
   "id": 6,
   "name": "Morag Sinclair",
-  "disciplineId": 3
+  "disciplineId": "Mountain-race"
 }, {
   "id": 7,
   "name": "Duncan Stewart",
-  "disciplineId": 5
+  "disciplineId": "The bagpipe-test"
 }, {
   "id": 8,
   "name": "Eilidh Murray",
-  "disciplineId": 2
+  "disciplineId": "Fluff-styling"
 }, {
   "id": 9,
   "name": "Rory MacKenzie",
-  "disciplineId": 5
+  "disciplineId": "The bagpipe-test"
 }]
 
 const seasons = [{
