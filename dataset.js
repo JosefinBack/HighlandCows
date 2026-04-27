@@ -2,7 +2,7 @@
 
 const skills = [{
   "id": 1,
-  "name": "Jaw-speed"
+  "name": "Mental endurance"
 }, {
   "id": 2,
   "name": "Lugn-capacity"
@@ -36,53 +36,53 @@ const locations = [{
 
 const disciplines = [{
   "id": 1,
-  "name": "D01",
+  "name": "The great Moo-of",
   "skillFactors": {
-    "Jaw-speed": 13,
-    "Lugn-capacity": 12,
-    "Personal-hygien": 14,
-    "Speed": 17,
-    "Leg-strength": 20
-  }
-}, {
-  "id": 4,
-  "name": "D04",
-  "skillFactors": {
-    "Jaw-speed": 21,
-    "Lugn-capacity": 12,
-    "Personal-hygien": 15,
-    "Speed": 12,
-    "Leg-strength": 15
+    "Mental endurance": 4,
+    "Lugn-capacity": 5,
+    "Personal-hygien": 2,
+    "Speed": 1,
+    "Leg-strength": 3
   }
 }, {
   "id": 2,
-  "name": "D02",
+  "name": "Fluff-styling",
   "skillFactors": {
-    "Jaw-speed": 18,
-    "Lugn-capacity": 13,
-    "Personal-hygien": 19,
-    "Speed": 11,
-    "Leg-strength": 16
+    "Mental endurance": 4,
+    "Lugn-capacity": 1,
+    "Personal-hygien": 5,
+    "Speed": 3,
+    "Leg-strength": 2
   }
 }, {
   "id": 3,
-  "name": "D03",
+  "name": "Mountain-Race",
   "skillFactors": {
-    "Jaw-speed": 19,
-    "Lugn-capacity": 11,
-    "Personal-hygien": 13,
-    "Speed": 17,
-    "Leg-strength": 17
+    "Mental endurance": 2,
+    "Lugn-capacity": 3,
+    "Personal-hygien": 1,
+    "Speed": 5,
+    "Leg-strength": 4
+  }
+}, {
+  "id": 4,
+  "name": "Whiskey-Kicking",
+  "skillFactors": {
+    "Mental endurance": 2,
+    "Lugn-capacity": 3,
+    "Personal-hygien": 1,
+    "Speed": 4,
+    "Leg-strength": 5
   }
 }, {
   "id": 5,
-  "name": "D05",
+  "name": "The bagpipe test",
   "skillFactors": {
-    "Jaw-speed": 20,
-    "Lugn-capacity": 12,
-    "Personal-hygien": 16,
-    "Speed": 14,
-    "Leg-strength": 13
+    "Mental endurance": 5,
+    "Lugn-capacity": 4,
+    "Personal-hygien": 3,
+    "Speed": 2,
+    "Leg-strength": 1
   }
 }]
 
