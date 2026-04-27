@@ -822,36 +822,80 @@ function membersOfClan() {
 
 membersOfClan()
 
-
 //diagram
 function clanMembersDiagram() {
 
     let hSvg = 400;
-    let wSvg = 600;
-    let wPad = 100;
+    let wSvg = 800;
+    let wPad = 50;
     let hPad = 50;
 
-    let allClans = clan.map(x => x.name);
+    let dataset = membersOfClan();
+
+    let dataGraph = [];
+
+    for (let key in dataset) {
+        dataGraph.push({
+            Name: key,
+            Count: dataset[key]
+        });
+    }
+
+    let allClans = dataGraph.map(x => x.Name);
+
+    console.log(allClans)
 
 
     let xScale = d3.scaleBand()
         .domain(allClans)
-        .range([wPad, wSvg - wPad]);
+        .range([wPad, wSvg - wPad])
+        .paddingInner(0.3)
+        .paddingOuter(0.2)
 
     let yScale = d3.scaleLinear()
         .domain([0, 15])
-        .range([hSvg - hPad, wPad]);
+        .range([hSvg - hPad, hPad]);
+
+    let hScale = d3.scaleLinear()
+        .domain([0, 15])
+        .range([0, hSvg - 2 * hPad])
 
     let svg = d3.select("main")
         .append("svg")
         .attr("height", hSvg)
         .attr("width", wSvg)
-        .style("fill", "green")
         .style("border", "1px solid black")
 
-    let xAxel = d3.axisBottom()
-        .call(xScale)
-        .attr("transform", `${translate}`)
+    let xAxel = d3.axisBottom(xScale);
+    let yAxel = d3.axisLeft(yScale);
 
+    svg.append("g")
+        .call(xAxel)
+        .attr("transform", `translate(0, ${hSvg - hPad})`);
 
+    svg.append("g")
+        .call(yAxel)
+        .attr("transform", `translate(${hPad}, 0 )`);
+
+    svg.append("g")
+        .selectAll("rect")
+        .data(dataGraph)
+        .enter()
+        .append("rect")
+        .attr("height", d => hScale(d.Count))
+        .attr("width", xScale.bandwidth())
+        .attr("x", d => xScale(d.Name))
+        .attr("y", d => yScale(d.Count))
+        .attr("fill", "green")
+
+    svg.append("g")
+        .selectAll("text")
+        .data(dataGraph)
+        .enter()
+        .append("text")
+        .text(d => d.Count)
+        .attr("fill", "black")
+        .attr("text-anchor", "middle")
+        .attr("x", d => xScale(d.Name) + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d.Count) - 5)
 };
