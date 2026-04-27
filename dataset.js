@@ -332,39 +332,39 @@ const coaches = [{
 
 const trainers = [{
   "id": 1,
-  "name": "T01",
+  "name": "Alasdair MacGregor",
   "disciplineId": 2
 }, {
   "id": 2,
-  "name": "T02",
+  "name": "Fiona Campbell",
   "disciplineId": 4
 }, {
   "id": 3,
-  "name": "T03",
+  "name": "Hamish Robertson",
   "disciplineId": 2
 }, {
   "id": 4,
-  "name": "T04",
+  "name": "Catriona Fraser",
   "disciplineId": 2
 }, {
   "id": 5,
-  "name": "T05",
+  "name": "Angus McDonald",
   "disciplineId": 3
 }, {
   "id": 6,
-  "name": "T06",
+  "name": "Morag Sinclair",
   "disciplineId": 3
 }, {
   "id": 7,
-  "name": "T07",
+  "name": "Duncan Stewart",
   "disciplineId": 5
 }, {
   "id": 8,
-  "name": "T08",
+  "name": "Eilidh Murray",
   "disciplineId": 2
 }, {
   "id": 9,
-  "name": "T09",
+  "name": "Rory MacKenzie",
   "disciplineId": 5
 }]
 
