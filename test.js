@@ -849,5 +849,9 @@ function clanMembersDiagram() {
         .style("fill", "green")
         .style("border", "1px solid black")
 
+    let xAxel = d3.axisBottom()
+        .call(xScale)
+        .attr("transform", `${translate}`)
+
 
 };

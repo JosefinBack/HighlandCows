@@ -286,48 +286,48 @@ const clan = [{
 
 const coaches = [{
   "id": 1,
-  "name": "C01",
-  "skillId": 3
+  "name": "Finlay MacLeod",
+  "skillId": "Personal hygien"
 }, {
   "id": 2,
-  "name": "C02",
-  "skillId": 5
+  "name": "Gregor MacKenzie",
+  "skillId": "Leg-strength"
 }, {
   "id": 3,
-  "name": "C03",
-  "skillId": 4
+  "name": "Iain MacPherson",
+  "skillId": "Speed"
 }, {
   "id": 4,
-  "name": "C04",
-  "skillId": 3
+  "name": "Tavish MacRae",
+  "skillId": "Personal hygien"
 }, {
   "id": 5,
-  "name": "C05",
-  "skillId": 3
+  "name": "Blair Ferguson",
+  "skillId": "Personal hygien"
 }, {
   "id": 6,
-  "name": "C06",
-  "skillId": 1
+  "name": "Dougal MacGregor",
+  "skillId": "Mental endurance"
 }, {
   "id": 7,
-  "name": "C07",
-  "skillId": 2
+  "name": "Struan Campbell",
+  "skillId": "Lugn-capacity"
 }, {
   "id": 8,
-  "name": "C08",
-  "skillId": 5
+  "name": "Mairi MacDonald",
+  "skillId": "Leg-strength"
 }, {
   "id": 9,
-  "name": "C09",
-  "skillId": 2
+  "name": "Shona MacLeish",
+  "skillId": "Lugn-capacity"
 }, {
   "id": 10,
-  "name": "C10",
-  "skillId": 5
+  "name": "Elspeth Grant",
+  "skillId": "Leg-strength"
 }, {
   "id": 11,
-  "name": "C11",
-  "skillId": 4
+  "name": "Kenna Ross",
+  "skillId": "Speed"
 }]
 
 const trainers = [{
