@@ -257,7 +257,7 @@ function participantsDataset() {
         num++;
 
         let divId = document.createElement("div");
-        divId.textContent = `${num}. ${person.name}`
+        divId.textContent = `${num}. ${person.id}`
 
         let divName = document.createElement("div");
         divName.textContent = person.name;
