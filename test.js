@@ -478,6 +478,8 @@ testButton.addEventListener("click", function () {
     buttonsDiv.append(coachesButton);
     buttonsDiv.append(trainerButton);
 
+    clanMembersDiagram();
+
 });
 
 let playerButton = document.createElement("button");
@@ -807,10 +809,45 @@ function playerInfo(player_id) {
 
 //medlemar i varje clan
 function membersOfClan() {
+    let countClan = {};
 
+    for (let person of participants) {
+        if (!countClan[person.clan]) {
+            countClan[person.clan] = 0;
+        }
+        countClan[person.clan]++;
+    };
+    return countClan;
 };
 
+membersOfClan()
 
 
 //diagram
+function clanMembersDiagram() {
 
+    let hSvg = 400;
+    let wSvg = 600;
+    let wPad = 100;
+    let hPad = 50;
+
+    let allClans = clan.map(x => x.name);
+
+
+    let xScale = d3.scaleBand()
+        .domain(allClans)
+        .range([wPad, wSvg - wPad]);
+
+    let yScale = d3.scaleLinear()
+        .domain([0, 15])
+        .range([hSvg - hPad, wPad]);
+
+    let svg = d3.select("main")
+        .append("svg")
+        .attr("height", hSvg)
+        .attr("width", wSvg)
+        .style("fill", "green")
+        .style("border", "1px solid black")
+
+
+};

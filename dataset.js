@@ -2,19 +2,19 @@
 
 const skills = [{
   "id": 1,
-  "name": "S01"
+  "name": "Jaw-speed"
 }, {
   "id": 2,
-  "name": "S02"
+  "name": "Lugn-capacity"
 }, {
   "id": 3,
-  "name": "S03"
+  "name": "Personal-hygien"
 }, {
   "id": 4,
-  "name": "S04"
+  "name": "Speed"
 }, {
   "id": 5,
-  "name": "S05"
+  "name": "Leg-strength"
 }]
 
 const locations = [{
@@ -38,250 +38,250 @@ const disciplines = [{
   "id": 1,
   "name": "D01",
   "skillFactors": {
-    "S01": 13,
-    "S02": 12,
-    "S03": 14,
-    "S04": 17,
-    "S05": 20
+    "Jaw-speed": 13,
+    "Lugn-capacity": 12,
+    "Personal-hygien": 14,
+    "Speed": 17,
+    "Leg-strength": 20
   }
 }, {
   "id": 4,
   "name": "D04",
   "skillFactors": {
-    "S01": 21,
-    "S02": 12,
-    "S03": 15,
-    "S04": 12,
-    "S05": 15
+    "Jaw-speed": 21,
+    "Lugn-capacity": 12,
+    "Personal-hygien": 15,
+    "Speed": 12,
+    "Leg-strength": 15
   }
 }, {
   "id": 2,
   "name": "D02",
   "skillFactors": {
-    "S01": 18,
-    "S02": 13,
-    "S03": 19,
-    "S04": 11,
-    "S05": 16
+    "Jaw-speed": 18,
+    "Lugn-capacity": 13,
+    "Personal-hygien": 19,
+    "Speed": 11,
+    "Leg-strength": 16
   }
 }, {
   "id": 3,
   "name": "D03",
   "skillFactors": {
-    "S01": 19,
-    "S02": 11,
-    "S03": 13,
-    "S04": 17,
-    "S05": 17
+    "Jaw-speed": 19,
+    "Lugn-capacity": 11,
+    "Personal-hygien": 13,
+    "Speed": 17,
+    "Leg-strength": 17
   }
 }, {
   "id": 5,
   "name": "D05",
   "skillFactors": {
-    "S01": 20,
-    "S02": 12,
-    "S03": 16,
-    "S04": 14,
-    "S05": 13
+    "Jaw-speed": 20,
+    "Lugn-capacity": 12,
+    "Personal-hygien": 16,
+    "Speed": 14,
+    "Leg-strength": 13
   }
 }]
 
 const participants = [{
   "id": 148,
   "name": "P171",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 65,
   "name": "P030",
-  "clan": "test6"
+  "clan": "Macdowall"
 }, {
   "id": 189,
   "name": "P060",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 268,
   "name": "P106",
-  "clan": "test1"
+  "clan": "Macqueen"
 }, {
   "id": 180,
   "name": "P212",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 296,
   "name": "P190",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 141,
   "name": "P181",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 179,
   "name": "P154",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 76,
   "name": "P055",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 173,
   "name": "P215",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 214,
   "name": "P252",
-  "clan": "test3"
+  "clan": "Macqueen"
 }, {
   "id": 169,
   "name": "P016",
-  "clan": "test6"
+  "clan": "Macdowall"
 }, {
   "id": 269,
   "name": "P247",
-  "clan": "test6"
+  "clan": "Macdowall"
 }, {
   "id": 122,
   "name": "P240",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 58,
   "name": "P175",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 270,
   "name": "P176",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 206,
   "name": "P255",
-  "clan": "test6"
+  "clan": "Macdowall"
 }, {
   "id": 150,
   "name": "P172",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 190,
   "name": "P300",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 68,
   "name": "P029",
-  "clan": "test6"
+  "clan": "Macdowall"
 }, {
   "id": 82,
   "name": "P057",
-  "clan": "test4"
+  "clan": "Macqueen"
 }, {
   "id": 156,
   "name": "P001",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 159,
   "name": "P078",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 201,
   "name": "P056",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 124,
   "name": "P144",
-  "clan": "test4"
+  "clan": "Macqueen"
 }, {
   "id": 149,
   "name": "P107",
-  "clan": "test2"
+  "clan": "Macqueen"
 }, {
   "id": 235,
   "name": "P043",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 170,
   "name": "P124",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 11,
   "name": "P258",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 19,
   "name": "P274",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 290,
   "name": "P237",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 181,
   "name": "P201",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 12,
   "name": "P170",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 195,
   "name": "P285",
-  "clan": "test1"
+  "clan": "Macqueen"
 }, {
   "id": 182,
   "name": "P079",
-  "clan": "test5"
+  "clan": "Mackenzie"
 }, {
   "id": 6,
   "name": "P123",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 239,
   "name": "P189",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 125,
   "name": "P010",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 140,
   "name": "P213",
-  "clan": "test3"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 81,
   "name": "P095",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 160,
   "name": "P047",
-  "clan": "test4"
+  "clan": "Mackinnon"
 }, {
   "id": 192,
   "name": "P033",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 274,
   "name": "P063",
-  "clan": "test1"
+  "clan": "MacThomas"
 }, {
   "id": 119,
   "name": "P254",
-  "clan": "test1"
+  "clan": "MacThomas"
 }]
 
 const clan = [{
   "id": 1,
-  "name": "test1"
+  "name": "MacThomas"
 }, {
   "id": 2,
-  "name": "test2"
+  "name": "Macqueen"
 }, {
   "id": 3,
-  "name": "test3"
+  "name": "Macleod of the Lewes"
 }, {
   "id": 4,
-  "name": "test4"
+  "name": "Mackinnon"
 }, {
   "id": 5,
-  "name": "test5"
+  "name": "Mackenzie"
 }, {
   "id": 6,
-  "name": "test6"
+  "name": "Macdowall"
 }]
 
 const coaches = [{
