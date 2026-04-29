@@ -106,7 +106,12 @@ function playerInfo(player_id) {
 
 
 function getBestPlayers(year) {
+    let thisYear = seasons.find(x => x.year === year);
 
-}
 
-playerInfo(235);
+    console.log(thisYear);
+};
+
+getBestPlayers(0);
+
+playerInfo(1);
