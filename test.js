@@ -899,3 +899,54 @@ function clanMembersDiagram() {
         .attr("x", d => xScale(d.Name) + xScale.bandwidth() / 2)
         .attr("y", d => yScale(d.Count) - 5)
 };
+
+
+
+function threeYears(yearOne, yearTwo, yearThree) {
+
+    function getParticipants(year) {
+        let arr = [];
+        let season = seasons.find(function (x) {
+            return x.year === year;
+        });
+
+        for (let day of season.competitionDays) {
+            for (let event of day.events) {
+                for (let person of event.scores) {
+
+                    if (!arr.includes(person.participantId)) {
+                        arr.push(person.participantId);
+                    }
+
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    let y1 = getParticipants(yearOne);
+    let y2 = getParticipants(yearTwo);
+    let y3 = getParticipants(yearThree);
+
+    let commonParticipants = [];
+
+    for (let id of y1) {
+        if (y2.includes(id) && y3.includes(id)) {
+            commonParticipants.push(id);
+        }
+    }
+    console.log(commonParticipants);
+
+    let notInCompetition = [];
+
+    for (let person of participants) {
+        if (!commonParticipants.includes(person.id)) {
+            notInCompetition.push(person.id);
+        }
+    }
+
+    console.log(notInCompetition);
+};
+
+threeYears(0, 1, 2)
