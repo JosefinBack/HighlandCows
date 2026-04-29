@@ -87,87 +87,87 @@ const disciplines = [{
 }]
 
 const participants = [{
-  "id": 189,
+  "id": 1,
   "name": "P060",
   "clan": "MacThomas"
 }, {
-  "id": 173,
+  "id": 2,
   "name": "P215",
   "clan": "MacThomas"
 }, {
-  "id": 269,
+  "id": 3,
   "name": "P247",
   "clan": "MacThomas"
 }, {
-  "id": 58,
+  "id": 4,
   "name": "P175",
   "clan": "MacThomas"
 },
 {
-  "id": 270,
+  "id": 5,
   "name": "P176",
   "clan": "Macqueen"
 }, {
-  "id": 206,
+  "id": 6,
   "name": "P255",
   "clan": "Macqueen"
 }, {
-  "id": 190,
+  "id": 7,
   "name": "P300",
   "clan": "Macqueen"
 }, {
-  "id": 68,
+  "id": 8,
   "name": "P029",
   "clan": "Macqueen"
 },
 {
-  "id": 159,
+  "id": 9,
   "name": "P078",
   "clan": "Macleod of the Lewes"
 }, {
-  "id": 201,
+  "id": 10,
   "name": "P056",
   "clan": "Macleod of the Lewes"
 }, {
-  "id": 149,
+  "id": 11,
   "name": "P107",
   "clan": "Macleod of the Lewes"
 }, {
-  "id": 235,
+  "id": 12,
   "name": "P043",
   "clan": "Macleod of the Lewes"
 },
 {
-  "id": 170,
+  "id": 13,
   "name": "P124",
   "clan": "Mackinnon"
 }, {
-  "id": 290,
+  "id": 14,
   "name": "P237",
   "clan": "Mackinnon"
 }, {
-  "id": 12,
+  "id": 15,
   "name": "P170",
   "clan": "Mackinnon"
 }, {
-  "id": 182,
+  "id": 16,
   "name": "P079",
   "clan": "Mackinnon"
 },
 {
-  "id": 239,
+  "id": 17,
   "name": "P189",
   "clan": "Mackenzie"
 }, {
-  "id": 140,
+  "id": 18,
   "name": "P213",
   "clan": "Mackenzie"
 }, {
-  "id": 274,
+  "id": 19,
   "name": "P063",
   "clan": "Mackenzie"
 }, {
-  "id": 156,
+  "id": 20,
   "name": "P001",
   "clan": "Mackenzie"
 }]

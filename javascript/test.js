@@ -480,15 +480,13 @@ testButton.addEventListener("click", function () {
     buttonsDiv.append(coachesButton);
     buttonsDiv.append(trainerButton);
 
-    clanMembersDiagram();
-
 });
 
 let playerButton = document.createElement("button");
 playerButton.textContent = "Player Info";
 
 playerButton.addEventListener("click", function () {
-    playerInfo(148);
+    playerInfo(235);
 });
 
 let coachesButton = document.createElement("button");
@@ -525,7 +523,6 @@ function trainerInfo() {
             trainerCount[trainer.trainerId]++;
         }
     }
-
 
     let resultDiv = document.createElement("div");
     resultDiv.style.width = "300px";
@@ -680,6 +677,26 @@ function coachInfo() {
 
 
 
+
+function getPoints(placement) {
+    if (placement === 1) return 15;
+    if (placement === 2) return 10;
+    if (placement === 3) return 6;
+    if (placement === 4) return 3;
+    if (placement === 5) return 1;
+    return 0;
+}
+
+function calculateTotalPoints(playerPlacings) {
+    let total = 0;
+    for (let p of playerPlacings) {
+        total += getPoints(p.placement);
+    }
+    return total;
+};
+
+
+
 function playerInfo(player_id) {
     main.innerHTML = "";
     let playerID;
@@ -774,8 +791,9 @@ function playerInfo(player_id) {
     let thisDIV = document.createElement("div");
     thisDIV.classList.add("dayContainer");
 
-    for (let item of eventsArray) {
+    let playerPlacings = [];
 
+    for (let item of eventsArray) {
         let gameDiv = document.createElement("div");
         gameDiv.classList.add("bigDiv");
 
@@ -786,121 +804,118 @@ function playerInfo(player_id) {
         info.textContent = `${item.day.day}/${item.day.month} - Year: ${item.year}`;
 
         gameDiv.append(title, info);
+
         let sortedScores = item.event.scores.slice().sort(function (a, b) {
             return b.score - a.score;
         });
 
+        let i = 1;
+
         for (let score of sortedScores) {
             let row = document.createElement("div");
+            row.textContent = `${i}. Player: ${score.participantId}, Score: ${score.score}`;
 
-            row.textContent = `Player: ${score.participantId}, Score: ${score.score}`;
-
-            // markera din spelare
+            // HÄR SPARAR VI DATA (DETTA ÄR DET VIKTIGA)
             if (score.participantId === playerID) {
                 row.style.backgroundColor = "yellow";
-            }
 
+                playerPlacings.push({
+                    year: item.year,
+                    discipline: item.event.disciplineId,
+                    placement: i
+                });
+            }
             gameDiv.append(row);
-            thisDIV.append(gameDiv);
+            i++;
         }
-        main.append(thisDIV);
+        thisDIV.append(gameDiv);
     }
 
+    main.append(thisDIV);
+
+    // kolla resultatet
+    console.log(playerPlacings);
 };
 
 
-//medlemar i varje clan
-function membersOfClan() {
-    let countClan = {};
-
-    for (let person of participants) {
-        if (!countClan[person.clan]) {
-            countClan[person.clan] = 0;
-        }
-        countClan[person.clan]++;
-    };
-    return countClan;
-};
-
-membersOfClan()
 
 //diagram
-function clanMembersDiagram() {
+// function clanMembersDiagram() {
 
-    let hSvg = 400;
-    let wSvg = 800;
-    let wPad = 50;
-    let hPad = 50;
+//     let hSvg = 400;
+//     let wSvg = 800;
+//     let wPad = 50;
+//     let hPad = 50;
 
-    let dataset = membersOfClan();
+//     let dataset = membersOfClan();
 
-    let dataGraph = [];
+//     let dataGraph = [];
 
-    for (let key in dataset) {
-        dataGraph.push({
-            Name: key,
-            Count: dataset[key]
-        });
-    }
+//     for (let key in dataset) {
+//         dataGraph.push({
+//             Name: key,
+//             Count: dataset[key]
+//         });
+//     }
 
-    let allClans = dataGraph.map(x => x.Name);
+//     let allClans = dataGraph.map(x => x.Name);
 
-    console.log(allClans)
+//     console.log(allClans)
 
 
-    let xScale = d3.scaleBand()
-        .domain(allClans)
-        .range([wPad, wSvg - wPad])
-        .paddingInner(0.3)
-        .paddingOuter(0.2)
+//     let xScale = d3.scaleBand()
+//         .domain(allClans)
+//         .range([wPad, wSvg - wPad])
+//         .paddingInner(0.3)
+//         .paddingOuter(0.2)
 
-    let yScale = d3.scaleLinear()
-        .domain([0, 15])
-        .range([hSvg - hPad, hPad]);
+//     let yScale = d3.scaleLinear()
+//         .domain([0, 15])
+//         .range([hSvg - hPad, hPad]);
 
-    let hScale = d3.scaleLinear()
-        .domain([0, 15])
-        .range([0, hSvg - 2 * hPad])
+//     let hScale = d3.scaleLinear()
+//         .domain([0, 15])
+//         .range([0, hSvg - 2 * hPad])
 
-    let svg = d3.select("main")
-        .append("svg")
-        .attr("height", hSvg)
-        .attr("width", wSvg)
-        .style("border", "1px solid black")
+//     let svg = d3.select("main")
+//         .append("svg")
+//         .attr("height", hSvg)
+//         .attr("width", wSvg)
+//         .style("border", "1px solid black")
 
-    let xAxel = d3.axisBottom(xScale);
-    let yAxel = d3.axisLeft(yScale);
+//     let xAxel = d3.axisBottom(xScale);
+//     let yAxel = d3.axisLeft(yScale);
 
-    svg.append("g")
-        .call(xAxel)
-        .attr("transform", `translate(0, ${hSvg - hPad})`);
+//     svg.append("g")
+//         .call(xAxel)
+//         .attr("transform", `translate(0, ${hSvg - hPad})`);
 
-    svg.append("g")
-        .call(yAxel)
-        .attr("transform", `translate(${hPad}, 0 )`);
+//     svg.append("g")
+//         .call(yAxel)
+//         .attr("transform", `translate(${hPad}, 0 )`);
 
-    svg.append("g")
-        .selectAll("rect")
-        .data(dataGraph)
-        .enter()
-        .append("rect")
-        .attr("height", d => hScale(d.Count))
-        .attr("width", xScale.bandwidth())
-        .attr("x", d => xScale(d.Name))
-        .attr("y", d => yScale(d.Count))
-        .attr("fill", "green")
+//     svg.append("g")
+//         .selectAll("rect")
+//         .data(dataGraph)
+//         .enter()
+//         .append("rect")
+//         .attr("height", d => hScale(d.Count))
+//         .attr("width", xScale.bandwidth())
+//         .attr("x", d => xScale(d.Name))
+//         .attr("y", d => yScale(d.Count))
+//         .attr("fill", "green")
 
-    svg.append("g")
-        .selectAll("text")
-        .data(dataGraph)
-        .enter()
-        .append("text")
-        .text(d => d.Count)
-        .attr("fill", "black")
-        .attr("text-anchor", "middle")
-        .attr("x", d => xScale(d.Name) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d.Count) - 5)
-};
+//     svg.append("g")
+//         .selectAll("text")
+//         .data(dataGraph)
+//         .enter()
+//         .append("text")
+//         .text(d => d.Count)
+//         .attr("fill", "black")
+//         .attr("text-anchor", "middle")
+//         .attr("x", d => xScale(d.Name) + xScale.bandwidth() / 2)
+//         .attr("y", d => yScale(d.Count) - 5)
+// };
 
 
 
