@@ -953,3 +953,82 @@ function threeYears(yearOne, yearTwo, yearThree) {
 
 threeYears(0, 1, 2)
 
+
+
+//KARTA 
+function drawClanMap() {
+
+    main.innerHTML = "";
+
+    let container = document.createElement("div");
+    container.classList.add("bigDiv");
+    main.append(container);
+
+    let title = document.createElement("h2");
+    title.textContent = "Clan origins";
+    container.append(title);
+
+    let width = 600;
+    let height = 500;
+
+    let svg = d3.select(container)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    // 🗺️ KARTA SOM BAKGRUND
+    svg.append("image")
+        .attr("href", "/pic/Scotland.jpg")
+        .attr("width", width)
+        .attr("height", height);
+
+    // 📍 POSITIONER (justera dessa så de passar kartan)
+    let clanPositions = [
+        { clan: "MacThomas", x: 200, y: 120 },
+        { clan: "Macqueen", x: 350, y: 150 },
+        { clan: "Macleod of the Lewes", x: 120, y: 250 },
+        { clan: "Mackinnon", x: 300, y: 250 },
+        { clan: "Mackenzie", x: 400, y: 220 }
+    ];
+
+    // 🎨 färger
+    let colorScale = d3.scaleOrdinal()
+        .domain(clanPositions.map(d => d.clan))
+        .range(["#ff6b6b", "#4ecdc4", "#ffe66d", "#1a535c", "#ff9f1c"]);
+
+    // 🔵 små punkter (valfria men snygga)
+    svg.selectAll("circle")
+        .data(clanPositions)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) { return d.x; })
+        .attr("cy", function (d) { return d.y; })
+        .attr("r", 6)
+        .attr("fill", function (d) {
+            return colorScale(d.clan);
+        });
+
+    // 🏷️ KLICKBAR TEXT
+    svg.selectAll("text")
+        .data(clanPositions)
+        .enter()
+        .append("text")
+        .text(function (d) { return d.clan; })
+        .attr("x", function (d) { return d.x + 10; })
+        .attr("y", function (d) { return d.y; })
+        .attr("font-size", "12px")
+        .style("cursor", "pointer")
+
+        // 👇 KLICK-FUNKTION
+        .on("click", function (event, d) {
+            console.log("Klickade på:", d.clan);
+
+            // SENARE: koppla till din sida
+            // exempel:
+            // window.location.href = "/clan.html?name=" + d.clan;
+        });
+}
+
+testButton.addEventListener("click", function () {
+    drawClanMap();
+});
