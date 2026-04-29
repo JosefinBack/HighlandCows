@@ -106,7 +106,7 @@ const participants = [{
 {
   "id": 270,
   "name": "P176",
-  "clan": "Mackenzie"
+  "clan": "Macqueen"
 }, {
   "id": 206,
   "name": "P255",

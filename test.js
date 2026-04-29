@@ -364,6 +364,8 @@ function seasonCompetition(year) {
 
         daysMenu.append(btn);
     }
+
+
     function showDay(compDay) {
 
         let existing = document.querySelector(".dayContainer");
@@ -447,7 +449,7 @@ seasonsButton.addEventListener("click", function () {
         let buttonDiv = document.createElement("div");
         buttonDiv.classList.add("buttonMeny");
         seasonButtons.append(buttonDiv);
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 3; i++) {
             let button = document.createElement("button");
             button.textContent = `Season ${i}`;
 
