@@ -978,7 +978,7 @@ function drawClanMap() {
 
     // 🗺️ KARTA SOM BAKGRUND
     svg.append("image")
-        .attr("href", "pic/Scotland.jpg")
+        .attr("href", "../pic/Scotland.jpg")
         .attr("width", width)
         .attr("height", height);
 
@@ -1045,24 +1045,6 @@ function drawClanMap() {
         .attr("transform", function (d) {
             return `translate(${d.x + 10}, ${d.y})`;
         });
-
-    // 🟦 BAKGRUND
-    labels.append("rect")
-        .attr("x", 0)
-        .attr("y", -12)
-        .attr("width", function (d) {
-            return d.clan.length * 7; // bredd baserat på text
-        })
-        .attr("height", 16)
-        .attr("fill", "black")
-        .attr("rx", 4); // rundade hörn
-
-    // 🏷️ TEXT
-    labels.append("text")
-        .text(function (d) { return d.clan; })
-        .attr("fill", "white")
-        .attr("font-size", "12px")
-        .attr("y", 0);
 };
 
 
