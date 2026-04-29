@@ -984,11 +984,11 @@ function drawClanMap() {
 
     // 📍 POSITIONER (justera dessa så de passar kartan)
     let clanPositions = [
-        { clan: "MacThomas", x: 200, y: 120 },
-        { clan: "Macqueen", x: 350, y: 150 },
-        { clan: "Macleod of the Lewes", x: 120, y: 250 },
-        { clan: "Mackinnon", x: 300, y: 250 },
-        { clan: "Mackenzie", x: 400, y: 220 }
+        { clan: "MacThomas", x: 300, y: 170 },
+        { clan: "Macqueen", x: 360, y: 360 },
+        { clan: "Macleod of the Lewes", x: 300, y: 390 },
+        { clan: "Mackinnon", x: 350, y: 270 },
+        { clan: "Mackenzie", x: 380, y: 200 }
     ];
 
     // 🎨 färger
@@ -996,38 +996,83 @@ function drawClanMap() {
         .domain(clanPositions.map(d => d.clan))
         .range(["#ff6b6b", "#4ecdc4", "#ffe66d", "#1a535c", "#ff9f1c"]);
 
+    let tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("background", "white")
+        .style("padding", "6px")
+        .style("border", "1px solid black")
+        .style("border-radius", "5px")
+        .style("display", "none");
+
     // 🔵 små punkter (valfria men snygga)
     svg.selectAll("circle")
         .data(clanPositions)
         .enter()
         .append("circle")
-        .attr("cx", function (d) { return d.x; })
-        .attr("cy", function (d) { return d.y; })
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
         .attr("r", 6)
-        .attr("fill", function (d) {
-            return colorScale(d.clan);
+        .attr("fill", d => colorScale(d.clan))
+
+        .on("mouseover", function (event, d) {
+            tooltip.style("display", "block")
+                .text(d.clan);
+
+            d3.select(this)
+                .attr("r", 10); // gör cirkeln större
+        })
+
+        .on("mousemove", function (event) {
+            tooltip.style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY) + "px");
+        })
+
+        .on("mouseout", function () {
+            tooltip.style("display", "none");
+
+            d3.select(this)
+                .attr("r", 6); // tillbaka till normal
         });
 
     // 🏷️ KLICKBAR TEXT
-    svg.selectAll("text")
+    let labels = svg.selectAll("g.label")
         .data(clanPositions)
         .enter()
-        .append("text")
-        .text(function (d) { return d.clan; })
-        .attr("x", function (d) { return d.x + 10; })
-        .attr("y", function (d) { return d.y; })
-        .attr("font-size", "12px")
-        .style("cursor", "pointer")
-
-        // 👇 KLICK-FUNKTION
-        .on("click", function (event, d) {
-            console.log("Klickade på:", d.clan);
-
-            // SENARE: koppla till din sida
-            // exempel:
-            // window.location.href = "/clan.html?name=" + d.clan;
+        .append("g")
+        .attr("class", "label")
+        .attr("transform", function (d) {
+            return `translate(${d.x + 10}, ${d.y})`;
         });
-}
+
+    // 🟦 BAKGRUND
+    labels.append("rect")
+        .attr("x", 0)
+        .attr("y", -12)
+        .attr("width", function (d) {
+            return d.clan.length * 7; // bredd baserat på text
+        })
+        .attr("height", 16)
+        .attr("fill", "black")
+        .attr("rx", 4); // rundade hörn
+
+    // 🏷️ TEXT
+    labels.append("text")
+        .text(function (d) { return d.clan; })
+        .attr("fill", "white")
+        .attr("font-size", "12px")
+        .attr("y", 0);
+};
+
+
+// 👇 KLICK-FUNKTION
+// .on("click", function (event, d) {
+//     console.log("Klickade på:", d.clan);
+
+// SENARE: koppla till din sida
+// exempel:
+// window.location.href = "/clan.html?name=" + d.clan;
+
 
 testButton.addEventListener("click", function () {
     drawClanMap();
