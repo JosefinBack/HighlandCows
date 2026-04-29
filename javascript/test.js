@@ -1003,7 +1003,8 @@ function drawClanMap() {
         .style("padding", "6px")
         .style("border", "1px solid black")
         .style("border-radius", "5px")
-        .style("display", "none");
+        .style("display", "none")
+        .style("pointer-events", "none");
 
     // 🔵 små punkter (valfria men snygga)
     svg.selectAll("circle")
