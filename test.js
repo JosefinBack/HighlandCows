@@ -978,7 +978,7 @@ function drawClanMap() {
 
     // 🗺️ KARTA SOM BAKGRUND
     svg.append("image")
-        .attr("href", "/pic/Scotland.jpg")
+        .attr("href", "pic/Scotland.jpg")
         .attr("width", width)
         .attr("height", height);
 
