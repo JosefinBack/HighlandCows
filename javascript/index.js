@@ -1,10 +1,58 @@
 let main = document.querySelector("main");
-
+let header = document.getElementById("header");
 
 
 //göra en ny array av säsong 3 (dvs year = 2) för att få en halv säsong som vi kabn använda som vår akutella säsong
 
+//seasons 0, 1, 2
+let threeSeasons = [];
+for (let game of seasons) {
+    if (game.year === 0 || game.year === 1 || game.year === 2) {
+        threeSeasons.push(game);
+    } else {
+        continue;
+    }
+};
 
+
+//participants 1-20 
+let allParticipants = [];
+for (let person of participants) {
+    if (person.clan) {
+        allParticipants.push(person)
+    };
+};
+
+console.log(allParticipants);
+
+
+
+//Buttons
+let playerButton = document.createElement("Button");
+playerButton.textContent = "Players";
+let bestPlayers = document.createElement("Button");
+bestPlayers.textContent = "Best playsers";
+header.append(playerButton, bestPlayers);
+
+
+
+
+
+//AddEventLisneters
+
+playerButton.addEventListener("click", function () {
+    main.innerHTML = "";
+    getResultforPlayer(1, 0);
+});
+
+bestPlayers.addEventListener("click", function () {
+    main.innerHTML = "";
+    getBestPlayers(0);
+    getBestPlayers(1);
+    getBestPlayers(2);
+});
+
+//Functions
 
 function getPoints(placement) {
     if (placement === 1) return 15;
@@ -15,6 +63,8 @@ function getPoints(placement) {
     return 0;
 }
 
+
+
 function calculateTotalPoints(playerPlacings) {
     let total = 0;
     for (let p of playerPlacings) {
@@ -23,44 +73,68 @@ function calculateTotalPoints(playerPlacings) {
     return total;
 };
 
-function playerInfo(player_id) {
-    main.innerHTML = "";
-    let playerID;
-    let eventsArray = [];
 
-    for (let player of participants) {
-        if (player_id === player.id) {
-            playerID = player.id;
-        }
-    }
 
-    for (let game of seasons) {
-        for (let playerPart of game.competitionDays) {
-            for (let event of playerPart.events) {
-                let scoreObj = event.scores.find(function (s) {
-                    return s.participantId === playerID;
-                });
-                if (scoreObj) {
-                    let obj = {
-                        year: game.year,
-                        day: playerPart.date,
-                        locationId: playerPart.locationId,
-                        event: event
-                    };
-                    eventsArray.push(obj);
+function calculatePlayerPoints(player_id, year) {
+    let thisYear = threeSeasons.find(x => x.year === year);
+    let playerID = player_id;
+    let playerPlacings = [];
+
+    for (let playerPart of thisYear.competitionDays) {
+        for (let event of playerPart.events) {
+
+            let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
+
+            let i = 1;
+
+            for (let score of sortedScores) {
+                if (score.participantId === playerID) {
+                    playerPlacings.push({
+                        year: thisYear.year,
+                        discipline: event.disciplineId,
+                        placement: i
+                    });
                 }
+                i++;
             }
         }
     }
 
+    return calculateTotalPoints(playerPlacings);
+};
+
+function showPlayerInfo(player_id, year) {
+
     main.innerHTML = "";
+
+    let thisYear = threeSeasons.find(x => x.year === year);
+    let playerID = player_id;
+    let eventsArray = [];
+
+    for (let playerPart of thisYear.competitionDays) {
+        for (let event of playerPart.events) {
+            let scoreObj = event.scores.find(s => s.participantId === playerID);
+
+            if (scoreObj) {
+                eventsArray.push({
+                    year: thisYear.year,
+                    day: playerPart.date,
+                    locationId: playerPart.locationId,
+                    event: event
+                });
+            }
+        }
+    }
 
     let thisDIV = document.createElement("div");
     thisDIV.classList.add("dayContainer");
 
-    let playerPlacings = [];
+    let h2 = document.createElement("h2");
+    h2.textContent = `Player: ${player_id}`
+    main.append(h2);
 
     for (let item of eventsArray) {
+
         let gameDiv = document.createElement("div");
         gameDiv.classList.add("bigDiv");
 
@@ -72,9 +146,7 @@ function playerInfo(player_id) {
 
         gameDiv.append(title, info);
 
-        let sortedScores = item.event.scores.slice().sort(function (a, b) {
-            return b.score - a.score;
-        });
+        let sortedScores = item.event.scores.slice().sort((a, b) => b.score - a.score);
 
         let i = 1;
 
@@ -82,15 +154,8 @@ function playerInfo(player_id) {
             let row = document.createElement("div");
             row.textContent = `${i}. Player: ${score.participantId}, Score: ${score.score}`;
 
-            // HÄR SPARAR VI DATA (DETTA ÄR DET VIKTIGA)
             if (score.participantId === playerID) {
                 row.style.backgroundColor = "yellow";
-
-                playerPlacings.push({
-                    year: item.year,
-                    discipline: item.event.disciplineId,
-                    placement: i
-                });
             }
             gameDiv.append(row);
             i++;
@@ -98,20 +163,60 @@ function playerInfo(player_id) {
         thisDIV.append(gameDiv);
     }
     main.append(thisDIV);
-    let totalPoints = calculateTotalPoints(playerPlacings);
-
-    console.log(totalPoints);
-    console.log(playerPlacings);
 };
 
 
 function getBestPlayers(year) {
-    let thisYear = seasons.find(x => x.year === year);
+    let resultArray = [];
 
+    for (let person of allParticipants) {
+        let playerID = person.id;
+        let result = calculatePlayerPoints(playerID, year);
 
-    console.log(thisYear);
+        resultArray.push({
+            id: playerID,
+            name: person.name,
+            points: result
+        });
+    }
+
+    resultArray.sort(function (a, b) {
+        return b.points - a.points;
+    });
+
+    let placementDiv = document.createElement("div");
+    placementDiv.classList.add("bigDiv");
+
+    let title = document.createElement("h3");
+    title.textContent = "Year " + year;
+    placementDiv.append(title);
+
+    for (let i = 0; i < 3; i++) {
+        let player = resultArray[i];
+
+        let divPlayer = document.createElement("div");
+        divPlayer.textContent = `${player.name}, Total: ${player.points}`;
+
+        placementDiv.append(divPlayer);
+    }
+
+    main.append(placementDiv);
+    console.log(resultArray);
 };
 
-getBestPlayers(0);
+function getResultforPlayer(player_id, year) {
+    let result = calculatePlayerPoints(player_id, year);
 
-playerInfo(1);
+    let h2 = document.createElement("h2");
+    h2.textContent = "Playsers";
+    main.append(h2);
+
+    let resultDiv = document.createElement("div");
+    let player = allParticipants.find(x => x.id === player_id);
+    resultDiv.textContent = `Player ${player.name} from the clan ${player.clan} got ${result} point in season ${year + 1}`;
+
+    main.append(resultDiv);
+
+};
+
+showPlayerInfo(1, 0);
