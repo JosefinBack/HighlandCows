@@ -2,17 +2,48 @@ let main = document.querySelector("main");
 let header = document.getElementById("header");
 
 
+//Buttons
+let playerButton = document.createElement("Button");
+playerButton.textContent = "Players";
+
+let bestPlayers = document.createElement("Button");
+bestPlayers.textContent = "Best playsers";
+
+let clanButton = document.createElement("Button");
+clanButton.textContent = "Clans";
+
+header.append(playerButton, bestPlayers, clanButton);
+
+
+
 //göra en ny array av säsong 3 (dvs year = 2) för att få en halv säsong som vi kabn använda som vår akutella säsong
 
-//seasons 0, 1, 2
+
+//Activ season
 let threeSeasons = [];
 for (let game of seasons) {
-    if (game.year === 0 || game.year === 1 || game.year === 2) {
+    if (game.year === 0 || game.year === 1) {
         threeSeasons.push(game);
-    } else {
-        continue;
+    }
+
+    if (game.year === 2) {
+        let filteredDays = [];
+        for (let competition of game.competitionDays) {
+            if (competition.date.day < 8) {
+                filteredDays.push(competition);
+            }
+        }
+        let halfSeason = {
+            year: game.year,
+            coaches: game.coaches,
+            trainers: game.trainers,
+            competitionDays: filteredDays
+        };
+        threeSeasons.push(halfSeason);
     }
 };
+
+console.log(threeSeasons);
 
 
 //participants 1-20 
@@ -25,14 +56,6 @@ for (let person of participants) {
 
 console.log(allParticipants);
 
-
-
-//Buttons
-let playerButton = document.createElement("Button");
-playerButton.textContent = "Players";
-let bestPlayers = document.createElement("Button");
-bestPlayers.textContent = "Best playsers";
-header.append(playerButton, bestPlayers);
 
 
 
@@ -103,7 +126,7 @@ function calculatePlayerPoints(player_id, year) {
     return calculateTotalPoints(playerPlacings);
 };
 
-function showPlayerInfo(player_id, year) {
+function playerPlacment(player_id, year) {
 
     main.innerHTML = "";
 
@@ -216,7 +239,21 @@ function getResultforPlayer(player_id, year) {
     resultDiv.textContent = `Player ${player.name} from the clan ${player.clan} got ${result} point in season ${year + 1}`;
 
     main.append(resultDiv);
-
 };
 
-showPlayerInfo(1, 0);
+function membersClan(clanName) {
+    let members = [];
+    for (let person of allParticipants) {
+        if (person.clan === clanName) {
+            members.push(person)
+        };
+    };
+    console.log(members)
+    return members;
+}
+
+membersClan("MacThomas");
+
+
+
+playerPlacment(1, 0);
