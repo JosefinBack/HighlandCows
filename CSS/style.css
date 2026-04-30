@@ -15,6 +15,21 @@
     width: 80vw;
 }
 
+#header {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    border-bottom: 1px solid black;
+}
+
+#header button {
+    height: 40px;
+    padding: 10px;
+    width: 110px;
+}
+
 
 
 /* KEEP */

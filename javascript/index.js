@@ -65,7 +65,8 @@ console.log(allParticipants);
 
 playerButton.addEventListener("click", function () {
     main.innerHTML = "";
-    getResultforPlayer(1, 0);
+    getResultforPlayer(189, 0);
+    playerPlacment(189, 0);
 });
 
 bestPlayers.addEventListener("click", function () {
@@ -73,6 +74,23 @@ bestPlayers.addEventListener("click", function () {
     getBestPlayers(0);
     getBestPlayers(1);
     getBestPlayers(2);
+});
+
+clanButton.addEventListener("click", function () {
+    main.innerHTML = "";
+    let players = membersClan("MacThomas");
+    let clanDiv = document.createElement("div");
+    let h2 = document.createElement("h2");
+    h2.textContent = "Clan MacThomas";
+
+    for (let player of players) {
+        let div = document.createElement("div");
+        div.textContent = `${player.name}`
+
+        clanDiv.append(div);
+    }
+
+    main.append(clanDiv);
 });
 
 //Functions
@@ -127,9 +145,6 @@ function calculatePlayerPoints(player_id, year) {
 };
 
 function playerPlacment(player_id, year) {
-
-    main.innerHTML = "";
-
     let thisYear = threeSeasons.find(x => x.year === year);
     let playerID = player_id;
     let eventsArray = [];
@@ -215,7 +230,6 @@ function getBestPlayers(year) {
     placementDiv.append(title);
 
     for (let i = 0; i < 3; i++) {
-        let player = resultArray[i];
 
         let divPlayer = document.createElement("div");
         divPlayer.textContent = `${player.name}, Total: ${player.points}`;
@@ -231,7 +245,7 @@ function getResultforPlayer(player_id, year) {
     let result = calculatePlayerPoints(player_id, year);
 
     let h2 = document.createElement("h2");
-    h2.textContent = "Playsers";
+    h2.textContent = "Players";
     main.append(h2);
 
     let resultDiv = document.createElement("div");
@@ -252,8 +266,4 @@ function membersClan(clanName) {
     return members;
 }
 
-membersClan("MacThomas");
 
-
-
-playerPlacment(1, 0);
