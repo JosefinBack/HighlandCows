@@ -80,13 +80,25 @@ clanButton.addEventListener("click", function () {
     main.innerHTML = "";
     let players = membersClan("MacThomas");
     let clanDiv = document.createElement("div");
+    clanDiv.classList.add("clanDiv")
     let h2 = document.createElement("h2");
     h2.textContent = "Clan MacThomas";
+    clanDiv.append(h2);
 
     for (let player of players) {
         let div = document.createElement("div");
-        div.textContent = `${player.name}`
+        div.classList.add("clanMember")
 
+        let divPic = document.createElement("img");
+        divPic.src = "../pic/cow.jpg";
+        divPic.classList.add("cowImg")
+        divPic.alt = "Player image";
+
+        let divName = document.createElement("div");
+        divName.textContent = `${player.name}`
+
+        div.append(divPic);
+        div.append(divName);
         clanDiv.append(div);
     }
 
@@ -172,7 +184,6 @@ function playerPlacment(player_id, year) {
     main.append(h2);
 
     for (let item of eventsArray) {
-
         let gameDiv = document.createElement("div");
         gameDiv.classList.add("bigDiv");
 
@@ -198,7 +209,8 @@ function playerPlacment(player_id, year) {
             gameDiv.append(row);
             i++;
         }
-        thisDIV.append(gameDiv);
+        weekDiv.append(gameDiv)
+        thisDIV.append(weekDiv);
     }
     main.append(thisDIV);
 };
@@ -230,7 +242,7 @@ function getBestPlayers(year) {
     placementDiv.append(title);
 
     for (let i = 0; i < 3; i++) {
-
+        let player = resultArray[i];
         let divPlayer = document.createElement("div");
         divPlayer.textContent = `${player.name}, Total: ${player.points}`;
 
