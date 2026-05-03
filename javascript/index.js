@@ -7,19 +7,19 @@ let playerButton = document.createElement("Button");
 playerButton.textContent = "Players";
 
 let bestPlayers = document.createElement("Button");
-bestPlayers.textContent = "Best playsers";
+bestPlayers.textContent = "Best players";
 
 let clanButton = document.createElement("Button");
 clanButton.textContent = "Clans";
 
-header.append(playerButton, bestPlayers, clanButton);
+let schedualButton = document.createElement("Button");
+schedualButton.textContent = "Schedual";
+
+header.append(playerButton, bestPlayers, clanButton, schedualButton);
 
 
 
-//göra en ny array av säsong 3 (dvs year = 2) för att få en halv säsong som vi kabn använda som vår akutella säsong
-
-
-//Activ season
+//Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];
 for (let game of seasons) {
     if (game.year === 0 || game.year === 1) {
@@ -43,7 +43,7 @@ for (let game of seasons) {
     }
 };
 
-console.log(threeSeasons);
+// console.log(threeSeasons);
 
 
 //participants 1-20 
@@ -54,7 +54,7 @@ for (let person of participants) {
     };
 };
 
-console.log(allParticipants);
+// console.log(allParticipants);
 
 
 
@@ -104,6 +104,17 @@ clanButton.addEventListener("click", function () {
 
     main.append(clanDiv);
 });
+
+
+schedualButton.addEventListener("click", function () {
+    main.innerHTML = "";
+
+    let h2 = document.createElement("h2");
+    h2.textContent = "Competitionsdays";
+});
+
+
+
 
 //Functions
 
@@ -209,8 +220,8 @@ function playerPlacment(player_id, year) {
             gameDiv.append(row);
             i++;
         }
-        weekDiv.append(gameDiv)
-        thisDIV.append(weekDiv);
+
+        thisDIV.append(gameDiv);
     }
     main.append(thisDIV);
 };
@@ -250,7 +261,7 @@ function getBestPlayers(year) {
     }
 
     main.append(placementDiv);
-    console.log(resultArray);
+    // console.log(resultArray);
 };
 
 function getResultforPlayer(player_id, year) {
@@ -274,8 +285,54 @@ function membersClan(clanName) {
             members.push(person)
         };
     };
-    console.log(members)
+    // console.log(members)
     return members;
 }
 
 
+function createWeeks(year) {
+    let thisYear = threeSeasons.find(x => x.year === year);
+
+    let allMonths = [];
+
+    for (let month = 2; month <= 11; month++) {
+
+        let weekOne = [];
+        let weekTwo = [];
+        let weekThree = [];
+        let weekFour = [];
+
+        let counter = 0; // håller koll på vilken vecka vi är i
+
+        for (let competition of thisYear.competitionDays) {
+
+            if (competition.date.month === month) {
+
+                if (counter < 3) {
+                    weekOne.push(competition);
+
+                } else if (counter < 6) {
+                    weekTwo.push(competition);
+
+                } else if (counter < 9) {
+                    weekThree.push(competition);
+
+                } else {
+                    weekFour.push(competition);
+                }
+                counter++;
+            }
+        }
+
+        let allWeeks = [weekOne, weekTwo, weekThree, weekFour];
+
+        allMonths.push({
+            month: month,
+            weeks: allWeeks
+        });
+    }
+
+    return allMonths;
+}
+
+createWeeks(0)
