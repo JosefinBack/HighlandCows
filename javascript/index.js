@@ -111,6 +111,78 @@ schedualButton.addEventListener("click", function () {
 
     let h2 = document.createElement("h2");
     h2.textContent = "Competitionsdays";
+    main.append(h2);
+
+    let competitions = createWeeks(0);
+    console.log(competitions);
+
+    for (let monthObj of competitions) {
+        for (let week of monthObj.weeks) {
+
+            let weekDiv = document.createElement("div");
+            weekDiv.classList.add("bigDiv");
+
+            for (let competition of week) {
+
+                let dayDiv = document.createElement("div");
+                dayDiv.classList.add("dayRow");
+
+                let dateDiv = document.createElement("div");
+
+                // Datum
+                let date = document.createElement("p");
+                date.textContent = `Date: ${competition.date.day}/${competition.date.month}`;
+
+                let locationP = document.createElement("p");
+                let location = locations.find(d => d.id === competition.locationId);
+
+                locationP.textContent = `Location: ${location.name}`;
+
+                dateDiv.append(date, locationP);
+                weekDiv.append(dateDiv);
+
+                // LOOPA EVENTS
+                for (let ev of competition.events) {
+
+                    let eventDiv = document.createElement("div");
+                    eventDiv.classList.add("eventDiv")
+
+                    // Hämta namn på disciplin
+                    let discipline = disciplines.find(d => d.id === ev.disciplineId);
+
+                    let title = document.createElement("p");
+                    title.textContent = discipline.name;
+                    title.classList.add("titleEvent")
+
+                    eventDiv.append(title);
+
+                    let sortedScores = ev.scores.slice().sort(function (a, b) {
+                        return b.score - a.score;
+                    });
+
+                    let i = 1;
+
+                    for (let score of sortedScores) {
+                        let player = participants.find(p => p.id === score.participantId);
+
+                        let row = document.createElement("p");
+                        row.classList.add("rowDiv");
+                        row.textContent = `${i}. ${player.name} - ${score.score}`;
+
+                        eventDiv.append(row);
+
+                        i++;
+                    }
+
+                    dayDiv.append(eventDiv);
+                }
+
+                weekDiv.append(dayDiv);
+            }
+
+            main.append(weekDiv);
+        }
+    }
 });
 
 
@@ -292,38 +364,27 @@ function membersClan(clanName) {
 
 function createWeeks(year) {
     let thisYear = threeSeasons.find(x => x.year === year);
-
     let allMonths = [];
 
     for (let month = 2; month <= 11; month++) {
-
         let weekOne = [];
         let weekTwo = [];
         let weekThree = [];
         let weekFour = [];
 
-        let counter = 0; // håller koll på vilken vecka vi är i
-
         for (let competition of thisYear.competitionDays) {
-
             if (competition.date.month === month) {
-
-                if (counter < 3) {
+                if (weekOne.length < 3) {
                     weekOne.push(competition);
-
-                } else if (counter < 6) {
+                } else if (weekTwo.length < 3) {
                     weekTwo.push(competition);
-
-                } else if (counter < 9) {
+                } else if (weekThree.length < 3) {
                     weekThree.push(competition);
-
                 } else {
                     weekFour.push(competition);
                 }
-                counter++;
             }
         }
-
         let allWeeks = [weekOne, weekTwo, weekThree, weekFour];
 
         allMonths.push({
@@ -331,8 +392,5 @@ function createWeeks(year) {
             weeks: allWeeks
         });
     }
-
     return allMonths;
 }
-
-createWeeks(0)
