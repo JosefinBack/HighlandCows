@@ -1,6 +1,8 @@
 let main = document.querySelector("main");
 let header = document.getElementById("header");
 
+let content = document.createElement("div"); //För clansidan med alla claner
+
 
 //Buttons
 let playerButton = document.createElement("Button");
@@ -18,6 +20,7 @@ schedualButton.textContent = "Schedual";
 header.append(playerButton, bestPlayers, clanButton, schedualButton);
 
 
+let clanNames = ["MacThomas", "Mackenzie", "Macqueen", "Macleod of the Lewes", "Mackinnon"];
 
 //Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];
@@ -78,37 +81,52 @@ bestPlayers.addEventListener("click", function () {
 
 clanButton.addEventListener("click", function () {
     main.innerHTML = "";
-    let players = membersClan("MacThomas");
-    let clanDiv = document.createElement("div");
-    clanDiv.classList.add("clanDiv")
-    let h2 = document.createElement("h2");
-    h2.textContent = "Clan MacThomas";
-    clanDiv.append(h2);
-
-    for (let player of players) {
-        let div = document.createElement("div");
-        div.classList.add("clanMember")
-
-        let divPic = document.createElement("img");
-        divPic.src = "../pic/cow.jpg";
-        divPic.classList.add("cowImg")
-        divPic.alt = "Player image";
-
-        let divName = document.createElement("div");
-        divName.textContent = `${player.name}`
-
-        div.append(divPic);
-        div.append(divName);
-        clanDiv.append(div);
-    }
-
-    main.append(clanDiv);
+    main.append(content);
+    showClans();
 });
 
 
 schedualButton.addEventListener("click", function () {
     main.innerHTML = "";
+    showWeeks();
 
+});
+
+
+//Functions
+function showClans() {
+
+    for (let clan of clanNames) {
+
+        let players = membersClan(clan);
+        let clanDiv = document.createElement("div");
+        clanDiv.classList.add("clanDiv")
+        let h2 = document.createElement("h2");
+        h2.textContent = clan;
+        clanDiv.append(h2);
+
+        for (let player of players) {
+            let div = document.createElement("div");
+            div.classList.add("clanMember")
+
+            let divPic = document.createElement("img");
+            divPic.src = "../pic/cow.jpg";
+            divPic.classList.add("cowImg")
+            divPic.alt = "Player image";
+
+            let divName = document.createElement("div");
+            divName.textContent = `${player.name}`
+
+            div.append(divPic);
+            div.append(divName);
+            clanDiv.append(div);
+        }
+        content.append(clanDiv);
+    }
+};
+
+
+function showWeeks() {
     let h2 = document.createElement("h2");
     h2.textContent = "Competitionsdays";
     main.append(h2);
@@ -183,12 +201,8 @@ schedualButton.addEventListener("click", function () {
             main.append(weekDiv);
         }
     }
-});
+}
 
-
-
-
-//Functions
 
 function getPoints(placement) {
     if (placement === 1) return 15;

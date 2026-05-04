@@ -88,83 +88,83 @@ const disciplines = [{
 
 const participants = [{
   "id": 189,
-  "name": "P060",
+  "name": "Ewan MacLeish",
   "clan": "MacThomas"
 }, {
   "id": 173,
-  "name": "P215",
+  "name": "Callum Fraser",
   "clan": "MacThomas"
 }, {
   "id": 269,
-  "name": "P247",
+  "name": "Fergus MacAlister",
   "clan": "MacThomas"
 }, {
   "id": 58,
-  "name": "P175",
+  "name": "Dougal MacRae",
   "clan": "MacThomas"
 }, {
   "id": 270,
-  "name": "P176",
+  "name": "Alistair Buchanan",
   "clan": "Mackenzie"
 }, {
   "id": 206,
-  "name": "P255",
+  "name": "Hamish Sinclair",
   "clan": "Mackenzie"
 }, {
   "id": 190,
-  "name": "P300",
+  "name": "Iain MacDougall",
   "clan": "Mackenzie"
 }, {
   "id": 68,
-  "name": "P029",
+  "name": "Lachlan MacPherson",
   "clan": "Mackenzie"
 }, {
   "id": 159,
-  "name": "P078",
+  "name": "Torin MacNab",
   "clan": "Macqueen"
 }, {
   "id": 201,
-  "name": "P056",
+  "name": "Brodie Cameron",
   "clan": "Macqueen"
 }, {
   "id": 149,
-  "name": "P107",
+  "name": "Angus MacFarlane",
   "clan": "Macqueen"
 }, {
   "id": 235,
-  "name": "P043",
+  "name": "Struan MacGillivray",
   "clan": "Macqueen"
 }, {
   "id": 170,
-  "name": "P124",
+  "name": "Finlay MacEwan",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 290,
-  "name": "P237",
+  "name": "Rory MacCallum",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 12,
-  "name": "P170",
+  "name": "Tavish MacInnes",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 182,
-  "name": "P079",
+  "name": "Duncan MacBride",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 239,
-  "name": "P189",
+  "name": "Blair MacGregor",
   "clan": "Mackinnon"
 }, {
   "id": 140,
-  "name": "P213",
+  "name": "Niall MacKellar",
   "clan": "Mackinnon"
 }, {
   "id": 274,
-  "name": "P063",
+  "name": "Gregor MacQuarrie",
   "clan": "Mackinnon"
 }, {
   "id": 156,
-  "name": "P001",
+  "name": "Keir MacLennan",
   "clan": "Mackinnon"
 },
 //våra spelare ovan 
