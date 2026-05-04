@@ -137,19 +137,19 @@ const participants = [{
 }, {
   "id": 170,
   "name": "Finlay MacEwan",
-  "clan": "Barclay"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 290,
   "name": "Rory MacCallum",
-  "clan": "Barclay"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 12,
   "name": "Tavish MacInnes",
-  "clan": "Barclay"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 182,
   "name": "Duncan MacBride",
-  "clan": "Barclay"
+  "clan": "Macleod of the Lewes"
 }, {
   "id": 239,
   "name": "Blair MacGregor",
