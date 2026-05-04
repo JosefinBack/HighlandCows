@@ -34,6 +34,11 @@
 
 /* KEEP */
 
+.clickTitleClan:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 main {
     max-width: 1200px;
     margin: 0 auto;
@@ -41,7 +46,7 @@ main {
 
 .clanDiv {
     border: 1px solid black;
-    width: 400px;
+    width: 360px;
 
 }
 
@@ -56,6 +61,12 @@ main {
     gap: 20px;
     margin-bottom: 30px;
     align-items: center;
+}
+
+.contentClanPage {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
 .weekDiv {

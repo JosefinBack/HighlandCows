@@ -1,26 +1,32 @@
+
+//URL
+let params = new URLSearchParams(window.location.search);
+let page = params.get("page");
+
+if (page === "clans") {
+    clanButton.click(); // triggar befintlig kod
+}
+
+
+
+
+//Variabler
 let main = document.querySelector("main");
-let header = document.getElementById("header");
+let contentClanHomepage = document.getElementById("content");
+let allClansContent = document.createElement("div"); //För clansidan med alla claner
 
-let content = document.createElement("div"); //För clansidan med alla claner
-
-
-//Buttons
-let playerButton = document.createElement("Button");
-playerButton.textContent = "Players";
-
-let bestPlayers = document.createElement("Button");
-bestPlayers.textContent = "Best players";
-
-let clanButton = document.createElement("Button");
-clanButton.textContent = "Clans";
-
-let schedualButton = document.createElement("Button");
-schedualButton.textContent = "Schedual";
-
-header.append(playerButton, bestPlayers, clanButton, schedualButton);
+//Skapa header + knappar
+createHeader();
+let playerButton = document.getElementById("playerButton");
+let bestPlayers = document.getElementById("bestPlayers");
+let clanButton = document.getElementById("clanButton");
+let schedualButton = document.getElementById("schedualButton");
 
 
-let clanNames = ["MacThomas", "Mackenzie", "Macqueen", "Macleod of the Lewes", "Mackinnon"];
+
+//Material
+
+let clanNames = ["MacThomas", "Mackenzie", "Macqueen", "Barclay", "Mackinnon"];
 
 //Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];
@@ -61,9 +67,6 @@ for (let person of participants) {
 
 
 
-
-
-
 //AddEventLisneters
 
 playerButton.addEventListener("click", function () {
@@ -81,7 +84,9 @@ bestPlayers.addEventListener("click", function () {
 
 clanButton.addEventListener("click", function () {
     main.innerHTML = "";
-    main.append(content);
+
+    allClansContent.classList.add("contentClanPage");
+    main.append(allClansContent);
     showClans();
 });
 
@@ -95,37 +100,43 @@ schedualButton.addEventListener("click", function () {
 
 //Functions
 function showClans() {
+    allClansContent.innerHTML = "";
 
     for (let clan of clanNames) {
-
-        let players = membersClan(clan);
         let clanDiv = document.createElement("div");
-        clanDiv.classList.add("clanDiv")
+        clanDiv.classList.add("clanDiv");
+
         let h2 = document.createElement("h2");
+        h2.classList.add("clickTitleClan")
         h2.textContent = clan;
+
+        h2.addEventListener("click", function () {
+            window.location.href = `clanPage.html?clan=${clan}`;
+        });
+
         clanDiv.append(h2);
+        let players = membersClan(clan);
 
         for (let player of players) {
             let div = document.createElement("div");
-            div.classList.add("clanMember")
+            div.classList.add("clanMember");
 
-            let divPic = document.createElement("img");
-            divPic.src = "../pic/cow.jpg";
-            divPic.classList.add("cowImg")
-            divPic.alt = "Player image";
+            let img = document.createElement("img");
+            img.src = "../pic/cow.jpg";
+            img.classList.add("cowImg");
 
-            let divName = document.createElement("div");
-            divName.textContent = `${player.name}`
+            let name = document.createElement("p");
+            name.textContent = player.name;
 
-            div.append(divPic);
-            div.append(divName);
+            div.append(img, name);
             clanDiv.append(div);
         }
-        content.append(clanDiv);
+        allClansContent.append(clanDiv);
     }
 };
 
 
+//Kan den kanske göras lite enklare? 
 function showWeeks() {
     let h2 = document.createElement("h2");
     h2.textContent = "Competitionsdays";
@@ -188,16 +199,12 @@ function showWeeks() {
                         row.textContent = `${i}. ${player.name} - ${score.score}`;
 
                         eventDiv.append(row);
-
                         i++;
                     }
-
                     dayDiv.append(eventDiv);
                 }
-
                 weekDiv.append(dayDiv);
             }
-
             main.append(weekDiv);
         }
     }
@@ -224,7 +231,7 @@ function calculateTotalPoints(playerPlacings) {
 };
 
 
-
+//ska vi ha denna???
 function calculatePlayerPoints(player_id, year) {
     let thisYear = threeSeasons.find(x => x.year === year);
     let playerID = player_id;
