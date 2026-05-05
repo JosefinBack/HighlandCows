@@ -171,71 +171,71 @@ const participants = [{
 //17 extra spelare 
 {
   "id": 65,
-  "name": "P030",
+  "name": "Ewan MacGregor",
   "clan": "MacThomas"
 }, {
   "id": 180,
-  "name": "P212",
+  "name": "Alasdair Campbell",
   "clan": "MacThomas"
 }, {
   "id": 148,
-  "name": "P171",
+  "name": "Fraser MacKenzie",
   "clan": "MacThomas"
 }, {
   "id": 76,
-  "name": "P055",
+  "name": "Gordon MacLeod",
   "clan": "Mackenzie"
 }, {
   "id": 125,
-  "name": "P010",
+  "name": "Malcolm Stewart",
   "clan": "Mackenzie"
 }, {
   "id": 169,
-  "name": "P016",
+  "name": "Bruce MacDonald",
   "clan": "Mackenzie"
 }, {
   "id": 195,
-  "name": "P285",
+  "name": "Neil MacIntyre",
   "clan": "Macqueen"
 }, {
   "id": 181,
-  "name": "P201",
+  "name": "Ross MacArthur",
   "clan": "Macqueen"
 }, {
   "id": 6,
-  "name": "P123",
+  "name": "Kenneth MacRitchie",
   "clan": "Macqueen"
 }, {
   "id": 141,
-  "name": "P181",
+  "name": "Cameron MacKay",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 81,
-  "name": "P095",
+  "name": "Aidan MacFerguson",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 124,
-  "name": "P144",
+  "name": "Lewis MacNiven",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 192,
-  "name": "P033",
+  "name": "Craig MacDuff",
   "clan": "Macleod of the Lewes"
 }, {
   "id": 150,
-  "name": "P172",
+  "name": "Scott MacLaren",
   "clan": "Mackinnon"
 }, {
   "id": 214,
-  "name": "P252",
+  "name": "Douglas MacAulay",
   "clan": "Mackinnon"
 }, {
   "id": 268,
-  "name": "P106",
+  "name": "Murray MacBain",
   "clan": "Mackinnon"
 }, {
   "id": 160,
-  "name": "P047",
+  "name": "Colin MacEwen",
   "clan": "Mackinnon"
 },
 

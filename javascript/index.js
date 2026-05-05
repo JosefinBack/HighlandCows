@@ -23,7 +23,7 @@ startButton.addEventListener("click", function () {
 playerButton.addEventListener("click", function () {
     main.innerHTML = "";
     getResultforPlayer(189, 0);
-    playerPlacment(189, 0);
+    playerPlacment(170, 0);
 });
 
 bestPlayers.addEventListener("click", function () {

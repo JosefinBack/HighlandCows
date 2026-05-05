@@ -281,7 +281,7 @@ function playerPlacment(player_id, year) {
             let total = totalPointsPerPlayer[id];
             let player = allParticipants.find(p => p.id === id);
 
-            row.textContent = `${i}. ${player.id} | Score: ${points} | Total: ${total}`;
+            row.textContent = `${i}. ${player.name} | Score: ${points} | Total: ${total}`;
 
             // highlight vald spelare
             if (id === player_id) {
