@@ -167,76 +167,99 @@ const participants = [{
   "name": "Keir MacLennan",
   "clan": "Mackinnon"
 },
-//våra spelare ovan 
+
+//17 extra spelare 
 {
-  "id": 148,
-  "name": "P171"
-}, {
   "id": 65,
-  "name": "P030"
-}, {
-  "id": 268,
-  "name": "P106"
+  "name": "P030",
+  "clan": "MacThomas"
 }, {
   "id": 180,
-  "name": "P212"
+  "name": "P212",
+  "clan": "MacThomas"
 }, {
-  "id": 296,
-  "name": "P190"
+  "id": 148,
+  "name": "P171",
+  "clan": "MacThomas"
+}, {
+  "id": 76,
+  "name": "P055",
+  "clan": "Mackenzie"
+}, {
+  "id": 125,
+  "name": "P010",
+  "clan": "Mackenzie"
+}, {
+  "id": 169,
+  "name": "P016",
+  "clan": "Mackenzie"
+}, {
+  "id": 195,
+  "name": "P285",
+  "clan": "Macqueen"
+}, {
+  "id": 181,
+  "name": "P201",
+  "clan": "Macqueen"
+}, {
+  "id": 6,
+  "name": "P123",
+  "clan": "Macqueen"
 }, {
   "id": 141,
-  "name": "P181"
+  "name": "P181",
+  "clan": "Macleod of the Lewes"
+}, {
+  "id": 81,
+  "name": "P095",
+  "clan": "Macleod of the Lewes"
+}, {
+  "id": 124,
+  "name": "P144",
+  "clan": "Macleod of the Lewes"
+}, {
+  "id": 192,
+  "name": "P033",
+  "clan": "Macleod of the Lewes"
+}, {
+  "id": 150,
+  "name": "P172",
+  "clan": "Mackinnon"
+}, {
+  "id": 214,
+  "name": "P252",
+  "clan": "Mackinnon"
+}, {
+  "id": 268,
+  "name": "P106",
+  "clan": "Mackinnon"
+}, {
+  "id": 160,
+  "name": "P047",
+  "clan": "Mackinnon"
+},
+
+
+
+//våra spelare ovan 
+{
+  "id": 296,
+  "name": "P190"
 }, {
   "id": 179,
   "name": "P154"
 }, {
-  "id": 76,
-  "name": "P055"
-}, {
-  "id": 214,
-  "name": "P252"
-}, {
-  "id": 169,
-  "name": "P016"
-}, {
   "id": 122,
   "name": "P240"
 }, {
-  "id": 150,
-  "name": "P172"
-}, {
   "id": 82,
   "name": "P057"
-}, {
-  "id": 124,
-  "name": "P144"
 }, {
   "id": 11,
   "name": "P258"
 }, {
   "id": 19,
   "name": "P274"
-}, {
-  "id": 181,
-  "name": "P201"
-}, {
-  "id": 195,
-  "name": "P285"
-}, {
-  "id": 6,
-  "name": "P123"
-}, {
-  "id": 125,
-  "name": "P010"
-}, {
-  "id": 81,
-  "name": "P095"
-}, {
-  "id": 160,
-  "name": "P047"
-}, {
-  "id": 192,
-  "name": "P033"
 }, {
   "id": 119,
   "name": "P254"

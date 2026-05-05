@@ -1,10 +1,4 @@
 
-//URL
-let params = new URLSearchParams(window.location.search);
-let clanName = params.get("clan");
-
-console.log(clanName);
-
 //Variabler
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
@@ -79,4 +73,14 @@ function showClanHomePage(clan) {
 };
 
 
+
+
+
+
+
+
+//Funktionsanrop
 showClanHomePage(clanName);
+
+
+

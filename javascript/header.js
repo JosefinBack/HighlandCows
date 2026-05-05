@@ -5,6 +5,9 @@ function createHeader() {
 
     let header = document.getElementById("header");
 
+    let startButton = document.createElement("button");
+    startButton.textContent = "Start";
+
     let playerButton = document.createElement("button");
     playerButton.textContent = "Players";
 
@@ -17,11 +20,12 @@ function createHeader() {
     let schedualButton = document.createElement("button");
     schedualButton.textContent = "Schedual";
 
+    startButton.id = "startButton";
     playerButton.id = "playerButton";
     bestPlayers.id = "bestPlayers";
     clanButton.id = "clanButton";
     schedualButton.id = "schedualButton";
 
-    header.append(playerButton, bestPlayers, clanButton, schedualButton);
+    header.append(startButton, playerButton, bestPlayers, clanButton, schedualButton);
 };
 
