@@ -73,22 +73,28 @@ function showClanHomePage(clan) {
 };
 
 
-let playerButton = document.getElementById("198")
+let CowButton = document.getElementById("198")
 
-playerButton.addEventListener("click", function () {
+CowButton.addEventListener("click", function () {
     personalInfo(189);
 });
 
 function personalInfo(number) {
     let rightCow = allParticipants.find(x => x.id === number);
 
-    console.loh(rightCow);
+    console.log(rightCow);
+
+    let cowClan = rightCow.clan;
+
+    let regionCow = clans.find(x => x.name === cowClan);
+
+    let home = regionCow.region
 };
 
 
 
 //Funktionsanrop
-showClanHomePage(clanName);
+// showClanHomePage(clanName);
 
 
 

@@ -36,7 +36,7 @@ const locations = [{
 
 const clans = [{
   "name": "MacThomas",
-  "region": ""
+  "region": "testClan"
 },
 {
   "name": "Macdowall",
@@ -108,6 +108,8 @@ const participants = [{
   "id": 189,
   "name": "Ewan MacLeish",
   "clan": "MacThomas",
+  "years": 2,
+  "furcolor": "black"
 }, {
   "id": 173,
   "name": "Callum Fraser",
