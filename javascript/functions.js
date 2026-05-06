@@ -273,15 +273,27 @@ function playerPlacment(player_id, year) {
             let points = getPoints(i);
             let id = score.participantId;
 
+            let discipline = item.event.disciplineId;
+
+            // skapa spelare
             if (!totalPointsPerPlayer[id]) {
-                totalPointsPerPlayer[id] = 0;
+                totalPointsPerPlayer[id] = {};
             }
 
-            totalPointsPerPlayer[id] += points;
-            let total = totalPointsPerPlayer[id];
+            // skapa gren
+            if (!totalPointsPerPlayer[id][discipline]) {
+                totalPointsPerPlayer[id][discipline] = 0;
+            }
+
+            // lägg till poäng
+            totalPointsPerPlayer[id][discipline] += points;
+
+            let total = totalPointsPerPlayer[id][discipline];
+
+
             let player = allParticipants.find(p => p.id === id);
 
-            row.textContent = `${i}. ${player.name} | Score: ${points} | Total: ${total}`;
+            row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
 
             // highlight vald spelare
             if (id === player_id) {
