@@ -73,22 +73,63 @@ function showClanHomePage(clan) {
 };
 
 
+
+//personlig info för varje ko, som ska synas på klansidan
 let CowButton = document.getElementById("198")
 
 CowButton.addEventListener("click", function () {
     personalInfo(189);
 });
 
+let clanMembersDIV = document.getElementById("clanMembers");
+
+let imgDIV = document.createElement("div");
+let img = document.createElement("img");
+img.src = "../cows/MacThomas/Alsdai_Campbell.png";
+img.style.width = "200px";
+img.style.height = "200px";
+img.style.borderRadius = "50%";
+imgDIV.setAttribute("id", 180);
+imgDIV.appendChild(img);
+clanMembersDIV.appendChild(imgDIV);
+
+imgDIV.addEventListener("click"), function (e, id) {
+    personalInfo(e.id);
+}
+
+
+let popUpCowInfo = document.getElementById("popUpCowInfo");
+
 function personalInfo(number) {
     let rightCow = allParticipants.find(x => x.id === number);
 
     console.log(rightCow);
 
+    let cowName = rightCow.name;
     let cowClan = rightCow.clan;
+    let cowAge = rightCow.age;
+    let cowFurColor = rightCow.furcolor;
 
     let regionCow = clans.find(x => x.name === cowClan);
-
     let home = regionCow.region
+
+    let infoDiv = document.createElement("div");
+
+    let cownameP = document.createElement("p");
+    cownameP.textContent = "Name: " + cowName;
+
+    let cowAgeP = document.createElement("p");
+    cowAgeP.textContent = "Age: " + cowAge;
+
+    let cowFurColorP = document.createElement("p");
+    cowFurColorP.textContent = "Fur color: " + cowFurColor;
+
+    let cowregion = document.createElement("p");
+    cowregion.textContent = "Region: " + home;
+
+    infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
+    popUpCowInfo.append(infoDiv);
+
 };
 
 
