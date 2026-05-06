@@ -419,5 +419,57 @@ function getTopThreeClansBySeason(seasonYear) {
         .slice(0, 3);
 }
 
-// console.log(getTopThreeClansBySeason(2));
+//Funktion som tar fram klanernas score utifrån disciplin SAMT season
+function getClanScoreByDiscipline(discipline_id, season) {
+    const clanScores = [];
+
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+
+        for (let member of members) {
+            let thisYear = threeSeasons.find(x => x.year === season);
+
+            for (let competition of thisYear.competitionDays) {
+                for (let event of competition.events) {
+                    if (event.disciplineId !== discipline_id) continue;
+                    
+                    for (let score of event.scores) {
+                        if (score.participantId === member.id) {
+                            totalPoints += score.score;
+                        }
+                    }
+                }
+            }
+        }
+        clanScores.push({clan: clan, points: totalPoints});
+    }
+    return clanScores; 
+}
+//Funktion som tar fram klanernas poäng utifrån ENDAST säsong = första stapeln
+// på season-sidan
+function getClanTotalScoreBySeason(season) {
+    const clanScores = [];
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+        let thisYear = threeSeasons.find(x => x.year === season);
+
+        for (let member of members) {
+            for (let competition of thisYear.competitionDays) {
+                for (let event of competition.events) {
+                    for (let score of event.scores) {
+                        if (score.participantId === member.id) {
+                            totalPoints += score.score;
+                        }
+                    }
+                }
+            }
+        }
+        clanScores.push({ clan: clan, points: totalPoints }); 
+    }
+    return clanScores;
+}
+
+console.log(getClanTotalScoreBySeason(0));
 
