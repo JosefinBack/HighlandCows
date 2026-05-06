@@ -67,10 +67,15 @@ function showClanHomePage(clan) {
         let name = document.createElement("p");
         name.textContent = player.name;
 
+        let player_id = player.id;
+        disciplineLeaderboard(0, 3, player_id)
+
         div.append(img, name);
-        contentClanHomepage.append(div);
+        // contentClanHomepage.append(div);
     }
 };
+
+showClanHomePage("MacThomas");
 
 
 
@@ -129,6 +134,163 @@ function personalInfo(number) {
 };
 
 
+
+
+
+// function disciplineLeaderboard(year, disciplineId, player_id) {
+//     let thisYear = threeSeasons.find(x => x.year === year);
+//     let totalPointsForOnePlayer = [];
+//     let counter = 0;
+
+//     for (let participant of allParticipants) {
+//         let playerPoints = 0;
+
+//         for (let day of thisYear.competitionDays) {
+//             for (let event of day.events) {
+//                 if (event.disciplineId === disciplineId) {
+//                     // sortera resultaten
+//                     let EventScoreArray = [...event.scores];
+//                     EventScoreArray.sort((a, b) => b.score - a.score);
+
+//                     let placement = 1;
+
+//                     for (let score of EventScoreArray) {
+//                         if (score.participantId === participant.id) {
+//                             let points = getPoints(placement);
+//                             playerPoints = playerPoints + points;
+//                         }
+//                         placement++;
+//                     }
+//                 }
+//             }
+//         }
+
+//         totalPointsForOnePlayer.push({
+//             id: participant.id,
+//             name: participant.name,
+//             total: playerPoints
+//         });
+//     }
+
+//     // sortera efter totalpoäng
+//     totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
+
+//     console.log(totalPointsForOnePlayer);
+
+//     // VISA PÅ SIDAN
+//     let bigDiv = document.createElement("div");
+//     let test = document.getElementById("test");
+
+//     let h2 = document.createElement("h2");
+//     h2.textContent = `Discipline ${disciplineId}`;
+
+//     bigDiv.append(h2);
+
+//     let placement = 1;
+
+//     for (let player of totalPointsForOnePlayer) {
+//         if (player_id === player.id) {
+//             let row = document.createElement("div");
+//             row.textContent =
+//                 `${placement}. ${player.name} | Total points: ${player.total}`;
+
+//             bigDiv.append(row);
+
+//         }
+//         // placement++;
+//     }
+
+//     test.append(bigDiv);
+//     console.log(counter)
+// }
+
+// disciplineLeaderboard(0, 1, 189)
+
+
+
+function disciplineLeaderboard(year, disciplineId, player_id) {
+
+    let thisYear = threeSeasons.find(x => x.year === year);
+
+    let totalPointsForOnePlayer = [];
+
+    // =========================
+    // RÄKNA HUR MÅNGA GÅNGER
+    // DISCIPLINEN SPELAS
+    // =========================
+
+    let counter = 0;
+
+    for (let day of thisYear.competitionDays) {
+
+        for (let event of day.events) {
+
+            if (event.disciplineId === disciplineId) {
+                counter++;
+            }
+
+        }
+    }
+
+    // maxpoäng
+    let maxScore = counter * 15;
+
+    for (let participant of allParticipants) {
+        let playerPoints = 0;
+
+        for (let day of thisYear.competitionDays) {
+            for (let event of day.events) {
+                if (event.disciplineId === disciplineId) {
+
+                    // kopiera och sortera score-array
+                    let EventScoreArray = [...event.scores];
+
+                    EventScoreArray.sort((a, b) => b.score - a.score);
+
+                    let placement = 1;
+
+                    for (let score of EventScoreArray) {
+                        if (score.participantId === participant.id) {
+                            let points = getPoints(placement);
+                            playerPoints = playerPoints + points;
+                        }
+                        placement++;
+                    }
+                }
+            }
+        }
+        // procent av maxscore
+        let percent = (playerPoints / maxScore) * 100;
+
+        totalPointsForOnePlayer.push({
+            id: participant.id,
+            name: participant.name,
+            total: playerPoints,
+            percent: percent
+        });
+    }
+
+    totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
+
+    let bigDiv = document.createElement("div");
+    let test = document.getElementById("test");
+    let h2 = document.createElement("h2");
+    h2.textContent = `Discipline ${disciplineId}`;
+    bigDiv.append(h2);
+
+    let placement = 1;
+    for (let player of totalPointsForOnePlayer) {
+        if (player.id === player_id) {
+            let row = document.createElement("div");
+            row.textContent =
+                `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
+            bigDiv.append(row);
+        }
+        placement++;
+    }
+    test.append(bigDiv);
+}
+disciplineLeaderboard(0, 1, 189)
 
 //Funktionsanrop
 // showClanHomePage(clanName);

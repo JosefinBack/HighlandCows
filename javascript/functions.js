@@ -207,6 +207,7 @@ function calculatePlayerPoints(player_id, year) {
 function playerPlacment(player_id, year) {
     let thisYear = threeSeasons.find(x => x.year === year);
 
+    let counter = 0;
     let eventsArray = [];
 
     //  Samla alla events
@@ -248,6 +249,10 @@ function playerPlacment(player_id, year) {
         let title = document.createElement("div");
         title.textContent = `Discipline ${item.event.disciplineId}`;
 
+        if (item.event.disciplineId === 2) {
+            counter++;
+        }
+
         let info = document.createElement("div");
         info.textContent = `${item.day.day}/${item.day.month}`;
 
@@ -285,7 +290,6 @@ function playerPlacment(player_id, year) {
             let player = allParticipants.find(p => p.id === id);
             row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
 
-
             // highlight vald spelare
             if (id === player_id) {
                 row.style.backgroundColor = "yellow";
@@ -296,6 +300,7 @@ function playerPlacment(player_id, year) {
         thisDIV.append(gameDiv);
     }
     main.append(thisDIV);
+    console.log(counter);
 };
 
 
