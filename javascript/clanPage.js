@@ -74,12 +74,7 @@ function showClanHomePage(clan) {
 
 
 
-//personlig info för varje ko, som ska synas på klansidan
-let CowButton = document.getElementById("198")
-
-CowButton.addEventListener("click", function () {
-    personalInfo(189);
-});
+//personlig info för varje ko, som ska synas på klansida
 
 let clanMembersDIV = document.getElementById("clanMembers");
 
@@ -89,13 +84,14 @@ img.src = "../cows/MacThomas/Alsdai_Campbell.png";
 img.style.width = "200px";
 img.style.height = "200px";
 img.style.borderRadius = "50%";
+img.style.border = "1px solid black";
 imgDIV.setAttribute("id", 180);
 imgDIV.appendChild(img);
 clanMembersDIV.appendChild(imgDIV);
 
-imgDIV.addEventListener("click"), function (e, id) {
-    personalInfo(e.id);
-}
+imgDIV.addEventListener("click", function () {
+    personalInfo(Number(imgDIV.id));
+});
 
 
 let popUpCowInfo = document.getElementById("popUpCowInfo");
