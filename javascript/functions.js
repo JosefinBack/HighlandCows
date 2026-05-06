@@ -202,7 +202,7 @@ function calculatePlayerPoints(player_id, year) {
 
     return calculateTotalPoints(playerPlacings);
 };
-
+console.log("hej")
 
 
 
