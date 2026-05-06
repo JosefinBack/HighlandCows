@@ -414,7 +414,7 @@ function getTopThreeClansBySeason(seasonYear) {
         .slice(0, 3);
 }
 
-//Funktion som tar fram klanernas score utifrån disciplin samt season
+//Funktion som tar fram klanernas score utifrån disciplin SAMT season
 function getClanScoreByDiscipline(discipline_id, season) {
     const clanScores = [];
 
