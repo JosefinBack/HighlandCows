@@ -433,7 +433,7 @@ function getClanScoreByDiscipline(discipline_id, season) {
             for (let competition of thisYear.competitionDays) {
                 for (let event of competition.events) {
                     if (event.disciplineId !== discipline_id) continue;
-                    
+
                     for (let score of event.scores) {
                         if (score.participantId === member.id) {
                             totalPoints += score.score;
@@ -442,9 +442,9 @@ function getClanScoreByDiscipline(discipline_id, season) {
                 }
             }
         }
-        clanScores.push({clan: clan, points: totalPoints});
+        clanScores.push({ clan: clan, points: totalPoints });
     }
-    return clanScores; 
+    return clanScores;
 }
 //Funktion som tar fram klanernas poäng utifrån ENDAST säsong = första stapeln
 // på season-sidan
@@ -466,7 +466,7 @@ function getClanTotalScoreBySeason(season) {
                 }
             }
         }
-        clanScores.push({ clan: clan, points: totalPoints }); 
+        clanScores.push({ clan: clan, points: totalPoints });
     }
     return clanScores;
 }

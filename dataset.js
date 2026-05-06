@@ -108,7 +108,7 @@ const participants = [{
   "id": 189,
   "name": "Ewan MacLeish",
   "clan": "MacThomas",
-  "age": 2,
+  "age": 9,
   "furcolor": "black"
 }, {
   "id": 173,
@@ -196,7 +196,9 @@ const participants = [{
 }, {
   "id": 180,
   "name": "Alasdair Campbell",
-  "clan": "MacThomas"
+  "clan": "MacThomas",
+  "age": 6,
+  "furcolor": "Brown"
 }, {
   "id": 148,
   "name": "Fraser MacKenzie",
