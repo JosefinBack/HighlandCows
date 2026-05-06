@@ -184,15 +184,15 @@ const participants = [{
 }, {
   "id": 76,
   "name": "Gordon MacLeod",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 125,
   "name": "Malcolm Stewart",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 169,
   "name": "Bruce MacDonald",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 195,
   "name": "Neil MacIntyre",
