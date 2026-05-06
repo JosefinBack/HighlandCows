@@ -113,7 +113,8 @@ function personalInfo(number) {
     cowregion.textContent = "Region: " + home; 
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
-    
+    popUpCowInfo.append(infoDiv); 
+
 };
 
 
