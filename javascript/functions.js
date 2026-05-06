@@ -64,14 +64,14 @@ function showClans() {
             let div = document.createElement("div");
             div.classList.add("clanMember");
 
-            let img = document.createElement("img");
+/*             let img = document.createElement("img");
             img.src = "../pic/cow.jpg";
-            img.classList.add("cowImg");
+            img.classList.add("cowImg"); */
 
             let name = document.createElement("p");
             name.textContent = player.name;
 
-            div.append(img, name);
+            div.append( name);
             clanDiv.append(div);
         }
         allClansContent.append(clanDiv);
