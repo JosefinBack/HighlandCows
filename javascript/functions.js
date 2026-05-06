@@ -398,3 +398,24 @@ function createWeeks(year) {
     }
     return allMonths;
 };
+
+//Funktion för att få de tre bästa klanerna i säsongen 
+function getTopThreeClansBySeason(seasonYear) {
+    const clanScores = [];
+
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+
+        for (let member of members ) {
+            totalPoints += calculatePlayerPoints(member.id, seasonYear);
+        }
+        clanScores.push({clan: clan, points: totalPoints});
+    }
+    return clanScores
+        .sort((a,b) => b.points - a.points)
+        .slice(0,3);
+}
+
+console.log(getTopThreeClansBySeason(2));
+
