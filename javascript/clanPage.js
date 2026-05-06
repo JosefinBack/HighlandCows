@@ -81,6 +81,21 @@ CowButton.addEventListener("click", function () {
     personalInfo(189);
 });
 
+let clanMembersDIV = document.getElementById("clanMembers");
+
+let imgDIV = document.createElement("div");
+let img = document.createElement("img");
+img.src = "../cows/MacThomas/Alsdai_Campbell.png";
+img.style.width = "200px";
+img.style.height = "200px";
+img.style.borderRadius = "50%";
+imgDIV.setAttribute("id", 180);
+imgDIV.appendChild(img);
+clanMembersDIV.appendChild(imgDIV);
+
+imgDIV.addEventListener("click"), function (e, id) {
+    personalInfo(e.id);
+}
 
 
 let popUpCowInfo = document.getElementById("popUpCowInfo");
@@ -109,11 +124,11 @@ function personalInfo(number) {
     let cowFurColorP = document.createElement("p");
     cowFurColorP.textContent = "Fur color: " + cowFurColor;
 
-    let cowregion = document.createElement("p"); 
-    cowregion.textContent = "Region: " + home; 
+    let cowregion = document.createElement("p");
+    cowregion.textContent = "Region: " + home;
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
-    popUpCowInfo.append(infoDiv); 
+    popUpCowInfo.append(infoDiv);
 
 };
 
