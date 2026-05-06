@@ -441,6 +441,30 @@ function getClanScoreByDiscipline(discipline_id, season) {
     }
     return clanScores; 
 }
+//Funktion som tar fram klanernas poäng utifrån ENDAST säsong = första stapeln
+// på season-sidan
+function getClanTotalScoreBySeason(season) {
+    const clanScores = [];
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+        let thisYear = threeSeasons.find(x => x.year === season);
 
-console.log(getClanScoreByDiscipline(4,2))
+        for (let member of members) {
+            for (let competition of thisYear.competitionDays) {
+                for (let event of competition.events) {
+                    for (let score of event.scores) {
+                        if (score.participantId === member.id) {
+                            totalPoints += score.score;
+                        }
+                    }
+                }
+            }
+        }
+        clanScores.push({ clan: clan, points: totalPoints }); 
+    }
+    return clanScores;
+}
+
+console.log(getClanTotalScoreBySeason(0));
 

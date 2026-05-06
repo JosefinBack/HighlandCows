@@ -50,7 +50,6 @@ schedualButton.addEventListener("click", function () {
 
 
 
-
 //Function
 
 function drawClanMap() {
@@ -147,12 +146,6 @@ function drawClanMap() {
 
 drawClanMap();
 
-
-
-
-
-
-
 function threeYears(yearOne, yearTwo, yearThree) {
 
     function getParticipants(year) {
@@ -202,8 +195,7 @@ function threeYears(yearOne, yearTwo, yearThree) {
 
 threeYears(0, 1, 2);
 
-
-
+//Stapeldiagram för klanernas resultat utifrån disciplin och season 
 
 
 // console.log(allParticipants);
