@@ -34,6 +34,24 @@ const locations = [{
   "name": "L05"
 }]
 
+const clans = [{
+  "name": "MacThomas",
+  "region": ""
+},
+{
+  "name": "Macdowall",
+  "region": ""
+}, {
+  "name": "Macqueen",
+  "region": ""
+}, {
+  "name": "Macleod",
+  "region": ""
+}, {
+  "name": "Mackinnon",
+  "region": ""
+}]
+
 const disciplines = [{
   "id": 1,
   "name": "The great Moo-of",
@@ -89,7 +107,7 @@ const disciplines = [{
 const participants = [{
   "id": 189,
   "name": "Ewan MacLeish",
-  "clan": "MacThomas"
+  "clan": "MacThomas",
 }, {
   "id": 173,
   "name": "Callum Fraser",
@@ -137,19 +155,19 @@ const participants = [{
 }, {
   "id": 170,
   "name": "Finlay MacEwan",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 290,
   "name": "Rory MacCallum",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 12,
   "name": "Tavish MacInnes",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 182,
   "name": "Duncan MacBride",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 239,
   "name": "Blair MacGregor",
@@ -208,19 +226,19 @@ const participants = [{
 }, {
   "id": 141,
   "name": "Cameron MacKay",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 81,
   "name": "Aidan MacFerguson",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 124,
   "name": "Lewis MacNiven",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 192,
   "name": "Craig MacDuff",
-  "clan": "Macleod of the Lewes"
+  "clan": "Macleod"
 }, {
   "id": 150,
   "name": "Scott MacLaren",
