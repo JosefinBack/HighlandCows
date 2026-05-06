@@ -38,7 +38,7 @@ for (let person of participants) {
     };
 };
 
-console.log(allParticipants);
+// console.log(allParticipants);
 
 
 function showClans() {
@@ -184,7 +184,7 @@ function calculatePlayerPoints(player_id, year) {
         for (let event of playerPart.events) {
 
             let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
-
+            console.log(sortedScores)
             let i = 1;
 
             for (let score of sortedScores) {
@@ -200,6 +200,7 @@ function calculatePlayerPoints(player_id, year) {
         }
     }
 
+    console.log(calculateTotalPoints(playerPlacings))
     return calculateTotalPoints(playerPlacings);
 };
 console.log("hej")
@@ -259,6 +260,7 @@ function playerPlacment(player_id, year) {
         let sortedScores = item.event.scores.slice().sort((a, b) => b.score - a.score);
 
         let i = 1;
+        let totalScore = 0
 
         for (let score of sortedScores) {
 
@@ -281,13 +283,11 @@ function playerPlacment(player_id, year) {
 
             // lägg till poäng
             totalPointsPerPlayer[id][discipline] += points;
-
             let total = totalPointsPerPlayer[id][discipline];
 
-
             let player = allParticipants.find(p => p.id === id);
-
             row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
+
 
             // highlight vald spelare
             if (id === player_id) {
@@ -398,3 +398,6 @@ function createWeeks(year) {
     }
     return allMonths;
 };
+
+
+
