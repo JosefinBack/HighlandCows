@@ -57,25 +57,18 @@ function showClanHomePage(clan) {
     let players = membersClan(clan);
 
     for (let player of players) {
-        let div = document.createElement("div");
-        div.classList.add("clanMember");
+        if (player.id === 180) {
 
-        let img = document.createElement("img");
-        img.src = "../pic/cow.jpg";
-        img.classList.add("cowImg");
+            let player_id = player.id;
+            // disciplineLeaderboard(0, 1, player_id)
+            personalInfo(player_id)
 
-        let name = document.createElement("p");
-        name.textContent = player.name;
 
-        let player_id = player.id;
-        // disciplineLeaderboard(0, 1, player_id)
-
-        div.append(img, name);
-        // contentClanHomepage.append(div);
+        }
     }
 };
 
-showClanHomePage("MacThomas");
+// showClanHomePage("MacThomas");
 
 
 
@@ -98,19 +91,23 @@ function allMembersPictures() {
     imgDIV.addEventListener("click", function () {
         let player_id = Number(imgDIV.id);
         personalInfo(player_id);
-        drawAllArcs(player_id, 0);
+        drawAllArcs(player_id, 2);
     });
 }
 
 allMembersPictures()
 
-let popUpCowInfo = document.getElementById("popUpCowInfo");
-
 function personalInfo(player_id) {
+    let popUpCowInfo = document.getElementById("popUpCowInfo");
+    let overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+    let infoDiv = document.getElementById("cowInfo");
+    let infoPic = document.getElementById("picOnCow");
+    popUpCowInfo.style.display = "block"
+    infoDiv.innerHTML = "";
+    infoPic.innerHTML = "";
+
     let rightCow = allParticipants.find(x => x.id === player_id);
-
-    console.log(rightCow);
-
     let cowName = rightCow.name;
     let cowClan = rightCow.clan;
     let cowAge = rightCow.age;
@@ -119,7 +116,10 @@ function personalInfo(player_id) {
     let regionCow = clans.find(x => x.name === cowClan);
     let home = regionCow.region
 
-    let infoDiv = document.createElement("div");
+
+    let img = document.createElement("img");
+    img.src = rightCow.img;
+    img.classList.add("cowImg");
 
     let cownameP = document.createElement("p");
     cownameP.textContent = "Name: " + cowName;
@@ -133,9 +133,9 @@ function personalInfo(player_id) {
     let cowregion = document.createElement("p");
     cowregion.textContent = "Region: " + home;
 
+    popUpCowInfo.append(overlay)
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
-    popUpCowInfo.append(infoDiv);
-
+    infoPic.append(img);
 };
 
 
@@ -444,8 +444,8 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     let disciplineName = rightDicipline.name;
 
     //SVG
-    const width = 260;
-    const height = 200;
+    const width = 160;
+    const height = 150;
 
     const svg = d3.select(chartDiv)
         .append("svg")
@@ -475,14 +475,14 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     // =========================
 
     const backgroundArc = d3.arc()
-        .innerRadius(55)
-        .outerRadius(75)
+        .innerRadius(35)
+        .outerRadius(55)
         .startAngle(startAngle)
         .endAngle(endAngle);
 
     g.append("path")
         .attr("d", backgroundArc)
-        .attr("fill", "#dddddd");
+        .attr("fill", "white");
 
 
     // =========================
@@ -515,8 +515,8 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     // =========================
 
     const valueArc = d3.arc()
-        .innerRadius(55)
-        .outerRadius(75)
+        .innerRadius(35)
+        .outerRadius(55)
         .startAngle(startAngle)
         .endAngle(angleScale(value));
 
@@ -533,7 +533,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
         .text(originalValue)
         .attr("text-anchor", "middle")
         .attr("y", -10)
-        .style("font-size", "32px")
+        .style("font-size", "24px")
         .style("font-weight", "bold");
 
 
@@ -557,7 +557,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     svg.append("text")
         .text(disciplineName)
         .attr("x", width / 2)
-        .attr("y", 70)
+        .attr("y", 30)
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("font-weight", "bold");

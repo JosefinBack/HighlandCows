@@ -198,7 +198,9 @@ const participants = [{
   "name": "Alasdair Campbell",
   "clan": "MacThomas",
   "age": 6,
-  "furcolor": "Brown"
+  "furcolor": "Brown",
+  "img": "../pic/MacThomas/Alsdai_Campbell.png"
+
 }, {
   "id": 148,
   "name": "Fraser MacKenzie",
