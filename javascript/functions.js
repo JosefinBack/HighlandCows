@@ -30,7 +30,7 @@ for (let game of seasons) {
 // console.log(threeSeasons);
 
 
-//participants 1-20 
+//participants 1-37 
 let allParticipants = [];
 for (let person of participants) {
     if (person.clan) {

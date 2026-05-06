@@ -73,9 +73,17 @@ function showClanHomePage(clan) {
 };
 
 
+let playerButton = document.getElementById("198")
 
+playerButton.addEventListener("click", function () {
+    personalInfo(189);
+});
 
+function personalInfo(number) {
+    let rightCow = allParticipants.find(x => x.id === number);
 
+    console.loh(rightCow);
+};
 
 
 
