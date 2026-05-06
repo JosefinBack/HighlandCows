@@ -184,7 +184,6 @@ function calculatePlayerPoints(player_id, year) {
         for (let event of playerPart.events) {
 
             let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
-            console.log(sortedScores)
             let i = 1;
 
             for (let score of sortedScores) {
@@ -200,10 +199,8 @@ function calculatePlayerPoints(player_id, year) {
         }
     }
 
-    console.log(calculateTotalPoints(playerPlacings))
     return calculateTotalPoints(playerPlacings);
 };
-console.log("hej")
 
 
 
@@ -407,15 +404,15 @@ function getTopThreeClansBySeason(seasonYear) {
         let totalPoints = 0;
         const members = membersClan(clan);
 
-        for (let member of members ) {
+        for (let member of members) {
             totalPoints += calculatePlayerPoints(member.id, seasonYear);
         }
-        clanScores.push({clan: clan, points: totalPoints});
+        clanScores.push({ clan: clan, points: totalPoints });
     }
     return clanScores
-        .sort((a,b) => b.points - a.points)
-        .slice(0,3);
+        .sort((a, b) => b.points - a.points)
+        .slice(0, 3);
 }
 
-console.log(getTopThreeClansBySeason(2));
+// console.log(getTopThreeClansBySeason(2));
 

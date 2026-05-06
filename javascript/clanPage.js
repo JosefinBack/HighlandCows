@@ -89,13 +89,14 @@ img.src = "../cows/MacThomas/Alsdai_Campbell.png";
 img.style.width = "200px";
 img.style.height = "200px";
 img.style.borderRadius = "50%";
+img.style.border = "1px solid black";
 imgDIV.setAttribute("id", 180);
 imgDIV.appendChild(img);
 clanMembersDIV.appendChild(imgDIV);
 
-imgDIV.addEventListener("click"), function (e, id) {
-    personalInfo(e.id);
-}
+imgDIV.addEventListener("click", function () {
+    personalInfo(Number(imgDIV.id));
+});
 
 
 let popUpCowInfo = document.getElementById("popUpCowInfo");
