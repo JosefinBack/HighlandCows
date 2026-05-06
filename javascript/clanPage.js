@@ -73,6 +73,8 @@ function showClanHomePage(clan) {
 };
 
 
+
+//personlig info för varje ko, som ska synas på klansidan
 let CowButton = document.getElementById("198")
 
 CowButton.addEventListener("click", function () {
