@@ -41,12 +41,6 @@ for (let person of participants) {
 console.log(allParticipants);
 
 
-
-
-
-
-
-
 function showClans() {
     allClansContent.innerHTML = "";
 
