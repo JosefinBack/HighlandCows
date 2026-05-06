@@ -105,19 +105,19 @@ const participants = [{
 }, {
   "id": 270,
   "name": "Alistair Buchanan",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 206,
   "name": "Hamish Sinclair",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 190,
   "name": "Iain MacDougall",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 68,
   "name": "Lachlan MacPherson",
-  "clan": "Mackenzie"
+  "clan": "Macdowall"
 }, {
   "id": 159,
   "name": "Torin MacNab",
