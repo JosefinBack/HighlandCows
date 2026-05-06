@@ -81,16 +81,39 @@ CowButton.addEventListener("click", function () {
     personalInfo(189);
 });
 
+
+
+let popUpCowInfo = document.getElementById("popUpCowInfo");
+
 function personalInfo(number) {
     let rightCow = allParticipants.find(x => x.id === number);
 
     console.log(rightCow);
 
+    let cowName = rightCow.name;
     let cowClan = rightCow.clan;
+    let cowAge = rightCow.age;
+    let cowFurColor = rightCow.furcolor;
 
     let regionCow = clans.find(x => x.name === cowClan);
-
     let home = regionCow.region
+
+    let infoDiv = document.createElement("div");
+
+    let cownameP = document.createElement("p");
+    cownameP.textContent = "Name: " + cowName;
+
+    let cowAgeP = document.createElement("p");
+    cowAgeP.textContent = "Age: " + cowAge;
+
+    let cowFurColorP = document.createElement("p");
+    cowFurColorP.textContent = "Fur color: " + cowFurColor;
+
+    let cowregion = document.createElement("p"); 
+    cowregion.textContent = "Region: " + home; 
+
+    infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
+    
 };
 
 
