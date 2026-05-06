@@ -442,5 +442,5 @@ function getClanScoreByDiscipline(discipline_id, season) {
     return clanScores; 
 }
 
-console.log(getClanScoreByDiscipline(3,1));
+console.log(getClanScoreByDiscipline(4,2))
 
