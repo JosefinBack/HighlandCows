@@ -84,7 +84,7 @@ function allMembersPictures() {
     img.style.height = "200px";
     img.style.borderRadius = "50%";
     img.style.border = "1px solid black";
-    imgDIV.setAttribute("id", 180);
+    imgDIV.setAttribute("id", 190);
     imgDIV.appendChild(img);
     clanMembersDIV.appendChild(imgDIV);
 
