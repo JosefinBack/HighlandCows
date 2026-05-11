@@ -36,20 +36,19 @@ const locations = [{
 
 const clans = [{
   "name": "MacThomas",
-  "region": "testClan"
-},
-{
+  "region": 1
+}, {
   "name": "MacDowall",
-  "region": ""
+  "region": 2
 }, {
   "name": "MacQueen",
-  "region": ""
+  "region": 3
 }, {
   "name": "MacLeod",
-  "region": ""
+  "region": 4
 }, {
   "name": "MacKinnon",
-  "region": ""
+  "region": 5
 }]
 
 const disciplines = [{
@@ -110,7 +109,7 @@ const participants = [{
   "clan": "MacThomas",
   "age": 9,
   "furcolor": "Black",
-  "img": "../pic/MacThomas/Ewan_MacLaish.png"
+  "img": "../pic/MacThomas/Ewan_MacLeish.png"
 }, {
   "id": 173,
   "name": "Callum Fraser",

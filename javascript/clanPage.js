@@ -57,15 +57,12 @@ function showClanHomePage(clan) {
     let players = membersClan(clan);
 
     for (let player of players) {
-        if (player.id === 180) {
-
-            let player_id = player.id;
-            // disciplineLeaderboard(0, 1, player_id)
-            personalInfo(player_id)
-
-
-        }
+        let player_id = player.id;
+        // disciplineLeaderboard(0, 1, player_id)
+        personalInfo(player.id);
+        console.log(player)
     }
+    return players;
 };
 
 // showClanHomePage("MacThomas");
@@ -75,30 +72,37 @@ function showClanHomePage(clan) {
 function allMembersPictures() {
     let clanMembersDIV = document.getElementById("clanMembers");
 
-    let imgDIV = document.createElement("div");
-    let img = document.createElement("img");
-    img.src = "../cows/MacThomas/Alsdai_Campbell.png";
-    img.style.width = "200px";
-    img.style.height = "200px";
-    img.style.borderRadius = "50%";
-    img.style.border = "1px solid black";
-    imgDIV.setAttribute("id", 190);
-    imgDIV.appendChild(img);
-    clanMembersDIV.appendChild(imgDIV);
+    let allMembers = showClanHomePage("MacThomas")
 
-    imgDIV.addEventListener("click", function () {
-        let player_id = Number(imgDIV.id);
-        personalInfo(player_id);
-        drawAllArcs(player_id, 2);
-    });
+    for (let player of allMembers) {
+        let imgDIV = document.createElement("div");
+
+        let img = document.createElement("img");
+        img.src = player.img;
+        img.style.width = "200px";
+        img.style.height = "200px";
+        img.style.borderRadius = "50%";
+        img.style.border = "1px solid black";
+
+        let cowID = player.id;
+        imgDIV.setAttribute("id", cowID);
+
+        imgDIV.appendChild(img);
+        clanMembersDIV.appendChild(imgDIV);
+
+        imgDIV.addEventListener("click", function () {
+            let player_id = Number(imgDIV.id);
+            personalInfo(player_id);
+            drawAllArcs(player_id, 2);
+        });
+    }
 }
 
 allMembersPictures()
 
 function personalInfo(player_id) {
     let popUpCowInfo = document.getElementById("popUpCowInfo");
-    let overlay = document.createElement("div");
-    overlay.classList.add("overlay");
+
     let infoDiv = document.getElementById("cowInfo");
     let infoPic = document.getElementById("picOnCow");
     popUpCowInfo.style.display = "block"
@@ -106,14 +110,20 @@ function personalInfo(player_id) {
     infoPic.innerHTML = "";
 
     let rightCow = allParticipants.find(x => x.id === player_id);
+
     let cowName = rightCow.name;
     let cowClan = rightCow.clan;
     let cowAge = rightCow.age;
     let cowFurColor = rightCow.furcolor;
 
     let regionCow = clans.find(x => x.name === cowClan);
-    let home = regionCow.region
+    let regionName = "";
 
+    for (let region of locations) {
+        if (region.id === regionCow.region) {
+            regionName = region.name;
+        }
+    }
 
     let img = document.createElement("img");
     img.src = rightCow.img;
@@ -129,9 +139,9 @@ function personalInfo(player_id) {
     cowFurColorP.textContent = "Fur color: " + cowFurColor;
 
     let cowregion = document.createElement("p");
-    cowregion.textContent = "Region: " + home;
 
-    popUpCowInfo.append(overlay)
+    cowregion.textContent = "Region: " + regionName;
+
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
     infoPic.append(img);
 };

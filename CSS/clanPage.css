@@ -7,6 +7,14 @@
 
 /* #colorsMeaning {} */
 
+#clanMembers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
 #cowInfoAndPic {
     display: flex;
     justify-content: space-evenly;
