@@ -39,7 +39,9 @@ const locations = [{
 
 const clans = [{
   "name": "MacThomas",
-  "region": 1
+  "region": 1,
+  "crest": "../pic/MacThomas/MacThomas.png",
+  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg"
 }, {
   "name": "MacDowall",
   "region": 2
@@ -318,11 +320,11 @@ const participants = [{
   "img": "../pic/MacQueen/Kenneth_MacRitchie.png"
 }, {
   "id": 141,
-  "name": "Cameron MacKay",
+  "name": "Cameron MacKey",
   "clan": "MacThomas",
   "age": 5,
   "furcolor": "Dark brown",
-  "img": "../pic/MacThomas/Cameron_MacKay.png"
+  "img": "../pic/MacThomas/Cameron_MacKey.png"
 }, {
   "id": 81,
   "name": "Aidan MacFerguson",

@@ -7,6 +7,9 @@ let h1ClanName = document.getElementById("clanName");
 let tartanDiv = document.getElementById("tartan");
 let crestDiv = document.getElementById("crest");
 let clanHistory = document.getElementById("history");
+let clanMembersDIV = document.getElementById("clanMembers");
+let activeCow = document.getElementById("activeCows");
+let notActiveCow = document.getElementById("notAcriveCows");
 let clanInfo = document.getElementById("clanInfo");
 
 
@@ -16,6 +19,9 @@ let bestPlayers = document.getElementById("bestPlayers");
 let clanButton = document.getElementById("clanButton");
 let schedualButton = document.getElementById("schedualButton");
 
+
+//Clan history
+let historyMacThomas = "Clan MacThomas is one of the oldest and proudest clans in the Highlands. Known for their strength, loyalty, and stubborn spirit, the clan settled in the hills of Glenshee many generations ago. Their cattle became famous for surviving harsh winters, defending their land, and competing fearlessly in the Highland Cow Tournament. Even today, the warriors of Clan MacThomas are respected for their endurance, courage, and unbreakable clan pride."
 
 
 //AddEventLisneters
@@ -47,6 +53,8 @@ schedualButton.addEventListener("click", function () {
 
 });
 
+
+
 function membersClan(clanName) {
     let members = [];
     for (let person of allParticipants) {
@@ -57,8 +65,28 @@ function membersClan(clanName) {
     return members;
 }
 
-function showClanHomePage(clan) {
-    let players = membersClan(clan);
+
+function showClanHomePage(clanName) {
+
+    for (let clan of clans) {
+        if (clan.name === clanName) {
+            h1ClanName.textContent = clan.name;
+
+            let crestImg = document.createElement("img");
+            crestImg.src = clan.crest;
+            crestImg.classList.add("picCrestAndTartan");
+            crestDiv.append(crestImg);
+
+            let tartanImg = document.createElement("img");
+            tartanImg.src = clan.tartan;
+            tartanImg.classList.add("picCrestAndTartan");
+            tartanDiv.append(tartanImg);
+        }
+    };
+
+    clanHistory.textContent = historyMacThomas;
+
+    let players = membersClan(clanName);
 
     for (let player of players) {
         let player_id = player.id;
@@ -67,14 +95,10 @@ function showClanHomePage(clan) {
     return players;
 };
 
-// showClanHomePage("MacThomas");
 
 //personlig info för varje ko, som ska synas på klansida
-
 function allMembersPictures() {
-    let clanMembersDIV = document.getElementById("clanMembers");
-
-    let allMembers = showClanHomePage("MacThomas")
+    let allMembers = showClanHomePage("MacThomas");
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
@@ -90,6 +114,7 @@ function allMembersPictures() {
 
         imgDIV.addEventListener("click", function () {
             let player_id = Number(imgDIV.id);
+            popUpCowInfo.style.display = "block"
             personalInfo(player_id);
             drawAllArcs(player_id, 2);
         });
@@ -103,7 +128,6 @@ function personalInfo(player_id) {
 
     let infoDiv = document.getElementById("cowInfo");
     let infoPic = document.getElementById("picOnCow");
-    popUpCowInfo.style.display = "block"
     infoDiv.innerHTML = "";
     infoPic.innerHTML = "";
 
@@ -146,83 +170,10 @@ function personalInfo(player_id) {
 
 
 
-
-
-// function disciplineLeaderboard(year, disciplineId, player_id) {
-//     let thisYear = threeSeasons.find(x => x.year === year);
-//     let totalPointsForOnePlayer = [];
-//     let counter = 0;
-
-//     for (let participant of allParticipants) {
-//         let playerPoints = 0;
-
-//         for (let day of thisYear.competitionDays) {
-//             for (let event of day.events) {
-//                 if (event.disciplineId === disciplineId) {
-//                     // sortera resultaten
-//                     let EventScoreArray = [...event.scores];
-//                     EventScoreArray.sort((a, b) => b.score - a.score);
-
-//                     let placement = 1;
-
-//                     for (let score of EventScoreArray) {
-//                         if (score.participantId === participant.id) {
-//                             let points = getPoints(placement);
-//                             playerPoints = playerPoints + points;
-//                         }
-//                         placement++;
-//                     }
-//                 }
-//             }
-//         }
-
-//         totalPointsForOnePlayer.push({
-//             id: participant.id,
-//             name: participant.name,
-//             total: playerPoints
-//         });
-//     }
-
-//     // sortera efter totalpoäng
-//     totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
-
-//     console.log(totalPointsForOnePlayer);
-
-//     // VISA PÅ SIDAN
-//     let bigDiv = document.createElement("div");
-//     let test = document.getElementById("test");
-
-//     let h2 = document.createElement("h2");
-//     h2.textContent = `Discipline ${disciplineId}`;
-
-//     bigDiv.append(h2);
-
-//     let placement = 1;
-
-//     for (let player of totalPointsForOnePlayer) {
-//         if (player_id === player.id) {
-//             let row = document.createElement("div");
-//             row.textContent =
-//                 `${placement}. ${player.name} | Total points: ${player.total}`;
-
-//             bigDiv.append(row);
-
-//         }
-//         // placement++;
-//     }
-
-//     test.append(bigDiv);
-//     console.log(counter)
-// }
-
-// disciplineLeaderboard(0, 1, 189)
-
-
-
+//ta fram poäng per gren
 function disciplineLeaderboard(year, disciplineId, player_id) {
 
     let thisYear = threeSeasons.find(x => x.year === year);
-
     let totalPointsForOnePlayer = [];
 
     // =========================
@@ -245,7 +196,6 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
 
     // maxpoäng
     let maxScore = counterTimes * 15;
-    console.log(maxScore)
 
     for (let participant of allParticipants) {
         let playerPoints = 0;
@@ -282,26 +232,26 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
         });
     }
 
-    totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
+    // totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
 
-    let bigDiv = document.createElement("div");
-    let test = document.getElementById("test");
-    let h2 = document.createElement("h2");
-    h2.textContent = `Discipline ${disciplineId}`;
-    bigDiv.append(h2);
+    // let bigDiv = document.createElement("div");
+    // let test = document.getElementById("test");
+    // let h2 = document.createElement("h2");
+    // h2.textContent = `Discipline ${disciplineId}`;
+    // bigDiv.append(h2);
 
-    let placement = 1;
-    for (let player of totalPointsForOnePlayer) {
-        if (player.id === player_id) {
-            let row = document.createElement("div");
-            row.textContent =
-                `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
-            bigDiv.append(row);
-        }
-        placement++;
-    }
-    test.append(bigDiv);
-    console.log(counterTimes)
+    // let placement = 1;
+    // for (let player of totalPointsForOnePlayer) {
+    //     if (player.id === player_id) {
+    //         let row = document.createElement("div");
+    //         row.textContent =
+    //             `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
+    //         bigDiv.append(row);
+    //     }
+    //     placement++;
+    // }
+    // // test.append(bigDiv);
+    // console.log(counterTimes)
 }
 disciplineLeaderboard(0, 1, 170)
 
@@ -366,7 +316,6 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
 
     let average = total / allPlacings.length;
     average = Number(average.toFixed(2));
-
 
     let skillScore;
     if (average <= 1.5) {
@@ -583,10 +532,3 @@ function drawAllArcs(player_id, year) {
     drawArcs(player_id, year, 4, "#chartFour");
     drawArcs(player_id, year, 5, "#chartFive");
 }
-
-
-
-
-//ÄNDRA BILDER PÅ FÖLJANDE KOR
-// Angus MacFarlane, Niall MacKellar, Rory MacCallum
-//SKAPA EN NY MAPP FÖR DEN NYA KLANEN OCH FLYTTA DIT BILDERNA
