@@ -1,7 +1,14 @@
 
 //Material
 
-let clanNames = ["MacThomas", "Macdowall", "Macqueen", "Macleod", "Mackinnon"];
+let clanNames = [
+    "MacThomas",
+    "MacDowall",
+    "MacQueen",
+    "MacLeod",
+    "MacKinnon",
+    "MacLea"
+];
 
 //Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];

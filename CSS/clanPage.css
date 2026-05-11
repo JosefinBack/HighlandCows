@@ -78,3 +78,10 @@
     gap: 40px;
     flex-wrap: wrap;
 }
+
+.cowMembers {
+    width: 220px;
+    height: 210px;
+    border-radius: 50%;
+    border: 2px solid black;
+}

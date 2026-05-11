@@ -3,6 +3,11 @@
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
 let backButton = document.getElementById("backButton");
+let h1ClanName = document.getElementById("clanName");
+let tartanDiv = document.getElementById("tartan");
+let crestDiv = document.getElementById("crest");
+let clanHistory = document.getElementById("history");
+let clanInfo = document.getElementById("clanInfo");
 
 
 createHeader();
@@ -44,12 +49,11 @@ schedualButton.addEventListener("click", function () {
 
 function membersClan(clanName) {
     let members = [];
-    for (let person of participants) {
+    for (let person of allParticipants) {
         if (person.clan === clanName) {
             members.push(person)
         };
     };
-    // console.log(members)
     return members;
 }
 
@@ -58,9 +62,7 @@ function showClanHomePage(clan) {
 
     for (let player of players) {
         let player_id = player.id;
-        // disciplineLeaderboard(0, 1, player_id)
         personalInfo(player.id);
-        console.log(player)
     }
     return players;
 };
@@ -79,11 +81,7 @@ function allMembersPictures() {
 
         let img = document.createElement("img");
         img.src = player.img;
-        img.style.width = "200px";
-        img.style.height = "200px";
-        img.style.borderRadius = "50%";
-        img.style.border = "1px solid black";
-
+        img.classList.add("cowMembers");
         let cowID = player.id;
         imgDIV.setAttribute("id", cowID);
 
@@ -585,3 +583,10 @@ function drawAllArcs(player_id, year) {
     drawArcs(player_id, year, 4, "#chartFour");
     drawArcs(player_id, year, 5, "#chartFive");
 }
+
+
+
+
+//ÄNDRA BILDER PÅ FÖLJANDE KOR
+// Angus MacFarlane, Niall MacKellar, Rory MacCallum
+//SKAPA EN NY MAPP FÖR DEN NYA KLANEN OCH FLYTTA DIT BILDERNA
