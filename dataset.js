@@ -19,19 +19,19 @@ const skills = [{
 
 const locations = [{
   "id": 1,
-  "name": "L01"
+  "name": "Moray"
 }, {
   "id": 2,
-  "name": "L02"
+  "name": "Stirling"
 }, {
   "id": 3,
-  "name": "L03"
+  "name": "Lothlian"
 }, {
   "id": 4,
-  "name": "L04"
+  "name": "Galloway"
 }, {
   "id": 5,
-  "name": "L05"
+  "name": "Ayrshire"
 }]
 
 const clans = [{

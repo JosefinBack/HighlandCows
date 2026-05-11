@@ -70,8 +70,6 @@ function showClanHomePage(clan) {
 
 // showClanHomePage("MacThomas");
 
-
-
 //personlig info för varje ko, som ska synas på klansida
 
 function allMembersPictures() {
