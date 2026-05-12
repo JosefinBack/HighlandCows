@@ -129,10 +129,10 @@ const participants = [{
 }, {
   "id": 58,
   "name": "Dougal MacRae",
-  "clan": "MacLea",
+  "clan": "MacThomas",
   "age": 5,
   "furcolor": "Red",
-  "img": "../pic/MacLea/Dougal_MacRae.png"
+  "img": "../pic/MacThomas/Dougal_MacRae.png"
 }, {
   "id": 270,
   "name": "Alistair Buchanan",
@@ -150,10 +150,10 @@ const participants = [{
 }, {
   "id": 190,
   "name": "Iain MacDougall",
-  "clan": "MacLea",
+  "clan": "MacDowall",
   "age": 7,
   "furcolor": "Dark brown",
-  "img": "../pic/MacLea/Iain_MacDougall.png"
+  "img": "../pic/MacDowall/Iain_MacDougall.png"
 }, {
   "id": 68,
   "name": "Lachlan MacPherson",
@@ -164,10 +164,10 @@ const participants = [{
 }, {
   "id": 159,
   "name": "Torin MacNab",
-  "clan": "MacLea",
+  "clan": "MacQueen",
   "age": 4,
   "furcolor": "Yellow",
-  "img": "../pic/MacLea/Torin_MacNab.png"
+  "img": "../pic/MacQueen/Torin_MacNab.png"
 }, {
   "id": 201,
   "name": "Brodie Cameron",
@@ -192,10 +192,10 @@ const participants = [{
 }, {
   "id": 170,
   "name": "Finlay MacEwan",
-  "clan": "MacLea",
+  "clan": "MacLeod",
   "age": 3,
   "furcolor": "Yellow",
-  "img": "../pic/MacLea/Finlay_MacEwan.png"
+  "img": "../pic/MacLeod/Finlay_MacEwan.png"
 }, {
   "id": 290,
   "name": "Rory MacCallum",
@@ -227,10 +227,10 @@ const participants = [{
 }, {
   "id": 140,
   "name": "Niall MacKellar",
-  "clan": "MacThomas",
+  "clan": "MacKinnon",
   "age": 9,
   "furcolor": "Red",
-  "img": "../pic/MacThomas/Niall_MacKellar.png"
+  "img": "../pic/MacKinnon/Niall_MacKellar.png"
 }, {
   "id": 274,
   "name": "Gregor MacQuarrie",

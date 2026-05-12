@@ -261,9 +261,6 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
 
 
 
-
-
-
 //hitta genomsnittlig placering inom varje gren
 function playerPlacementInDiscipline(player_id, year, disciplineID) {
     let thisYear = seasons.find(function (season) {
@@ -314,7 +311,6 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
             placings: [],
             averagePlacement: null,
             skillScore: null,
-            label: "Did not compete"
         };
 
         return result;
@@ -523,49 +519,3 @@ function drawAllArcs(player_id, year) {
 
 
 
-
-
-
-function activePlayersInSeason(year) {
-
-    let thisYear = threeSeasons.find(x => x.year === year);
-
-    // Alla IDs som faktiskt tävlar
-    let activeIDs = [];
-
-    for (let competition of thisYear.competitionDays) {
-        for (let event of competition.events) {
-            for (let score of event.scores) {
-
-                // undvik dubletter
-                if (!activeIDs.includes(score.participantId)) {
-                    activeIDs.push(score.participantId);
-                }
-            }
-        }
-    }
-
-    return activeIDs;
-}
-
-
-function inactivePlayersInSeason(year) {
-
-    let activeIDs = activePlayersInSeason(year);
-
-    let inactivePlayers = [];
-
-    for (let player of allParticipants) {
-
-        if (!activeIDs.includes(player.id)) {
-            inactivePlayers.push(player);
-        }
-    }
-
-    return inactivePlayers;
-}
-
-
-console.log(inactivePlayersInSeason(0));
-console.log(inactivePlayersInSeason(1));
-console.log(inactivePlayersInSeason(2));

@@ -1,14 +1,7 @@
 
 //Material
 
-let clanNames = [
-    "MacThomas",
-    "MacDowall",
-    "MacQueen",
-    "MacLeod",
-    "MacKinnon",
-    "MacLea"
-];
+let clanNames = ["MacThomas", "MacDowall", "MacQueen", "MacLeod", "MacKinnon"];
 
 //Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];
@@ -44,8 +37,6 @@ for (let person of participants) {
         allParticipants.push(person)
     };
 };
-
-console.log(allParticipants);
 
 
 function showClans() {
@@ -349,7 +340,7 @@ function getBestPlayers(year) {
     }
 
     main.append(placementDiv);
-    console.log(resultArray);
+    // console.log(resultArray);
 };
 
 function getResultforPlayer(player_id, year) {
