@@ -19,37 +19,38 @@ const skills = [{
 
 const locations = [{
   "id": 1,
-  "name": "L01"
+  "name": "Moray"
 }, {
   "id": 2,
-  "name": "L02"
+  "name": "Stirling"
 }, {
   "id": 3,
-  "name": "L03"
+  "name": "Lothlian"
 }, {
   "id": 4,
-  "name": "L04"
+  "name": "Galloway"
 }, {
   "id": 5,
-  "name": "L05"
+  "name": "Ayrshire"
 }]
 
 const clans = [{
   "name": "MacThomas",
-  "region": "testClan"
-},
-{
-  "name": "Macdowall",
-  "region": ""
+  "region": 1,
+  "crest": "../pic/MacThomas/MacThomas.png",
+  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg"
 }, {
-  "name": "Macqueen",
-  "region": ""
+  "name": "MacDowall",
+  "region": 2
 }, {
-  "name": "Macleod",
-  "region": ""
+  "name": "MacQueen",
+  "region": 3
 }, {
-  "name": "Mackinnon",
-  "region": ""
+  "name": "MacLeod",
+  "region": 4
+}, {
+  "name": "MacKinnon",
+  "region": 5
 }]
 
 const disciplines = [{
@@ -108,160 +109,199 @@ const participants = [{
   "id": 189,
   "name": "Ewan MacLeish",
   "clan": "MacThomas",
-  "age": 2,
-  "furcolor": "black"
+  "age": 9,
+  "furcolor": "Black",
+  "img": "../pic/MacThomas/Ewan_MacLeish.png"
 }, {
   "id": 173,
   "name": "Callum Fraser",
-  "clan": "MacThomas"
+  "clan": "MacThomas",
+  "age": 7,
+  "furcolor": "Red",
+  "img": "../pic/MacThomas/Callum_Fraser.png"
 }, {
   "id": 269,
   "name": "Fergus MacAlister",
-  "clan": "MacThomas"
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacThomas/Fergus_MacAlister.png"
 }, {
   "id": 58,
   "name": "Dougal MacRae",
-  "clan": "MacThomas"
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacThomas/Dougal_MacRae.png"
 }, {
   "id": 270,
   "name": "Alistair Buchanan",
-  "clan": "Macdowall"
+  "clan": "MacDowall",
+  "age": 6,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacDowall/Alistair_Buchanan.png"
 }, {
   "id": 206,
   "name": "Hamish Sinclair",
-  "clan": "Macdowall"
+  "clan": "MacDowall",
+  "age": 6,
+  "furcolor": "Yellow",
+  "img": "../pic/MacDowall/Hamish_Sinclair.png"
 }, {
   "id": 190,
   "name": "Iain MacDougall",
-  "clan": "Macdowall"
+  "clan": "MacDowall",
+  "age": 7,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacDowall/Iain_MacDougall.png"
 }, {
   "id": 68,
   "name": "Lachlan MacPherson",
-  "clan": "Macdowall"
+  "clan": "MacDowall",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacDowall/Lachlan_MacPherson.png"
 }, {
   "id": 159,
   "name": "Torin MacNab",
-  "clan": "Macqueen"
+  "clan": "MacQueen",
+  "age": 4,
+  "furcolor": "Yellow",
+  "img": "../pic/MacQueen/Torin_MacNab.png"
 }, {
   "id": 201,
   "name": "Brodie Cameron",
-  "clan": "Macqueen"
+  "clan": "MacQueen",
+  "age": 8,
+  "furcolor": "White",
+  "img": "../pic/MacQueen/Brodie_Cameron.png"
 }, {
   "id": 149,
   "name": "Angus MacFarlane",
-  "clan": "Macqueen"
+  "clan": "MacQueen",
+  "age": 3,
+  "furcolor": "Black",
+  "img": "../pic/MacQueen/Angus_MacFarlane.png"
 }, {
   "id": 235,
   "name": "Struan MacGillivray",
-  "clan": "Macqueen"
+  "clan": "MacQueen",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacQueen/Struan_MacGillivray.png"
 }, {
   "id": 170,
   "name": "Finlay MacEwan",
-  "clan": "Macleod"
+  "clan": "MacLeod",
+  "age": 3,
+  "furcolor": "Yellow",
+  "img": "../pic/MacLeod/Finlay_MacEwan.png"
 }, {
   "id": 290,
   "name": "Rory MacCallum",
-  "clan": "Macleod"
+  "clan": "MacLeod",
+  "age": 2,
+  "furcolor": "White",
+  "img": "../pic/MacLeod/Rory_MacCallum.png"
 }, {
   "id": 12,
   "name": "Tavish MacInnes",
-  "clan": "Macleod"
+  "clan": "MacLeod",
+  "age": 3,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacLeod/Tavish_MacInnes.png"
 }, {
   "id": 182,
   "name": "Duncan MacBride",
-  "clan": "Macleod"
+  "clan": "MacLeod",
+  "age": 2,
+  "furcolor": "Red",
+  "img": "../pic/MacLeod/Duncan_MacBride.png"
 }, {
   "id": 239,
   "name": "Blair MacGregor",
-  "clan": "Mackinnon"
+  "clan": "MacKinnon",
+  "age": 4,
+  "furcolor": "White",
+  "img": "../pic/MacKinnon/Blair_MacGregor.png"
 }, {
   "id": 140,
   "name": "Niall MacKellar",
-  "clan": "Mackinnon"
+  "clan": "MacKinnon",
+  "age": 9,
+  "furcolor": "Red",
+  "img": "../pic/MacKinnon/Niall_MacKellar.png"
 }, {
   "id": 274,
   "name": "Gregor MacQuarrie",
-  "clan": "Mackinnon"
+  "clan": "MacKinnon",
+  "age": 8,
+  "furcolor": "Black",
+  "img": "../pic/MacKinnon/Gregor_MacQuarrie.png"
 }, {
   "id": 156,
   "name": "Keir MacLennan",
-  "clan": "Mackinnon"
+  "clan": "MacKinnon",
+  "age": 7,
+  "furcolor": "Dark Brown",
+  "img": "../pic/MacKinnon/Keir_MacLennan.png"
 },
 
-//17 extra spelare 
+
 {
   "id": 65,
   "name": "Ewan MacGregor",
-  "clan": "MacThomas"
 }, {
   "id": 180,
   "name": "Alasdair Campbell",
-  "clan": "MacThomas"
 }, {
   "id": 148,
   "name": "Fraser MacKenzie",
-  "clan": "MacThomas"
 }, {
   "id": 76,
   "name": "Gordon MacLeod",
-  "clan": "Macdowall"
 }, {
   "id": 125,
   "name": "Malcolm Stewart",
-  "clan": "Macdowall"
 }, {
   "id": 169,
   "name": "Bruce MacDonald",
-  "clan": "Macdowall"
 }, {
   "id": 195,
   "name": "Neil MacIntyre",
-  "clan": "Macqueen"
 }, {
   "id": 181,
   "name": "Ross MacArthur",
-  "clan": "Macqueen"
 }, {
   "id": 6,
   "name": "Kenneth MacRitchie",
-  "clan": "Macqueen"
 }, {
   "id": 141,
-  "name": "Cameron MacKay",
-  "clan": "Macleod"
+  "name": "Cameron MacKey",
 }, {
   "id": 81,
   "name": "Aidan MacFerguson",
-  "clan": "Macleod"
 }, {
   "id": 124,
   "name": "Lewis MacNiven",
-  "clan": "Macleod"
 }, {
   "id": 192,
   "name": "Craig MacDuff",
-  "clan": "Macleod"
 }, {
   "id": 150,
   "name": "Scott MacLaren",
-  "clan": "Mackinnon"
 }, {
   "id": 214,
   "name": "Douglas MacAulay",
-  "clan": "Mackinnon"
 }, {
   "id": 268,
   "name": "Murray MacBain",
-  "clan": "Mackinnon"
 }, {
   "id": 160,
   "name": "Colin MacEwen",
-  "clan": "Mackinnon"
 },
 
 
-
-//våra spelare ovan 
 {
   "id": 296,
   "name": "P190"

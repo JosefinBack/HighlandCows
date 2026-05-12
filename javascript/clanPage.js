@@ -3,6 +3,14 @@
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
 let backButton = document.getElementById("backButton");
+let h1ClanName = document.getElementById("clanName");
+let tartanDiv = document.getElementById("tartan");
+let crestDiv = document.getElementById("crest");
+let clanHistory = document.getElementById("history");
+let clanMembersDIV = document.getElementById("clanMembers");
+let activeCow = document.getElementById("activeCows");
+let notActiveCow = document.getElementById("notAcriveCows");
+let clanInfo = document.getElementById("clanInfo");
 
 
 createHeader();
@@ -11,6 +19,9 @@ let bestPlayers = document.getElementById("bestPlayers");
 let clanButton = document.getElementById("clanButton");
 let schedualButton = document.getElementById("schedualButton");
 
+
+//Clan history
+let historyMacThomas = "Clan MacThomas is one of the oldest and proudest clans in the Highlands. Known for their strength, loyalty, and stubborn spirit, the clan settled in the hills of Glenshee many generations ago. Their cattle became famous for surviving harsh winters, defending their land, and competing fearlessly in the Highland Cow Tournament. Even today, the warriors of Clan MacThomas are respected for their endurance, courage, and unbreakable clan pride."
 
 
 //AddEventLisneters
@@ -42,63 +53,111 @@ schedualButton.addEventListener("click", function () {
 
 });
 
+
+
 function membersClan(clanName) {
     let members = [];
-    for (let person of participants) {
+    for (let person of allParticipants) {
         if (person.clan === clanName) {
             members.push(person)
         };
     };
-    // console.log(members)
     return members;
 }
 
-function showClanHomePage(clan) {
-    let players = membersClan(clan);
+
+
+// disciplineLeaderboard(0, 1, 170)
+
+
+
+function showClanHomePage(clanName) {
+
+    for (let clan of clans) {
+        if (clan.name === clanName) {
+            h1ClanName.textContent = clan.name;
+
+            let crestImg = document.createElement("img");
+            crestImg.src = clan.crest;
+            crestImg.classList.add("picCrestAndTartan");
+            crestDiv.append(crestImg);
+
+            let tartanImg = document.createElement("img");
+            tartanImg.src = clan.tartan;
+            tartanImg.classList.add("picCrestAndTartan");
+            tartanDiv.append(tartanImg);
+        }
+    };
+
+    clanHistory.textContent = historyMacThomas;
+
+    let players = membersClan(clanName);
 
     for (let player of players) {
-        let div = document.createElement("div");
-        div.classList.add("clanMember");
-
-        let img = document.createElement("img");
-        img.src = "../pic/cow.jpg";
-        img.classList.add("cowImg");
-
-        let name = document.createElement("p");
-        name.textContent = player.name;
-
-        div.append(img, name);
-        contentClanHomepage.append(div);
+        let player_id = player.id;
+        personalInfo(player.id);
     }
+    return players;
 };
 
 
+//personlig info för varje ko, som ska synas på klansida
+function allMembersPictures() {
+    let allMembers = showClanHomePage("MacThomas");
 
-//personlig info för varje ko, som ska synas på klansidan
-let CowButton = document.getElementById("198")
+    for (let player of allMembers) {
+        let imgDIV = document.createElement("div");
 
-CowButton.addEventListener("click", function () {
-    personalInfo(189);
-});
+        let img = document.createElement("img");
+        img.src = player.img;
+        img.classList.add("cowMembers");
+        let cowID = player.id;
+        imgDIV.setAttribute("id", cowID);
 
+        imgDIV.appendChild(img);
+        clanMembersDIV.appendChild(imgDIV);
 
+        imgDIV.addEventListener("click", function () {
+            let player_id = Number(imgDIV.id);
+            popUpCowInfo.style.display = "block"
+            personalInfo(player_id);
+            drawAllArcs(player_id, 2);
+        });
+    }
+}
 
-let popUpCowInfo = document.getElementById("popUpCowInfo");
+allMembersPictures()
 
-function personalInfo(number) {
-    let rightCow = allParticipants.find(x => x.id === number);
+function personalInfo(player_id) {
+    let popUpCowInfo = document.getElementById("popUpCowInfo");
 
-    console.log(rightCow);
+<<<<<<< Updated upstream
+    let infoDiv = document.getElementById("cowInfo");
+    let infoPic = document.getElementById("picOnCow");
+    infoDiv.innerHTML = "";
+    infoPic.innerHTML = "";
 
+    let rightCow = allParticipants.find(x => x.id === player_id);
+
+=======
+>>>>>>> Stashed changes
     let cowName = rightCow.name;
     let cowClan = rightCow.clan;
     let cowAge = rightCow.age;
     let cowFurColor = rightCow.furcolor;
 
     let regionCow = clans.find(x => x.name === cowClan);
-    let home = regionCow.region
+    let regionName = "";
 
-    let infoDiv = document.createElement("div");
+    for (let region of locations) {
+        if (region.id === regionCow.region) {
+            regionName = region.name;
+        }
+    }
+
+    let img = document.createElement("img");
+    img.src = rightCow.img;
+    img.classList.add("cowImg");
 
     let cownameP = document.createElement("p");
     cownameP.textContent = "Name: " + cowName;
@@ -109,18 +168,365 @@ function personalInfo(number) {
     let cowFurColorP = document.createElement("p");
     cowFurColorP.textContent = "Fur color: " + cowFurColor;
 
-    let cowregion = document.createElement("p"); 
-    cowregion.textContent = "Region: " + home; 
+    let cowregion = document.createElement("p");
+<<<<<<< Updated upstream
+
+    cowregion.textContent = "Region: " + regionName;
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
-    popUpCowInfo.append(infoDiv); 
+    infoPic.append(img);
+=======
+    cowregion.textContent = "Region: " + home;
 
+    infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
+    popUpCowInfo.append(infoDiv);
+
+>>>>>>> Stashed changes
 };
 
 
 
-//Funktionsanrop
-// showClanHomePage(clanName);
+//ta fram poäng per gren
+function disciplineLeaderboard(year, disciplineId, player_id) {
+
+    let thisYear = threeSeasons.find(x => x.year === year);
+    let totalPointsForOnePlayer = [];
+
+    // =========================
+    // RÄKNA HUR MÅNGA GÅNGER
+    // DISCIPLINEN SPELAS
+    // =========================
+
+    let counterTimes = 0;
+
+    for (let day of thisYear.competitionDays) {
+
+        for (let event of day.events) {
+
+            if (event.disciplineId === disciplineId) {
+                counterTimes++;
+            }
+
+        }
+    }
+
+    // maxpoäng
+    let maxScore = counterTimes * 15;
+
+    for (let participant of allParticipants) {
+        let playerPoints = 0;
+
+        for (let day of thisYear.competitionDays) {
+            for (let event of day.events) {
+                if (event.disciplineId === disciplineId) {
+
+                    // kopiera och sortera score-array
+                    let EventScoreArray = [...event.scores];
+
+                    EventScoreArray.sort((a, b) => b.score - a.score);
+
+                    let placement = 1;
+
+                    for (let score of EventScoreArray) {
+                        if (score.participantId === participant.id) {
+                            let points = getPoints(placement);
+                            playerPoints = playerPoints + points;
+                        }
+                        placement++;
+                    }
+                }
+            }
+        }
+        // procent av maxscore
+        let percent = (playerPoints / maxScore) * 100;
+
+        totalPointsForOnePlayer.push({
+            id: participant.id,
+            name: participant.name,
+            total: playerPoints,
+            percent: percent
+        });
+    }
+
+    totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
+
+    let bigDiv = document.createElement("div");
+    let test = document.getElementById("test");
+    let h2 = document.createElement("h2");
+    h2.textContent = `Discipline ${disciplineId}`;
+    bigDiv.append(h2);
+
+    let placement = 1;
+    for (let player of totalPointsForOnePlayer) {
+        if (player.id === player_id) {
+            let row = document.createElement("div");
+            row.textContent =
+                `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
+            bigDiv.append(row);
+        }
+        placement++;
+    }
+    test.append(bigDiv);
+    console.log(counterTimes)
+}
+
+
+
+//hitta genomsnittlig placering inom varje gren
+function playerPlacementInDiscipline(player_id, year, disciplineID) {
+    let thisYear = seasons.find(function (season) {
+        return season.year === year;
+    });
+
+    let allPlacings = [];
+    for (let day of thisYear.competitionDays) {
+
+        for (let event of day.events) {
+            if (event.disciplineId === disciplineID) {
+
+                let copiedScores = [...event.scores];
+                //högst score först
+                copiedScores.sort(function (a, b) {
+                    return b.score - a.score;
+                });
+
+                for (let i = 0; i < copiedScores.length; i++) {
+
+                    let score = copiedScores[i];
+                    let placement = i + 1;
+
+                    if (score.participantId === player_id) {
+                        allPlacings.push(placement);
+                    }
+                }
+            }
+        }
+    }
+    // =========================
+    // RÄKNA TOTAL
+    // =========================
+
+    let total = 0;
+
+    for (let place of allPlacings) {
+        total = total + place;
+    }
+    // =========================
+    // RÄKNA AVERAGE
+    // =========================
+
+    if (allPlacings.length === 0) {
+
+        let result = {
+            discipline: disciplineID,
+            placings: [],
+            averagePlacement: null,
+            skillScore: null,
+        };
+
+        return result;
+    }
+
+    let average = total / allPlacings.length;
+    average = Number(average.toFixed(2));
+
+    let skillScore;
+    if (average <= 1.5) {
+        skillScore = 100;
+    }
+    else if (average <= 2) {
+        skillScore = 85;
+    }
+    else if (average <= 3) {
+        skillScore = 70;
+    }
+    else if (average <= 4) {
+        skillScore = 50;
+    }
+    else if (average <= 5) {
+        skillScore = 30;
+    }
+    else {
+        skillScore = 15;
+    }
+
+    let gaugeColor;
+    let label;
+
+    if (skillScore >= 90) {
+        label = "Elite";
+        gaugeColor = "#FFD700";
+    }
+    else if (skillScore >= 75) {
+        label = "Strong";
+        gaugeColor = "#4CAF50";
+    }
+    else if (skillScore >= 55) {
+        label = "Average";
+        gaugeColor = "#3498DB";
+    }
+    else if (skillScore >= 35) {
+        label = "Weak";
+        gaugeColor = "#FF9800";
+    }
+    else if (skillScore >= 15) {
+        label = "Terrible";
+        gaugeColor = "#E53935";
+    }
+    else {
+        label = "Did not compete";
+        gaugeColor = "#9f9f9f";
+    }
+    // =========================
+    // SLUTRESULTAT
+    // =========================
+
+    let result = {
+        discipline: disciplineID,
+        placings: allPlacings,
+        averagePlacement: average,
+        skillScore: skillScore,
+        label: label
+    };
+    console.log(result);
+    return result;
+}
+// playerPlacementInDiscipline(170, 0)
+
+
+function drawArcs(playerID, year, disciplineID, chartDiv) {
+
+    let result = playerPlacementInDiscipline(
+        playerID,
+        year,
+        disciplineID
+    );
+
+    let label = result.label;
+    let value = result.skillScore;
+    let originalValue = value;
+
+    let textValue;
+    if (originalValue === null) {
+        textValue = "-";
+    }
+    else {
+        textValue = originalValue;
+    }
+
+
+    let rightDicipline = disciplines.find(x => result.discipline === x.id);
+    let disciplineName = rightDicipline.name;
+
+    //SVG
+    const width = 160;
+    const height = 150;
+
+    const svg = d3.select(chartDiv)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    // centrera gauge
+    const g = svg.append("g")
+        .attr("transform", `translate(${width / 2}, ${height - 30})`);
+    // =========================
+    // VINKLAR
+    // =========================
+
+    // halvcirkel
+    const startAngle = -Math.PI / 2;
+    const endAngle = Math.PI / 2;
+
+
+    // konvertera 0–100 till vinkel
+    const angleScale = d3.scaleLinear()
+        .domain([0, 100])
+        .range([startAngle, endAngle]);
+
+
+    // =========================
+    // BAKGRUNDSBÅGE
+    // =========================
+
+    const backgroundArc = d3.arc()
+        .innerRadius(35)
+        .outerRadius(55)
+        .startAngle(startAngle)
+        .endAngle(endAngle);
+
+    g.append("path")
+        .attr("d", backgroundArc)
+        .attr("fill", "white");
+
+    // =========================
+    // FYLLD BÅGE
+    // =========================
+
+    const valueArc = d3.arc()
+        .innerRadius(35)
+        .outerRadius(55)
+        .startAngle(startAngle)
+        .endAngle(angleScale(value));
+
+    g.append("path")
+        .attr("d", valueArc)
+        .attr("fill", gaugeColor);
+
+
+    // =========================
+    // PROCENT I MITTEN
+    // =========================
+
+    g.append("text")
+        .text(originalValue)
+        .attr("text-anchor", "middle")
+        .attr("y", -10)
+        .style("font-size", "24px")
+        .style("font-weight", "bold");
+
+
+    // =========================
+    // LABEL
+    // =========================
+
+    g.append("text")
+        .text(label.toUpperCase())
+        .attr("text-anchor", "middle")
+        .attr("y", 20)
+        .style("font-size", "16px")
+        .style("font-weight", "bold")
+        .style("fill", gaugeColor);
+
+
+    // =========================
+    // DISCIPLIN-NAMN
+    // =========================
+
+    svg.append("text")
+        .text(disciplineName)
+        .attr("x", width / 2)
+        .attr("y", 30)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "bold");
+}
+
+function drawAllArcs(player_id, year) {
+
+    document.getElementById("chartOne").innerHTML = "";
+    document.getElementById("chartTwo").innerHTML = "";
+    document.getElementById("chartThree").innerHTML = "";
+    document.getElementById("chartFour").innerHTML = "";
+    document.getElementById("chartFive").innerHTML = "";
+
+    drawArcs(player_id, year, 1, "#chartOne");
+    drawArcs(player_id, year, 2, "#chartTwo");
+    drawArcs(player_id, year, 3, "#chartThree");
+    drawArcs(player_id, year, 4, "#chartFour");
+    drawArcs(player_id, year, 5, "#chartFive");
+}
+
 
 
 

@@ -14,6 +14,8 @@ function createHeader() {
     let bestPlayers = document.createElement("button");
     bestPlayers.textContent = "Best players";
 
+    let clanDropDown = document.createElement("div");
+
     let clanButton = document.createElement("button");
     clanButton.textContent = "Clans";
 
