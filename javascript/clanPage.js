@@ -66,6 +66,11 @@ function membersClan(clanName) {
 }
 
 
+
+// disciplineLeaderboard(0, 1, 170)
+
+
+
 function showClanHomePage(clanName) {
 
     for (let clan of clans) {
@@ -232,28 +237,29 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
         });
     }
 
-    // totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
+    totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
 
-    // let bigDiv = document.createElement("div");
-    // let test = document.getElementById("test");
-    // let h2 = document.createElement("h2");
-    // h2.textContent = `Discipline ${disciplineId}`;
-    // bigDiv.append(h2);
+    let bigDiv = document.createElement("div");
+    let test = document.getElementById("test");
+    let h2 = document.createElement("h2");
+    h2.textContent = `Discipline ${disciplineId}`;
+    bigDiv.append(h2);
 
-    // let placement = 1;
-    // for (let player of totalPointsForOnePlayer) {
-    //     if (player.id === player_id) {
-    //         let row = document.createElement("div");
-    //         row.textContent =
-    //             `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
-    //         bigDiv.append(row);
-    //     }
-    //     placement++;
-    // }
-    // // test.append(bigDiv);
-    // console.log(counterTimes)
+    let placement = 1;
+    for (let player of totalPointsForOnePlayer) {
+        if (player.id === player_id) {
+            let row = document.createElement("div");
+            row.textContent =
+                `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
+            bigDiv.append(row);
+        }
+        placement++;
+    }
+    test.append(bigDiv);
+    console.log(counterTimes)
 }
-disciplineLeaderboard(0, 1, 170)
+
+
 
 
 
@@ -337,25 +343,32 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
         skillScore = 15;
     }
 
-
+    let gaugeColor;
     let label;
+
     if (skillScore >= 90) {
         label = "Elite";
+        gaugeColor = "#FFD700";
     }
     else if (skillScore >= 75) {
         label = "Strong";
+        gaugeColor = "#4CAF50";
     }
     else if (skillScore >= 55) {
         label = "Average";
+        gaugeColor = "#3498DB";
     }
     else if (skillScore >= 35) {
         label = "Weak";
+        gaugeColor = "#FF9800";
     }
     else if (skillScore >= 15) {
         label = "Terrible";
+        gaugeColor = "#E53935";
     }
     else {
-        label = "Did not compete"
+        label = "Did not compete";
+        gaugeColor = "#9f9f9f";
     }
     // =========================
     // SLUTRESULTAT
@@ -371,7 +384,7 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
     console.log(result);
     return result;
 }
-playerPlacementInDiscipline(170, 0)
+// playerPlacementInDiscipline(170, 0)
 
 
 function drawArcs(playerID, year, disciplineID, chartDiv) {
@@ -438,32 +451,6 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     g.append("path")
         .attr("d", backgroundArc)
         .attr("fill", "white");
-
-
-    // =========================
-    // FÄRG BASERAT PÅ LABEL
-    // =========================
-
-    let gaugeColor;
-
-    if (label === "Elite") {
-        gaugeColor = "#FFD700";
-    }
-    else if (label === "Strong") {
-        gaugeColor = "#4CAF50";
-    }
-    else if (label === "Average") {
-        gaugeColor = "#3498DB";
-    }
-    else if (label === "Weak") {
-        gaugeColor = "#FF9800";
-    }
-    else if (label === "Terrible") {
-        gaugeColor = "#E53935";
-    }
-    else {
-        gaugeColor = "#9f9f9f";
-    }
 
     // =========================
     // FYLLD BÅGE
@@ -532,3 +519,53 @@ function drawAllArcs(player_id, year) {
     drawArcs(player_id, year, 4, "#chartFour");
     drawArcs(player_id, year, 5, "#chartFive");
 }
+
+
+
+
+
+
+
+function activePlayersInSeason(year) {
+
+    let thisYear = threeSeasons.find(x => x.year === year);
+
+    // Alla IDs som faktiskt tävlar
+    let activeIDs = [];
+
+    for (let competition of thisYear.competitionDays) {
+        for (let event of competition.events) {
+            for (let score of event.scores) {
+
+                // undvik dubletter
+                if (!activeIDs.includes(score.participantId)) {
+                    activeIDs.push(score.participantId);
+                }
+            }
+        }
+    }
+
+    return activeIDs;
+}
+
+
+function inactivePlayersInSeason(year) {
+
+    let activeIDs = activePlayersInSeason(year);
+
+    let inactivePlayers = [];
+
+    for (let player of allParticipants) {
+
+        if (!activeIDs.includes(player.id)) {
+            inactivePlayers.push(player);
+        }
+    }
+
+    return inactivePlayers;
+}
+
+
+console.log(inactivePlayersInSeason(0));
+console.log(inactivePlayersInSeason(1));
+console.log(inactivePlayersInSeason(2));

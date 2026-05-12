@@ -45,7 +45,7 @@ for (let person of participants) {
     };
 };
 
-// console.log(allParticipants);
+console.log(allParticipants);
 
 
 function showClans() {
@@ -93,7 +93,6 @@ function showWeeks() {
     main.append(h2);
 
     let competitions = createWeeks(0);
-    console.log(competitions);
 
     for (let monthObj of competitions) {
         for (let week of monthObj.weeks) {
@@ -146,7 +145,7 @@ function showWeeks() {
 
                         let row = document.createElement("p");
                         row.classList.add("rowDiv");
-                        row.textContent = `${i}. ${player.name} - ${score.score}`;
+                        row.textContent = `${i}. ${player.name} (${player.clan}) - ${score.score}`;
 
                         eventDiv.append(row);
                         i++;
@@ -167,7 +166,7 @@ function getPoints(placement) {
     if (placement === 3) return 6;
     if (placement === 4) return 3;
     if (placement === 5) return 1;
-    return 0;
+    if (placement === 6) return 0;
 }
 
 
@@ -294,7 +293,11 @@ function playerPlacment(player_id, year) {
             totalPointsPerPlayer[id][discipline] += points;
             let total = totalPointsPerPlayer[id][discipline];
 
-            let player = allParticipants.find(p => p.id === id);
+            let player = participants.find(p => p.id === id);
+
+            if (!player.clan) {
+                continue;
+            }
             row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
 
             // highlight vald spelare
@@ -346,7 +349,7 @@ function getBestPlayers(year) {
     }
 
     main.append(placementDiv);
-    // console.log(resultArray);
+    console.log(resultArray);
 };
 
 function getResultforPlayer(player_id, year) {
