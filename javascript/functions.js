@@ -40,7 +40,7 @@ for (let person of participants) {
 
 
 function showClans() {
-    allClansContent.innerHTML = "";
+    main.innerHTML = "";
 
     for (let clan of clanNames) {
         let clanDiv = document.createElement("div");
@@ -72,7 +72,7 @@ function showClans() {
             div.append(name);
             clanDiv.append(div);
         }
-        allClansContent.append(clanDiv);
+        main.append(clanDiv);
     }
 };
 

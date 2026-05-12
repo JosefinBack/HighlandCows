@@ -11,7 +11,12 @@ let clanMembersDIV = document.getElementById("clanMembers");
 let activeCow = document.getElementById("activeCows");
 let notActiveCow = document.getElementById("notAcriveCows");
 let clanInfo = document.getElementById("clanInfo");
+let seasonSkills = document.getElementById("seasonSkills");
 
+let buttonBack = document.getElementById("buttonBack");
+let buttonForward = document.getElementById("buttonForward");
+let choosenCow = null;
+let currentSeason = 2;
 
 createHeader();
 let playerButton = document.getElementById("playerButton");
@@ -41,8 +46,7 @@ bestPlayers.addEventListener("click", function () {
 clanButton.addEventListener("click", function () {
     main.innerHTML = "";
 
-    allClansContent.classList.add("contentClanPage");
-    main.append(allClansContent);
+    main.classList.add("contentClanPage");
     showClans();
 });
 
@@ -50,10 +54,21 @@ clanButton.addEventListener("click", function () {
 schedualButton.addEventListener("click", function () {
     main.innerHTML = "";
     showWeeks();
-
 });
 
+buttonBack.addEventListener("click", function () {
+    if (currentSeason > 0) {
+        currentSeason--;
+        drawAllArcs(choosenCow, currentSeason);
+    }
+});
 
+buttonForward.addEventListener("click", function () {
+    if (currentSeason < 2) {
+        currentSeason++;
+        drawAllArcs(choosenCow, currentSeason);
+    }
+});
 
 function membersClan(clanName) {
     let members = [];
@@ -64,12 +79,6 @@ function membersClan(clanName) {
     };
     return members;
 }
-
-
-
-// disciplineLeaderboard(0, 1, 170)
-
-
 
 function showClanHomePage(clanName) {
 
@@ -92,11 +101,6 @@ function showClanHomePage(clanName) {
     clanHistory.textContent = historyMacThomas;
 
     let players = membersClan(clanName);
-
-    for (let player of players) {
-        let player_id = player.id;
-        personalInfo(player.id);
-    }
     return players;
 };
 
@@ -119,7 +123,7 @@ function allMembersPictures() {
 
         imgDIV.addEventListener("click", function () {
             let player_id = Number(imgDIV.id);
-            popUpCowInfo.style.display = "block"
+            popUpCowInfo.style.display = "flex"
             personalInfo(player_id);
             drawAllArcs(player_id, 2);
         });
@@ -131,16 +135,14 @@ allMembersPictures()
 function personalInfo(player_id) {
     let popUpCowInfo = document.getElementById("popUpCowInfo");
 
-<<<<<<< Updated upstream
     let infoDiv = document.getElementById("cowInfo");
     let infoPic = document.getElementById("picOnCow");
     infoDiv.innerHTML = "";
     infoPic.innerHTML = "";
 
     let rightCow = allParticipants.find(x => x.id === player_id);
+    choosenCow = player_id;
 
-=======
->>>>>>> Stashed changes
     let cowName = rightCow.name;
     let cowClan = rightCow.clan;
     let cowAge = rightCow.age;
@@ -169,22 +171,16 @@ function personalInfo(player_id) {
     cowFurColorP.textContent = "Fur color: " + cowFurColor;
 
     let cowregion = document.createElement("p");
-<<<<<<< Updated upstream
 
     cowregion.textContent = "Region: " + regionName;
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
     infoPic.append(img);
-=======
-    cowregion.textContent = "Region: " + home;
-
-    infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
-    popUpCowInfo.append(infoDiv);
-
->>>>>>> Stashed changes
 };
 
 
+
+disciplineLeaderboard(0, 1, 170)
 
 //ta fram poäng per gren
 function disciplineLeaderboard(year, disciplineId, player_id) {
@@ -272,20 +268,41 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
 
 
 
-//hitta genomsnittlig placering inom varje gren
+
+function getMainSkill(disciplineID) {
+
+    let discipline = disciplines.find(d => d.id === disciplineID);
+    let highestSkill = "";
+    let highestValue = 0;
+
+    for (let skill in discipline.skillFactors) {
+        let value = discipline.skillFactors[skill];
+        if (value > highestValue) {
+            highestValue = value;
+            highestSkill = skill;
+        }
+    }
+    return highestSkill;
+};
+
+
+
+
 function playerPlacementInDiscipline(player_id, year, disciplineID) {
-    let thisYear = seasons.find(function (season) {
-        return season.year === year;
-    });
 
+    let thisYear = threeSeasons.find(x => x.year === year);
     let allPlacings = [];
-    for (let day of thisYear.competitionDays) {
 
+    // =========================
+    // HÄMTA ALLA PLACERINGAR
+    // =========================
+
+    for (let day of thisYear.competitionDays) {
         for (let event of day.events) {
             if (event.disciplineId === disciplineID) {
 
                 let copiedScores = [...event.scores];
-                //högst score först
+                // högst score först
                 copiedScores.sort(function (a, b) {
                     return b.score - a.score;
                 });
@@ -307,78 +324,61 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
     // =========================
 
     let total = 0;
-
     for (let place of allPlacings) {
         total = total + place;
     }
+
     // =========================
-    // RÄKNA AVERAGE
+    // AVERAGE PLACEMENT
     // =========================
-
-    if (allPlacings.length === 0) {
-
-        let result = {
-            discipline: disciplineID,
-            placings: [],
-            averagePlacement: null,
-            skillScore: null,
-        };
-
-        return result;
-    }
 
     let average = total / allPlacings.length;
     average = Number(average.toFixed(2));
 
-    let skillScore;
-    if (average <= 1.5) {
+    // =========================
+    // SKILL SCORE (0–100)
+    // =========================
+
+    // 1st place = 100
+    // 6th place = 0
+
+    let skillScore =
+        ((6 - average) / 5) * 100;
+
+    skillScore = Math.round(skillScore);
+
+    // säkerhet
+    if (skillScore < 0) {
+        skillScore = 0;
+    }
+    if (skillScore > 100) {
         skillScore = 100;
     }
-    else if (average <= 2) {
-        skillScore = 85;
-    }
-    else if (average <= 3) {
-        skillScore = 70;
-    }
-    else if (average <= 4) {
-        skillScore = 50;
-    }
-    else if (average <= 5) {
-        skillScore = 30;
-    }
-    else {
-        skillScore = 15;
-    }
+
+    // =========================
+    // LABEL + FÄRG
+    // =========================
 
     let gaugeColor;
-    let label;
 
     if (skillScore >= 90) {
-        label = "Elite";
         gaugeColor = "#FFD700";
     }
     else if (skillScore >= 75) {
-        label = "Strong";
         gaugeColor = "#4CAF50";
     }
     else if (skillScore >= 55) {
-        label = "Average";
         gaugeColor = "#3498DB";
     }
     else if (skillScore >= 35) {
-        label = "Weak";
         gaugeColor = "#FF9800";
     }
-    else if (skillScore >= 15) {
-        label = "Terrible";
+    else {
         gaugeColor = "#E53935";
     }
-    else {
-        label = "Did not compete";
-        gaugeColor = "#9f9f9f";
-    }
+
     // =========================
-    // SLUTRESULTAT
+    // RESULTAT
     // =========================
 
     let result = {
@@ -386,15 +386,26 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
         placings: allPlacings,
         averagePlacement: average,
         skillScore: skillScore,
-        label: label
+        gaugeColor: gaugeColor
     };
     console.log(result);
     return result;
 }
-// playerPlacementInDiscipline(170, 0)
 
 
 function drawArcs(playerID, year, disciplineID, chartDiv) {
+    currentSeason = year;
+    let h2Season = document.getElementById("h2Season");
+
+    if (year === 0) {
+        h2Season.textContent = "Season 1";
+    }
+    else if (year === 1) {
+        h2Season.textContent = "Season 2";
+    }
+    else if (year === 2) {
+        h2Season.textContent = "Current season";
+    }
 
     let result = playerPlacementInDiscipline(
         playerID,
@@ -405,6 +416,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     let label = result.label;
     let value = result.skillScore;
     let originalValue = value;
+    let gaugeColor = result.gaugeColor;
 
     let textValue;
     if (originalValue === null) {
@@ -416,7 +428,9 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
 
 
     let rightDicipline = disciplines.find(x => result.discipline === x.id);
+
     let disciplineName = rightDicipline.name;
+    let mainSkill = getMainSkill(disciplineID);
 
     //SVG
     const width = 160;
@@ -485,32 +499,35 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
         .style("font-size", "24px")
         .style("font-weight", "bold");
 
-
-    // =========================
-    // LABEL
-    // =========================
-
-    g.append("text")
-        .text(label.toUpperCase())
-        .attr("text-anchor", "middle")
-        .attr("y", 20)
-        .style("font-size", "16px")
-        .style("font-weight", "bold")
-        .style("fill", gaugeColor);
-
-
     // =========================
     // DISCIPLIN-NAMN
     // =========================
 
     svg.append("text")
-        .text(disciplineName)
+        .text(mainSkill)
         .attr("x", width / 2)
         .attr("y", 30)
         .attr("text-anchor", "middle")
-        .style("font-size", "18px")
+        .style("font-size", "20px")
         .style("font-weight", "bold");
-}
+
+    svg.append("text")
+        .text(`Based on: ${disciplineName}`)
+        .attr("x", width / 2)
+        .attr("y", 50)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "black");
+
+    svg.append("text")
+        .text(`Average placement: ${result.averagePlacement} / 6`)
+        .attr("x", width / 2)
+        .attr("y", height - 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "13px")
+        .style("fill", "black");
+};
+
 
 function drawAllArcs(player_id, year) {
 
@@ -525,7 +542,7 @@ function drawAllArcs(player_id, year) {
     drawArcs(player_id, year, 3, "#chartThree");
     drawArcs(player_id, year, 4, "#chartFour");
     drawArcs(player_id, year, 5, "#chartFive");
-}
+};
 
 
 

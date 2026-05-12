@@ -1264,3 +1264,127 @@ clanRepresentationBySeason(2)
 //   "furcolor": "Yellow",
 //   "img": "../pic/MacKinnon/Colin_MacEwen.png"
 // },
+
+
+
+//hitta genomsnittlig placering inom varje gren
+function playerPlacementInDiscipline(player_id, year, disciplineID) {
+    let thisYear = seasons.find(function (season) {
+        return season.year === year;
+    });
+
+    let allPlacings = [];
+    for (let day of thisYear.competitionDays) {
+
+        for (let event of day.events) {
+            if (event.disciplineId === disciplineID) {
+
+                let copiedScores = [...event.scores];
+                //högst score först
+                copiedScores.sort(function (a, b) {
+                    return b.score - a.score;
+                });
+
+                for (let i = 0; i < copiedScores.length; i++) {
+
+                    let score = copiedScores[i];
+                    let placement = i + 1;
+
+                    if (score.participantId === player_id) {
+                        allPlacings.push(placement);
+                    }
+                }
+            }
+        }
+    }
+    // =========================
+    // RÄKNA TOTAL
+    // =========================
+    console.log(allPlacings)
+    let total = 0;
+
+    for (let place of allPlacings) {
+        total = total + place;
+    }
+    // =========================
+    // RÄKNA AVERAGE
+    // =========================
+
+    if (allPlacings.length === 0) {
+
+        let result = {
+            discipline: disciplineID,
+            placings: [],
+            averagePlacement: null,
+            skillScore: null,
+        };
+
+        return result;
+    }
+
+    let average = total / allPlacings.length;
+    average = Number(average.toFixed(2));
+
+    let skillScore;
+    if (average <= 1.5) {
+        skillScore = 100;
+    }
+    else if (average <= 2) {
+        skillScore = 85;
+    }
+    else if (average <= 3) {
+        skillScore = 70;
+    }
+    else if (average <= 4) {
+        skillScore = 50;
+    }
+    else if (average <= 5) {
+        skillScore = 30;
+    }
+    else {
+        skillScore = 15;
+    }
+
+    let gaugeColor;
+    let label;
+
+    if (skillScore >= 90) {
+        label = "Elite";
+        gaugeColor = "#FFD700";
+    }
+    else if (skillScore >= 75) {
+        label = "Strong";
+        gaugeColor = "#4CAF50";
+    }
+    else if (skillScore >= 55) {
+        label = "Average";
+        gaugeColor = "#3498DB";
+    }
+    else if (skillScore >= 35) {
+        label = "Weak";
+        gaugeColor = "#FF9800";
+    }
+    else if (skillScore >= 15) {
+        label = "Terrible";
+        gaugeColor = "#E53935";
+    }
+    else {
+        label = "Did not compete";
+        gaugeColor = "#9f9f9f";
+    }
+    // =========================
+    // SLUTRESULTAT
+    // =========================
+
+    let result = {
+        discipline: disciplineID,
+        placings: allPlacings,
+        averagePlacement: average,
+        skillScore: skillScore,
+        label: label,
+        gaugeColor: gaugeColor
+    };
+    console.log(result);
+    return result;
+}
+// playerPlacementInDiscipline(170, 0)
