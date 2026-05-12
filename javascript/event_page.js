@@ -127,25 +127,41 @@ function renderWeekCharts(weekData) {
 
         // Mappa klaner till dagens prestation
         let clanResults = clanNames.map(clanName => {
-            // 1. Hitta ALLA deltagar-ID:n som tillhör denna klan
+            // 1. Hitta alla medlemmar i denna klan
             let clanMemberIds = allParticipants
                 .filter(p => p.clan === clanName)
                 .map(p => p.id);
 
-            // 2. Hitta resultatet i 'dayData.scores' där participantId finns i vår klan-lista
-            let result = dayData.scores.find(s => clanMemberIds.includes(s.participantId));
+            // 2. Hitta klanens placering i dagens ranking
+            // Vi letar efter det första indexet i rankedScores som tillhör en klanmedlem
+            let rankIndex = dayData.rankedScores.findIndex(s => clanMemberIds.includes(s.participantId));
 
-            // 3. Räkna ut placering baserat på ranking-listan vi skapade tidigare
-            // Vi kollar vilken placering klanens deltagare fick
-            let placement = dayData.rankedScores.findIndex(s => clanMemberIds.includes(s.participantId)) + 1;
+            let points = 0;
+            if (rankIndex !== -1) {
+                // rankIndex 0 = 1:a plats, 1 = 2:a plats... 4 = 5:e plats
+                let placement = rankIndex + 1;
+                points = getEventPoints(placement);
+            } else {
+                // Om klanen mot förmodan inte deltog alls i just detta event
+                points = 0;
+            }
 
             return {
                 clan: clanName,
-                // Om vi hittade ett resultat, ge poäng (15, 10, etc), annars 0
-                score: result ? getPoints(placement) : 0
+                score: points
             };
         });
         console.log(clanResults);
+
+        function getEventPoints(placement) {
+            if (placement === 1) return 15;
+            if (placement === 2) return 10;
+            if (placement === 3) return 6;
+            if (placement === 4) return 3;
+            if (placement === 5) return 1; // Här ser vi till att 5:e plats ger poäng
+        }
+
+        //console.log(clanResults);
 
         const xScale = d3.scaleBand()
             .domain(clanNames)
