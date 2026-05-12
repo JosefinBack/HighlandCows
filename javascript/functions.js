@@ -40,7 +40,7 @@ for (let person of participants) {
 
 
 function showClans() {
-    allClansContent.innerHTML = "";
+    main.innerHTML = "";
 
     for (let clan of clanNames) {
         let clanDiv = document.createElement("div");
@@ -50,11 +50,6 @@ function showClans() {
         h2.classList.add("clickTitleClan")
         h2.textContent = clan;
 
-        // h2.addEventListener("click", function () {
-        //     let newPage =
-        //         window.location.href = `clanPage.html?clan=${clan}`;
-        // });
-
         clanDiv.append(h2);
         let players = membersClan(clan);
 
@@ -62,17 +57,13 @@ function showClans() {
             let div = document.createElement("div");
             div.classList.add("clanMember");
 
-            /*             let img = document.createElement("img");
-                        img.src = "../pic/cow.jpg";
-                        img.classList.add("cowImg"); */
-
             let name = document.createElement("p");
             name.textContent = player.name;
 
             div.append(name);
             clanDiv.append(div);
         }
-        allClansContent.append(clanDiv);
+        main.append(clanDiv);
     }
 };
 

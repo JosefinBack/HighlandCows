@@ -15,9 +15,25 @@ function createHeader() {
     bestPlayers.textContent = "Best players";
 
     let clanDropDown = document.createElement("div");
+    clanDropDown.style.display = "flex";
+    clanDropDown.style.flexDirection = "column";
 
     let clanButton = document.createElement("button");
     clanButton.textContent = "Clans";
+
+    let dropdownMeny = document.createElement("div");
+
+    let dropDownMacThomas = document.createElement("div");
+    let textMacThomas = document.createElement("a");
+    textMacThomas.href = "../html/clanPage.html";
+    textMacThomas.textContent = "MacThomas";
+    dropDownMacThomas.append(textMacThomas);
+
+
+    dropdownMeny.append(dropDownMacThomas);
+
+
+    clanDropDown.append(clanButton, dropdownMeny);
 
     let schedualButton = document.createElement("button");
     schedualButton.textContent = "Schedual";
@@ -28,6 +44,6 @@ function createHeader() {
     clanButton.id = "clanButton";
     schedualButton.id = "schedualButton";
 
-    header.append(startButton, playerButton, bestPlayers, clanButton, schedualButton);
+    header.append(startButton, playerButton, bestPlayers, clanDropDown, schedualButton);
 };
 

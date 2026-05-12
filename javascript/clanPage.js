@@ -41,8 +41,7 @@ bestPlayers.addEventListener("click", function () {
 clanButton.addEventListener("click", function () {
     main.innerHTML = "";
 
-    allClansContent.classList.add("contentClanPage");
-    main.append(allClansContent);
+    main.classList.add("contentClanPage");
     showClans();
 });
 
@@ -263,9 +262,7 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
 
 //hitta genomsnittlig placering inom varje gren
 function playerPlacementInDiscipline(player_id, year, disciplineID) {
-    let thisYear = seasons.find(function (season) {
-        return season.year === year;
-    });
+    let thisYear = threeSeasons.find(x => x.year === year);
 
     let allPlacings = [];
     for (let day of thisYear.competitionDays) {
@@ -404,7 +401,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
     }
 
 
-    let rightDicipline = disciplines.find(x => result.discipline === x.id);
+    let rightDicipline = disciplines.find(x => result.disciplineID === x.id);
     let disciplineName = rightDicipline.name;
 
     //SVG
@@ -484,8 +481,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
         .attr("text-anchor", "middle")
         .attr("y", 20)
         .style("font-size", "16px")
-        .style("font-weight", "bold")
-        .style("fill", gaugeColor);
+        .style("font-weight", "bold");
 
 
     // =========================
@@ -502,7 +498,6 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
 }
 
 function drawAllArcs(player_id, year) {
-
     document.getElementById("chartOne").innerHTML = "";
     document.getElementById("chartTwo").innerHTML = "";
     document.getElementById("chartThree").innerHTML = "";
