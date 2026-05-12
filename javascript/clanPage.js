@@ -131,6 +131,7 @@ allMembersPictures()
 function personalInfo(player_id) {
     let popUpCowInfo = document.getElementById("popUpCowInfo");
 
+<<<<<<< Updated upstream
     let infoDiv = document.getElementById("cowInfo");
     let infoPic = document.getElementById("picOnCow");
     infoDiv.innerHTML = "";
@@ -138,6 +139,8 @@ function personalInfo(player_id) {
 
     let rightCow = allParticipants.find(x => x.id === player_id);
 
+=======
+>>>>>>> Stashed changes
     let cowName = rightCow.name;
     let cowClan = rightCow.clan;
     let cowAge = rightCow.age;
@@ -166,11 +169,19 @@ function personalInfo(player_id) {
     cowFurColorP.textContent = "Fur color: " + cowFurColor;
 
     let cowregion = document.createElement("p");
+<<<<<<< Updated upstream
 
     cowregion.textContent = "Region: " + regionName;
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
     infoPic.append(img);
+=======
+    cowregion.textContent = "Region: " + home;
+
+    infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
+    popUpCowInfo.append(infoDiv);
+
+>>>>>>> Stashed changes
 };
 
 
