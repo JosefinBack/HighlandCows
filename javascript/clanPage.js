@@ -13,6 +13,7 @@ let notActiveCow = document.getElementById("notAcriveCows");
 let clanInfo = document.getElementById("clanInfo");
 let seasonSkills = document.getElementById("seasonSkills");
 
+let closeButton = document.getElementById("closeButton");
 let buttonBack = document.getElementById("buttonBack");
 let buttonForward = document.getElementById("buttonForward");
 let choosenCow = null;

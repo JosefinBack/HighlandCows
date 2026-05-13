@@ -101,6 +101,10 @@
     width: 40%;
 }
 
+#flexCowinfoAndPic {
+    display: flex;
+}
+
 
 #history {
     width: 50%;
