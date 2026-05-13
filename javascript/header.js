@@ -14,10 +14,27 @@ function createHeader() {
     let bestPlayers = document.createElement("button");
     bestPlayers.textContent = "Best players";
 
-    let clanDropDown = document.createElement("div");
-
     let clanButton = document.createElement("button");
     clanButton.textContent = "Clans";
+
+    let clanDropDown = document.createElement("div");
+    clanDropDown.classList.add("dropdown");
+
+    let dropDownContent = document.createElement("div");
+    dropDownContent.classList.add("dropdownContent");
+
+    for (let clan of clans) {
+        let clanDiv = document.createElement("div");
+        clanDiv.textContent = clan.name;
+        clanDiv.classList.add("clanOption");
+
+        clanDiv.addEventListener("click", function () {
+            localStorage.setItem("selectedClan", clan.name);
+            window.location.href = "../html/clanPage.html";
+        });
+        dropDownContent.append(clanDiv);
+    }
+    clanDropDown.append(clanButton, dropDownContent);
 
     let schedualButton = document.createElement("button");
     schedualButton.textContent = "Schedual";
@@ -28,6 +45,6 @@ function createHeader() {
     clanButton.id = "clanButton";
     schedualButton.id = "schedualButton";
 
-    header.append(startButton, playerButton, bestPlayers, clanButton, schedualButton);
+    header.append(startButton, playerButton, bestPlayers, clanDropDown, schedualButton);
 };
 

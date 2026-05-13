@@ -18,11 +18,15 @@ let buttonForward = document.getElementById("buttonForward");
 let choosenCow = null;
 let currentSeason = 2;
 
+
+let selectedClan = localStorage.getItem("selectedClan");
+
 createHeader();
 let playerButton = document.getElementById("playerButton");
 let bestPlayers = document.getElementById("bestPlayers");
 let clanButton = document.getElementById("clanButton");
 let schedualButton = document.getElementById("schedualButton");
+
 
 
 //Clan history
@@ -81,6 +85,8 @@ function membersClan(clanName) {
 }
 
 function showClanHomePage(clanName) {
+    crestDiv.innerHTML = "";
+    tartanDiv.innerHTML = "";
 
     for (let clan of clans) {
         if (clan.name === clanName) {
@@ -107,7 +113,7 @@ function showClanHomePage(clanName) {
 
 //personlig info för varje ko, som ska synas på klansida
 function allMembersPictures() {
-    let allMembers = showClanHomePage("MacThomas");
+    let allMembers = showClanHomePage(selectedClan);
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
@@ -130,7 +136,6 @@ function allMembersPictures() {
     }
 }
 
-allMembersPictures()
 
 function personalInfo(player_id) {
     let popUpCowInfo = document.getElementById("popUpCowInfo");
@@ -219,7 +224,7 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
                     // kopiera och sortera score-array
                     let EventScoreArray = [...event.scores];
 
-                    EventScoreArray.sort((a, b) => b.score - a.score);
+                    // EventScoreArray.sort((a, b) => b.score - a.score);
 
                     let placement = 1;
 
@@ -244,29 +249,39 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
         });
     }
 
-    totalPointsForOnePlayer.sort((a, b) => b.total - a.total);
 
-    let bigDiv = document.createElement("div");
-    let test = document.getElementById("test");
-    let h2 = document.createElement("h2");
-    h2.textContent = `Discipline ${disciplineId}`;
-    bigDiv.append(h2);
-
-    let placement = 1;
     for (let player of totalPointsForOnePlayer) {
+
         if (player.id === player_id) {
+
             let row = document.createElement("div");
+
             row.textContent =
-                `${placement}. ${player.name} | Total points: ${player.total} | ${Math.round(player.percent)}% of max`;
-            bigDiv.append(row);
+                `${player.name} | Total points: ${player.total}`;
+
+            console.log(row.textContent);
+            return player;
         }
-        placement++;
     }
-    test.append(bigDiv);
-    console.log(counterTimes)
 }
 
+function membersScore() {
+    let members = membersClan(selectedClan);
+    console.log(members)
+    let currentSeason = 2;
+    let allSocres = [];
 
+    for (let player of members) {
+        for (let i = 1; i < 6; i++) {
+            let discipline_id = i;
+            let player_id = player.id;
+            let score = disciplineLeaderboard(currentSeason, discipline_id, player.id);
+            allSocres.push(`${player.name}, ${score.total} points in discipline ${discipline_id}`);
+        }
+    }
+    console.log(allSocres)
+}
+membersScore()
 
 
 function getMainSkill(disciplineID) {
@@ -512,7 +527,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
         .style("font-weight", "bold");
 
     svg.append("text")
-        .text(`Based on: ${disciplineName}`)
+        .text(`Based on: ${disciplineName} `)
         .attr("x", width / 2)
         .attr("y", 50)
         .attr("text-anchor", "middle")
@@ -546,4 +561,5 @@ function drawAllArcs(player_id, year) {
 
 
 
-
+//FUNKTIONSANROP
+allMembersPictures();
