@@ -1,0 +1,101 @@
+#pageWrapper{
+    background-color: rgba(113, 145, 136, 0.3);
+}
+
+
+#highlandIMG{
+    width: 95%;
+    margin-left: 35px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+#welcomeHighlandCow{
+    color: white;
+    font-family: "Irish Grover";
+    font-size: 48px;
+
+    position:absolute;
+    top: 580px;
+    left: 85px;
+}
+
+#aboutContainer{
+    display: flex;
+    gap: 40px;
+}
+
+#aboutWrapper{
+    width: 40%;
+}
+
+.subtitle{
+    font-family: "Irish Grover";
+    font-size: 28px;
+    color: #233629;
+    margin-bottom: 5px;
+    margin-left: 50px;
+}
+
+#part1, #part2, #part3{
+    font-family: "Instrumental serif";
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 50px;
+}
+
+#svg-map{
+    margin-top: 60px;
+}
+
+#topRankingWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#top3Players, #top3Clans{
+    margin-top: 10px;
+    width: 400px;
+    height: 400px;
+    background-color: #FEFBEF;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+#top3PlayerTitle, #top3ClansTitle{
+    text-align: center;
+    font-family: "Irish Grover";
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.ranking-card{
+    background-color:rgba(174, 133, 104, 0.3);
+    border-radius: 10px;
+    width: 80%;
+    padding: 10px;
+    margin-left: 30px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.rankingImg{
+    width: 94px;
+    height: 94px;
+    border-radius: 10px;
+}
+
+.fontStyleRanking{
+    font-family: "Irish Grover";
+    font-size: 18px;
+    margin: 2px;
+    color: #233629;
+}
+
