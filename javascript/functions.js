@@ -478,9 +478,6 @@ analyzePlayersPerYear()
 
 
 
-
-
-
 function getBestPlayers(year) {
     let resultArray = [];
 
