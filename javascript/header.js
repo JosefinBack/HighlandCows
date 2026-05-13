@@ -1,50 +1,22 @@
 let header = document.getElementById("header");
 
-//Buttons
+let contentNav = `
+<nav>
+        <div id="left-side">
+            <h1>Highland Cow</h1>
+            <h5>Tournament</h5>
+        </div>
+        <div id="right-side">
+            <a href="" id="start-Button">Start</a>
+            <a href="" id="season-Button">Season</a>
+            <a href="" id="event-Button">Event</a>
+            <a href="" id="clans-Button">Clans</a>
+            <a href="" id="history-Button">History</a>
+        </div>
+    </nav>
+`
+
 function createHeader() {
-
-    let header = document.getElementById("header");
-
-    let startButton = document.createElement("button");
-    startButton.textContent = "Start";
-
-    let playerButton = document.createElement("button");
-    playerButton.textContent = "Players";
-
-    let bestPlayers = document.createElement("button");
-    bestPlayers.textContent = "Best players";
-
-    let clanButton = document.createElement("button");
-    clanButton.textContent = "Clans";
-
-    let clanDropDown = document.createElement("div");
-    clanDropDown.classList.add("dropdown");
-
-    let dropDownContent = document.createElement("div");
-    dropDownContent.classList.add("dropdownContent");
-
-    for (let clan of clans) {
-        let clanDiv = document.createElement("div");
-        clanDiv.textContent = clan.name;
-        clanDiv.classList.add("clanOption");
-
-        clanDiv.addEventListener("click", function () {
-            localStorage.setItem("selectedClan", clan.name);
-            window.location.href = "../html/clanPage.html";
-        });
-        dropDownContent.append(clanDiv);
-    }
-    clanDropDown.append(clanButton, dropDownContent);
-
-    let schedualButton = document.createElement("button");
-    schedualButton.textContent = "Schedual";
-
-    startButton.id = "startButton";
-    playerButton.id = "playerButton";
-    bestPlayers.id = "bestPlayers";
-    clanButton.id = "clanButton";
-    schedualButton.id = "schedualButton";
-
-    header.append(startButton, playerButton, bestPlayers, clanDropDown, schedualButton);
+    header.innerHTML = contentNav;
 };
-
+createHeader()

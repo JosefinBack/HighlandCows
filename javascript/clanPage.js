@@ -23,11 +23,11 @@ let currentSeason = 2;
 
 let selectedClan = localStorage.getItem("selectedClan");
 
-createHeader();
-let playerButton = document.getElementById("playerButton");
-let bestPlayers = document.getElementById("bestPlayers");
-let clanButton = document.getElementById("clanButton");
-let schedualButton = document.getElementById("schedualButton");
+// createHeader();
+// let playerButton = document.getElementById("playerButton");
+// let bestPlayers = document.getElementById("bestPlayers");
+// let clanButton = document.getElementById("clanButton");
+// let schedualButton = document.getElementById("schedualButton");
 
 
 
@@ -36,31 +36,31 @@ let historyMacThomas = "Clan MacThomas is one of the oldest and proudest clans i
 
 
 //AddEventLisneters
-playerButton.addEventListener("click", function () {
-    main.innerHTML = "";
-    getResultforPlayer(189, 0);
-    playerPlacment(189, 0);
-});
+// playerButton.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     getResultforPlayer(189, 0);
+//     playerPlacment(189, 0);
+// });
 
-bestPlayers.addEventListener("click", function () {
-    main.innerHTML = "";
-    getBestPlayers(0);
-    getBestPlayers(1);
-    getBestPlayers(2);
-});
+// bestPlayers.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     getBestPlayers(0);
+//     getBestPlayers(1);
+//     getBestPlayers(2);
+// });
 
-clanButton.addEventListener("click", function () {
-    main.innerHTML = "";
+// clanButton.addEventListener("click", function () {
+//     main.innerHTML = "";
 
-    main.classList.add("contentClanPage");
-    showClans();
-});
+//     main.classList.add("contentClanPage");
+//     showClans();
+// });
 
 
-schedualButton.addEventListener("click", function () {
-    main.innerHTML = "";
-    showWeeks();
-});
+// schedualButton.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     showWeeks();
+// });
 
 buttonBack.addEventListener("click", function () {
     if (currentSeason > 0) {
@@ -187,7 +187,7 @@ function personalInfo(player_id) {
 
 
 
-disciplineLeaderboard(0, 1, 170)
+// disciplineLeaderboard(0, 1, 170)
 
 //ta fram poäng per gren
 function disciplineLeaderboard(year, disciplineId, player_id) {
@@ -359,8 +359,7 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
     // 1st place = 100
     // 6th place = 0
 
-    let skillScore =
-        ((6 - average) / 5) * 100;
+    let skillScore = ((6 - average) / 5) * 100;
 
     skillScore = Math.round(skillScore);
 
