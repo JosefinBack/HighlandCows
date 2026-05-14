@@ -126,7 +126,7 @@ function drawClanMap() {
       d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
     })
 
-    .on("click", function (){
+    .on("click", function () {
       //anropa funktion
     })
 
@@ -159,17 +159,17 @@ function displayTop3Players(year) {
     nameInfo.classList.add("fontStyleRanking");
 
     playerDiv.append(nameInfo);
-    
+
     const pointsInfo = document.createElement("p");
     pointsInfo.classList.add("fontStyleRanking");
     playerDiv.append(pointsInfo);
-    
+
     nameInfo.textContent = `Name: ${player.name}`;
     pointsInfo.textContent = `Points: ${player.points}`;
   }
 }
 
-function displayTop3Clans(){
+function displayTop3Clans() {
   // const getBestClan = ;
   const top3 = getBestClan.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
 
@@ -186,90 +186,90 @@ function displayTop3Clans(){
     nameInfo.classList.add("fontStyleRanking")
 
     playerDiv.append(nameInfo)
-    
+
     const pointsInfo = document.createElement("p");
     pointsInfo.classList.add("fontStyleRanking")
     playerDiv.append(pointsInfo)
-    
+
     nameInfo.textContent = `${clan.name}`
     pointsInfo.textContent = `${clan.points}p`;
   }
 }
 
 function getBestPlayers(year) {
-    let resultArray = [];
+  let resultArray = [];
 
-    for (let person of allParticipants) {
-        let playerID = person.id;
-        let result = calculatePlayerPoints(playerID, year);
+  for (let person of allParticipants) {
+    let playerID = person.id;
+    let result = calculatePlayerPoints(playerID, year);
 
-        resultArray.push({
-            id: playerID,
-            name: person.name,
-            points: result
-        });
-    }
-
-    resultArray.sort(function (a, b) {
-        return b.points - a.points;
+    resultArray.push({
+      id: playerID,
+      name: person.name,
+      points: result
     });
+  }
 
-    return resultArray;
+  resultArray.sort(function (a, b) {
+    return b.points - a.points;
+  });
+
+  return resultArray;
 };
 
 function calculatePlayerPoints(player_id, year) {
-    let thisYear = threeSeasons.find(x => x.year === year);
-    let playerID = player_id;
-    let playerPlacings = [];
+  let thisYear = threeSeasons.find(x => x.year === year);
+  let playerID = player_id;
+  let playerPlacings = [];
 
-    for (let playerPart of thisYear.competitionDays) {
-        for (let event of playerPart.events) {
+  for (let playerPart of thisYear.competitionDays) {
+    for (let event of playerPart.events) {
 
-            let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
+      let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
 
-            let i = 1;
+      let i = 1;
 
-            for (let score of sortedScores) {
-                if (score.participantId === playerID) {
-                    playerPlacings.push({
-                        year: thisYear.year,
-                        discipline: event.disciplineId,
-                        placement: i
-                    });
-                }
-                i++;
-            }
+      for (let score of sortedScores) {
+        if (score.participantId === playerID) {
+          playerPlacings.push({
+            year: thisYear.year,
+            discipline: event.disciplineId,
+            placement: i
+          });
         }
+        i++;
+      }
     }
+  }
 
-    return calculateTotalPoints(playerPlacings);
+  return calculateTotalPoints(playerPlacings);
 };
 
 function getBestClan(year) {
-    let resultArray = [];
-    let imgCow;
+  let resultArray = [];
+  let imgCow;
 
-    for (let person of allParticipants) {
-        let playerID = person.id;
-        let result = calculatePlayerPoints(playerID, year);
+  for (let person of allParticipants) {
+    let playerID = person.id;
+    let result = calculatePlayerPoints(playerID, year);
 
-        resultArray.push({
-            id: playerID,
-            name: person.name,
-            points: result,
-            img: person.img
-        });
-    }
-
-    resultArray.sort(function (a, b) {
-        return b.points - a.points;
+    resultArray.push({
+      id: playerID,
+      name: person.name,
+      points: result,
+      img: person.img
     });
+  }
 
-    for(let result of resultArray){
-      imgCow = resultArray.img;
-      img.classList.add("rankingImg")
-    }
+  resultArray.sort(function (a, b) {
+    return b.points - a.points;
+  });
+
+  for (let result of resultArray) {
+    imgCow = resultArray.img;
+    img.classList.add("rankingImg")
+  }
 
 
-    return resultArray;
+  return resultArray;
 };

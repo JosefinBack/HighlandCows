@@ -268,10 +268,12 @@ function drawLineDiagram() {
     console.log(points);
 
     let months = points.map(x => x.month);
-    let maxScore = 0;
+    let highestScore = 0;
 
     for (let score of points) {
-        maxScore = maxScore + score.points;
+        if (score.points > highestScore) {
+            highestScore = score.points;
+        }
     };
 
     let hSvg = 400;
@@ -284,23 +286,29 @@ function drawLineDiagram() {
         .attr("height", hSvg)
         .attr("width", wSvg)
         .style("border", "1px solid black")
+        .style("background-color", "#719188")
+        .style("color", "white")
         ;
-
-
 
     let xScale = d3.scaleBand()
         .domain(months)
         .range([wPad, wSvg - wPad])
+        .paddingInner(1)
+        .paddingOuter(0.3)
         ;
 
     let yScale = d3.scaleLinear()
-        .domain([0, maxScore])
+        .domain([0, highestScore + 10])
         .range([hSvg - hPad, hPad])
         ;
 
-
     let xAxel = d3.axisBottom(xScale);
     let yAxel = d3.axisLeft(yScale);
+
+    let dMaker = d3.line()
+        .x(d => xScale(d.month) + xScale.bandwidth() / 2)
+        .y(d => yScale(d.points))
+        ;
 
     svg.append("g")
         .call(xAxel)
@@ -310,9 +318,75 @@ function drawLineDiagram() {
     svg.append("g")
         .call(yAxel)
         .attr("transform", `translate(${wPad}, 0)`)
+        ;
+
+
+    svg.append("g")
+        .selectAll("rect")
+        .data([points])
+        .enter()
+        .append("path")
+        .attr("fill", "none")
+        .attr("stroke-width", 2)
+        .attr("stroke", "white")
+        .attr("d", dMaker)
+        ;
+
+    let hoverText = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("background", "#FBE49F")
+        .style("font-family", "Irish Grover")
+        .style("padding", "6px")
+        .style("border-radius", "5px")
+        .style("display", "none")
+        .style("pointer-events", "none")
+        .style("border", "1px solid white")
+        ;
+
+
+    svg.append("g")
+        .selectAll("circle")
+        .data(points)
+        .enter()
+        .append("circle")
+        .attr("cx", setX)
+        .attr("cy", setY)
+        .attr("r", 6)
+        .attr("fill", "white")
+
+        .on("mouseover", function (event, d) {
+            hoverText
+                .style("display", "block")
+                .text(d.points + " points");
+        })
+
+        .on("mousemove", function (event, d) {
+            hoverText
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 20 + "px");
+        })
+
+        .on("mouseout", function (event) {
+            hoverText
+                .style("display", "none");
+        })
+        ;
+
+
+    function setX(d) {
+        let placement = xScale(d.month) + xScale.bandwidth() / 2;
+        return placement;
+    };
+
+    function setY(d) {
+        let placement = yScale(d.points);
+        return placement;
+    };
 
 
 };
+
 drawLineDiagram()
 
 function getMainSkill(disciplineID) {
