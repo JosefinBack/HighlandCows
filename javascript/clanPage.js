@@ -545,6 +545,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
 };
 
 
+//skapa och rita diagrammen för skills
 function drawAllArcs(player_id, year) {
 
     document.getElementById("chartOne").innerHTML = "";
