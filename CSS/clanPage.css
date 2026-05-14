@@ -24,6 +24,12 @@
     z-index: 2;
 }
 
+#closeButtonDiv {
+    display: flex;
+    justify-content: end;
+    z-index: 2;
+}
+
 /* #colorsMeaning {} */
 
 #content {
@@ -68,14 +74,6 @@
     /* margin-top: 150px; */
 }
 
-#cowInfoAndPic {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 30px 10px;
-    position: relative;
-    z-index: 2;
-}
-
 #cowInfo {
     display: flex;
     flex-direction: column;
@@ -99,6 +97,14 @@
     align-items: center;
     justify-content: space-between;
     width: 40%;
+}
+
+#flexCowinfoAndPic {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 30px 10px;
+    position: relative;
+    z-index: 2;
 }
 
 
@@ -130,11 +136,12 @@
     position: relative;
     display: none;
     width: 900px;
-    height: 600px;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
     border: 8px solid #FDEFC7;
     border-radius: 10px;
+    padding: 15px 10px 30px;
 
     flex-direction: column;
     justify-content: center;
@@ -154,10 +161,10 @@
 }
 
 #svgElement {
-    height: 400px;
-    width: 100%;
-    border: 1px solid black;
+    display: flex;
+    justify-content: center;
 }
+
 
 #seasonSkills {
     position: relative;

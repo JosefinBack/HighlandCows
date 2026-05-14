@@ -39,43 +39,6 @@ for (let person of participants) {
 };
 
 
-function showClans() {
-    main.innerHTML = "";
-
-    for (let clan of clanNames) {
-        let clanDiv = document.createElement("div");
-        clanDiv.classList.add("clanDiv");
-
-        let h2 = document.createElement("h2");
-        h2.classList.add("clickTitleClan")
-        h2.textContent = clan;
-
-        // h2.addEventListener("click", function () {
-        //     let newPage =
-        //         window.location.href = `clanPage.html?clan=${clan}`;
-        // });
-
-        clanDiv.append(h2);
-        let players = membersClan(clan);
-
-        for (let player of players) {
-            let div = document.createElement("div");
-            div.classList.add("clanMember");
-
-            /*             let img = document.createElement("img");
-                        img.src = "../pic/cow.jpg";
-                        img.classList.add("cowImg"); */
-
-            let name = document.createElement("p");
-            name.textContent = player.name;
-
-            div.append(name);
-            clanDiv.append(div);
-        }
-        main.append(clanDiv);
-    }
-};
-
 
 //Kan den kanske göras lite enklare? 
 function showWeeks() {
@@ -151,6 +114,7 @@ function showWeeks() {
 }
 
 
+//RÄKNA UT POÄNG UTIFRÅN PLACERING
 function getPoints(placement) {
     if (placement === 1) return 15;
     if (placement === 2) return 10;

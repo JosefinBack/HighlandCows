@@ -1,4 +1,5 @@
 
+
 //Variabler
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
@@ -13,6 +14,8 @@ let notActiveCow = document.getElementById("notAcriveCows");
 let clanInfo = document.getElementById("clanInfo");
 let seasonSkills = document.getElementById("seasonSkills");
 
+let closeButtonDiv = document.getElementById("closeButtonDiv");
+let closeButton = document.getElementById("closeButton");
 let buttonBack = document.getElementById("buttonBack");
 let buttonForward = document.getElementById("buttonForward");
 let choosenCow = null;
@@ -21,11 +24,9 @@ let currentSeason = 2;
 
 let selectedClan = localStorage.getItem("selectedClan");
 
-createHeader();
-let playerButton = document.getElementById("playerButton");
-let bestPlayers = document.getElementById("bestPlayers");
-let clanButton = document.getElementById("clanButton");
-let schedualButton = document.getElementById("schedualButton");
+if (!selectedClan) {
+    selectedClan = "MacThomas";
+}
 
 
 
@@ -34,31 +35,31 @@ let historyMacThomas = "Clan MacThomas is one of the oldest and proudest clans i
 
 
 //AddEventLisneters
-playerButton.addEventListener("click", function () {
-    main.innerHTML = "";
-    getResultforPlayer(189, 0);
-    playerPlacment(189, 0);
-});
+// playerButton.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     getResultforPlayer(189, 0);
+//     playerPlacment(189, 0);
+// });
 
-bestPlayers.addEventListener("click", function () {
-    main.innerHTML = "";
-    getBestPlayers(0);
-    getBestPlayers(1);
-    getBestPlayers(2);
-});
+// bestPlayers.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     getBestPlayers(0);
+//     getBestPlayers(1);
+//     getBestPlayers(2);
+// });
 
-clanButton.addEventListener("click", function () {
-    main.innerHTML = "";
+// clanButton.addEventListener("click", function () {
+//     main.innerHTML = "";
 
-    main.classList.add("contentClanPage");
-    showClans();
-});
+//     main.classList.add("contentClanPage");
+//     showClans();
+// });
 
 
-schedualButton.addEventListener("click", function () {
-    main.innerHTML = "";
-    showWeeks();
-});
+// schedualButton.addEventListener("click", function () {
+//     main.innerHTML = "";
+//     showWeeks();
+// });
 
 buttonBack.addEventListener("click", function () {
     if (currentSeason > 0) {
@@ -73,6 +74,13 @@ buttonForward.addEventListener("click", function () {
         drawAllArcs(choosenCow, currentSeason);
     }
 });
+
+closeButtonDiv.addEventListener("click", function () {
+    popUpCowInfo.style.display = "none"
+});
+
+
+//FUNKTIONER
 
 function membersClan(clanName) {
     let members = [];
@@ -113,10 +121,12 @@ function showClanHomePage(clanName) {
 
 //personlig info för varje ko, som ska synas på klansida
 function allMembersPictures() {
+
     let allMembers = showClanHomePage(selectedClan);
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
+        imgDIV.style.textAlign = "center";
 
         let img = document.createElement("img");
         img.src = player.img;
@@ -124,8 +134,13 @@ function allMembersPictures() {
         let cowID = player.id;
         imgDIV.setAttribute("id", cowID);
 
-        imgDIV.appendChild(img);
-        clanMembersDIV.appendChild(imgDIV);
+        let cowName = document.createElement("p");
+        cowName.style.fontSize = "18px";
+        cowName.textContent = player.name;
+
+        imgDIV.append(img);
+        imgDIV.append(cowName);
+        clanMembersDIV.append(imgDIV);
 
         imgDIV.addEventListener("click", function () {
             let player_id = Number(imgDIV.id);
@@ -185,107 +200,122 @@ function personalInfo(player_id) {
 
 
 
-disciplineLeaderboard(0, 1, 170)
-
-//ta fram poäng per gren
-function disciplineLeaderboard(year, disciplineId, player_id) {
-
+function clanPointsPerMonth(clan, year) {
     let thisYear = threeSeasons.find(x => x.year === year);
-    let totalPointsForOnePlayer = [];
+    let members = membersClan(clan);
+    let monthScores = {};
+    let allScores = [];
 
-    // =========================
-    // RÄKNA HUR MÅNGA GÅNGER
-    // DISCIPLINEN SPELAS
-    // =========================
 
-    let counterTimes = 0;
+    for (let competition of thisYear.competitionDays) {
+        let month = competition.date.month;
 
-    for (let day of thisYear.competitionDays) {
+        if (month < 2 || month > 7) {
+            continue;
+        };
 
-        for (let event of day.events) {
+        if (!monthScores[month]) {
+            monthScores[month] = 0;
+        };
 
-            if (event.disciplineId === disciplineId) {
-                counterTimes++;
+        for (let event of competition.events) {
+            // sortera resultaten
+            let sortedScores = event.scores
+                .slice()
+                .sort((a, b) => b.score - a.score);
+
+            let placement = 1;
+
+
+            for (let score of sortedScores) {
+                let player = members.find(x => x.id === score.participantId
+                );
+
+                if (player) {
+                    let points = getPoints(placement);
+                    monthScores[month] = monthScores[month] + points;
+                };
+                placement++;
             }
-
         }
     }
 
-    // maxpoäng
-    let maxScore = counterTimes * 15;
+    let monthNames = { 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul" };
 
-    for (let participant of allParticipants) {
-        let playerPoints = 0;
-
-        for (let day of thisYear.competitionDays) {
-            for (let event of day.events) {
-                if (event.disciplineId === disciplineId) {
-
-                    // kopiera och sortera score-array
-                    let EventScoreArray = [...event.scores];
-
-                    // EventScoreArray.sort((a, b) => b.score - a.score);
-
-                    let placement = 1;
-
-                    for (let score of EventScoreArray) {
-                        if (score.participantId === participant.id) {
-                            let points = getPoints(placement);
-                            playerPoints = playerPoints + points;
-                        }
-                        placement++;
-                    }
-                }
-            }
-        }
-        // procent av maxscore
-        let percent = (playerPoints / maxScore) * 100;
-
-        totalPointsForOnePlayer.push({
-            id: participant.id,
-            name: participant.name,
-            total: playerPoints,
-            percent: percent
+    for (let month in monthScores) {
+        allScores.push({
+            month: monthNames[month],
+            points: monthScores[month]
         });
     }
 
-
-    for (let player of totalPointsForOnePlayer) {
-
-        if (player.id === player_id) {
-
-            let row = document.createElement("div");
-
-            row.textContent =
-                `${player.name} | Total points: ${player.total}`;
-
-            console.log(row.textContent);
-            return player;
-        }
+    let total = 0;
+    for (let points of allScores) {
+        total = total + points.points;
     }
+    // console.log(total)
+    // console.log(allScores);
+    return allScores;
 }
 
-function membersScore() {
-    let members = membersClan(selectedClan);
-    console.log(members)
-    let currentSeason = 2;
-    let allSocres = [];
 
-    for (let player of members) {
-        for (let i = 1; i < 6; i++) {
-            let discipline_id = i;
-            let player_id = player.id;
-            let score = disciplineLeaderboard(currentSeason, discipline_id, player.id);
-            allSocres.push(`${player.name}, ${score.total} points in discipline ${discipline_id}`);
-        }
-    }
-    console.log(allSocres)
-}
-membersScore()
 
+
+
+function drawLineDiagram() {
+
+    let points = clanPointsPerMonth(selectedClan, currentSeason);
+    console.log(points);
+
+    let months = points.map(x => x.month);
+    let maxScore = 0;
+
+    for (let score of points) {
+        maxScore = maxScore + score.points;
+    };
+
+    let hSvg = 400;
+    let wSvg = 900;
+    let wPad = 100;
+    let hPad = 50;
+
+    let svg = d3.select("#svgElement")
+        .append("svg")
+        .attr("height", hSvg)
+        .attr("width", wSvg)
+        .style("border", "1px solid black")
+        ;
+
+
+
+    let xScale = d3.scaleBand()
+        .domain(months)
+        .range([wPad, wSvg - wPad])
+        ;
+
+    let yScale = d3.scaleLinear()
+        .domain([0, maxScore])
+        .range([hSvg - hPad, hPad])
+        ;
+
+
+    let xAxel = d3.axisBottom(xScale);
+    let yAxel = d3.axisLeft(yScale);
+
+    svg.append("g")
+        .call(xAxel)
+        .attr("transform", `translate(0, ${hSvg - hPad})`)
+        ;
+
+    svg.append("g")
+        .call(yAxel)
+        .attr("transform", `translate(${wPad}, 0)`)
+
+
+};
+drawLineDiagram()
 
 function getMainSkill(disciplineID) {
-
     let discipline = disciplines.find(d => d.id === disciplineID);
     let highestSkill = "";
     let highestValue = 0;
@@ -357,8 +387,7 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
     // 1st place = 100
     // 6th place = 0
 
-    let skillScore =
-        ((6 - average) / 5) * 100;
+    let skillScore = ((6 - average) / 5) * 100;
 
     skillScore = Math.round(skillScore);
 
@@ -544,6 +573,7 @@ function drawArcs(playerID, year, disciplineID, chartDiv) {
 };
 
 
+//skapa och rita diagrammen för skills
 function drawAllArcs(player_id, year) {
 
     document.getElementById("chartOne").innerHTML = "";
@@ -563,3 +593,5 @@ function drawAllArcs(player_id, year) {
 
 //FUNKTIONSANROP
 allMembersPictures();
+clanPointsPerMonth(selectedClan, currentSeason);
+

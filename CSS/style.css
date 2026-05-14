@@ -19,21 +19,6 @@ footer {
     height: 150px;
 }
 
-#header {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    align-items: center;
-    height: 80px;
-    border-bottom: 1px solid black;
-}
-
-#header button {
-    height: 40px;
-    padding: 10px;
-    width: 110px;
-}
-
 
 .clickTitleClan:hover {
     cursor: pointer;
@@ -43,6 +28,7 @@ footer {
 main {
     max-width: 1200px;
     margin: 0 auto;
+    font-family: Instrumental serif;
 }
 
 .clanDiv {
