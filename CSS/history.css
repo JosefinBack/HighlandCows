@@ -1,0 +1,67 @@
+body{
+    margin: 0;
+}
+
+#historyContainer{
+    background-color: rgba(113, 145, 136, 0.3);
+    margin-top: 0px;
+}
+
+#scotlandTitle{
+    font-family: "Irish Grover";
+    color:  #1f1f1f;
+    font-size: 38px;
+    margin-left: 80px;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+#section1Wrapper{
+    display: flex;
+    gap: 50px;
+    width: 90%;
+    margin-left: 80px;
+}
+
+#scotlandFlag-img{
+    width: 50%;
+    border-radius: 20px;
+}
+
+#textWrapper{
+    width: 40%;
+    font-family: "Instrumental serif";
+}
+
+#section2Wrapper{
+    display: flex;
+    gap: 50px;
+    margin-left: 80px;
+    margin-top: 40px;
+}
+
+.splitSide h2{
+    font-family: "Irish Grover";
+    font-size: 28px;
+    color:#1f1f1f;
+    margin-bottom: 5px;
+}
+
+.textWrapper{
+    width: 70%;
+    font-family: "Instrumental serif";
+    font-size: 18px;
+}
+
+p{
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+#landscape{
+    width: 90%;
+    border-radius: 20px;
+    margin-left: 80px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
