@@ -289,3 +289,5 @@ function getBestClan(year) {
 
   return resultArray;
 }
+
+
