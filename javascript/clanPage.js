@@ -1,4 +1,5 @@
 
+
 //Variabler
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
@@ -23,11 +24,9 @@ let currentSeason = 2;
 
 let selectedClan = localStorage.getItem("selectedClan");
 
-// createHeader();
-// let playerButton = document.getElementById("playerButton");
-// let bestPlayers = document.getElementById("bestPlayers");
-// let clanButton = document.getElementById("clanButton");
-// let schedualButton = document.getElementById("schedualButton");
+if (!selectedClan) {
+    selectedClan = "MacThomas";
+}
 
 
 
@@ -76,6 +75,13 @@ buttonForward.addEventListener("click", function () {
     }
 });
 
+closeButtonDiv.addEventListener("click", function () {
+    popUpCowInfo.style.display = "none"
+});
+
+
+//FUNKTIONER
+
 function membersClan(clanName) {
     let members = [];
     for (let person of allParticipants) {
@@ -115,10 +121,12 @@ function showClanHomePage(clanName) {
 
 //personlig info för varje ko, som ska synas på klansida
 function allMembersPictures() {
+
     let allMembers = showClanHomePage(selectedClan);
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
+        imgDIV.style.textAlign = "center";
 
         let img = document.createElement("img");
         img.src = player.img;
@@ -126,8 +134,13 @@ function allMembersPictures() {
         let cowID = player.id;
         imgDIV.setAttribute("id", cowID);
 
-        imgDIV.appendChild(img);
-        clanMembersDIV.appendChild(imgDIV);
+        let cowName = document.createElement("p");
+        cowName.style.fontSize = "18px";
+        cowName.textContent = player.name;
+
+        imgDIV.append(img);
+        imgDIV.append(cowName);
+        clanMembersDIV.append(imgDIV);
 
         imgDIV.addEventListener("click", function () {
             let player_id = Number(imgDIV.id);
@@ -261,33 +274,80 @@ function disciplineLeaderboard(year, disciplineId, player_id) {
             row.textContent =
                 `${player.name} | Total points: ${player.total}`;
 
-            console.log(row.textContent);
+            //console.log(row.textContent);
             return player;
         }
     }
 }
 
-function membersScore() {
-    let members = membersClan(selectedClan);
-    console.log(members)
-    let currentSeason = 2;
-    let allSocres = [];
 
-    for (let player of members) {
-        for (let i = 1; i < 6; i++) {
-            let discipline_id = i;
-            let player_id = player.id;
-            let score = disciplineLeaderboard(currentSeason, discipline_id, player.id);
-            allSocres.push(`${player.name}, ${score.total} points in discipline ${discipline_id}`);
+function clanPointsPerMonth(clan, year) {
+    let thisYear = threeSeasons.find(x => x.year === year);
+    let members = membersClan(clan);
+
+    for (let competition of thisYear.competitionDays) {
+        let month = competition.date.month;
+
+        for (let event of competition.event) {
+
         }
     }
-    console.log(allSocres)
-}
-membersScore()
 
+};
+
+
+
+// function membersScore() {
+//     let members = membersClan(selectedClan);
+//     let currentSeason = 2;
+//     let allScores = [];
+
+//     for (let player of members) {
+//         let totalScoreMember = 0;
+
+//         for (let i = 1; i < 6; i++) {
+//             let discipline_id = i;
+//             let score = disciplineLeaderboard(currentSeason, discipline_id, player.id);
+//             totalScoreMember = totalScoreMember + score.total;
+//         }
+//         allScores.push({
+//             player: player.name,
+//             total: totalScoreMember
+//         });
+//     }
+//     console.log(allScores);
+//     return allScores;
+// }
+
+
+// function totalClanScore() {
+//     let memberScore = membersScore();
+//     let clanTotalScore = 0;
+
+//     for (let player of memberScore) {
+//         clanTotalScore = clanTotalScore + player.total;
+//     };
+//     console.log(clanTotalScore);
+//     return clanTotalScore;
+// }
+
+// totalClanScore();
+
+function drawLineDiagram() {
+    let hSvg = 400;
+    let wSvg = 900;
+
+    let svg = d3.select("#svgElement")
+        .append("svg")
+        .attr("height", hSvg)
+        .attr("width", wSvg)
+        .style("border", "1px solid black")
+
+
+};
+drawLineDiagram()
 
 function getMainSkill(disciplineID) {
-
     let discipline = disciplines.find(d => d.id === disciplineID);
     let highestSkill = "";
     let highestValue = 0;
@@ -565,3 +625,4 @@ function drawAllArcs(player_id, year) {
 
 //FUNKTIONSANROP
 allMembersPictures();
+
