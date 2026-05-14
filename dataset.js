@@ -53,7 +53,7 @@ const clans = [{
   "name": "MacLeod",
   "region": 4,
   "crest": "../pic/MacLeod/Macleod.png",
-  "tartan": "../pic/MacLeod/Macleod_tartans-png"
+  "tartan": "../pic/MacLeod/Macleod_tartans.png"
 }, {
   "name": "MacKinnon",
   "region": 5,

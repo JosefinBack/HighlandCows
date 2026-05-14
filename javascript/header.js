@@ -10,7 +10,7 @@ let contentNav = `
             <a href="" id="start-Button">Start</a>
             <a href="" id="season-Button">Season</a>
             <a href="" id="event-Button">Event</a>
-            <a href="" id="clans-Button">Clans</a>
+            <a href="clanPage.html" id="clans-Button">Clans</a>
             <a href="" id="history-Button">History</a>
         </div>
     </nav>
