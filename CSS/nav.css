@@ -53,3 +53,37 @@ nav {
 .active {
     text-decoration: underline;
 }
+
+/* Drop-down clans */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1f1f1f;
+    min-width: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+}
+
+.dropdownContent a {
+    display: block;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.dropdownContent a:hover {
+    background-color: #3b3b3b;
+}

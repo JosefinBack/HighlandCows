@@ -1,3 +1,7 @@
+body {
+    background-color: rgba(113, 145, 136, 0.3);
+}
+
 .bigDiv {
     display: flex;
     flex-direction: column;
