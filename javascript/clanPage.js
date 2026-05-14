@@ -200,148 +200,116 @@ function personalInfo(player_id) {
 
 
 
-// disciplineLeaderboard(0, 1, 170)
-
-//ta fram poäng per gren
-function disciplineLeaderboard(year, disciplineId, player_id) {
-
-    let thisYear = threeSeasons.find(x => x.year === year);
-    let totalPointsForOnePlayer = [];
-
-    // =========================
-    // RÄKNA HUR MÅNGA GÅNGER
-    // DISCIPLINEN SPELAS
-    // =========================
-
-    let counterTimes = 0;
-
-    for (let day of thisYear.competitionDays) {
-
-        for (let event of day.events) {
-
-            if (event.disciplineId === disciplineId) {
-                counterTimes++;
-            }
-
-        }
-    }
-
-    // maxpoäng
-    let maxScore = counterTimes * 15;
-
-    for (let participant of allParticipants) {
-        let playerPoints = 0;
-
-        for (let day of thisYear.competitionDays) {
-            for (let event of day.events) {
-                if (event.disciplineId === disciplineId) {
-
-                    // kopiera och sortera score-array
-                    let EventScoreArray = [...event.scores];
-
-                    // EventScoreArray.sort((a, b) => b.score - a.score);
-
-                    let placement = 1;
-
-                    for (let score of EventScoreArray) {
-                        if (score.participantId === participant.id) {
-                            let points = getPoints(placement);
-                            playerPoints = playerPoints + points;
-                        }
-                        placement++;
-                    }
-                }
-            }
-        }
-        // procent av maxscore
-        let percent = (playerPoints / maxScore) * 100;
-
-        totalPointsForOnePlayer.push({
-            id: participant.id,
-            name: participant.name,
-            total: playerPoints,
-            percent: percent
-        });
-    }
-
-
-    for (let player of totalPointsForOnePlayer) {
-
-        if (player.id === player_id) {
-
-            let row = document.createElement("div");
-
-            row.textContent =
-                `${player.name} | Total points: ${player.total}`;
-
-            //console.log(row.textContent);
-            return player;
-        }
-    }
-}
-
-
 function clanPointsPerMonth(clan, year) {
     let thisYear = threeSeasons.find(x => x.year === year);
     let members = membersClan(clan);
+    let monthScores = {};
+    let allScores = [];
+
 
     for (let competition of thisYear.competitionDays) {
         let month = competition.date.month;
 
-        for (let event of competition.event) {
+        if (month < 2 || month > 7) {
+            continue;
+        };
 
+        if (!monthScores[month]) {
+            monthScores[month] = 0;
+        };
+
+        for (let event of competition.events) {
+            // sortera resultaten
+            let sortedScores = event.scores
+                .slice()
+                .sort((a, b) => b.score - a.score);
+
+            let placement = 1;
+
+
+            for (let score of sortedScores) {
+                let player = members.find(x => x.id === score.participantId
+                );
+
+                if (player) {
+                    let points = getPoints(placement);
+                    monthScores[month] = monthScores[month] + points;
+                };
+                placement++;
+            }
         }
     }
 
-};
+    let monthNames = { 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul" };
+
+    for (let month in monthScores) {
+        allScores.push({
+            month: monthNames[month],
+            points: monthScores[month]
+        });
+    }
+
+    let total = 0;
+    for (let points of allScores) {
+        total = total + points.points;
+    }
+    // console.log(total)
+    // console.log(allScores);
+    return allScores;
+}
 
 
 
-// function membersScore() {
-//     let members = membersClan(selectedClan);
-//     let currentSeason = 2;
-//     let allScores = [];
 
-//     for (let player of members) {
-//         let totalScoreMember = 0;
-
-//         for (let i = 1; i < 6; i++) {
-//             let discipline_id = i;
-//             let score = disciplineLeaderboard(currentSeason, discipline_id, player.id);
-//             totalScoreMember = totalScoreMember + score.total;
-//         }
-//         allScores.push({
-//             player: player.name,
-//             total: totalScoreMember
-//         });
-//     }
-//     console.log(allScores);
-//     return allScores;
-// }
-
-
-// function totalClanScore() {
-//     let memberScore = membersScore();
-//     let clanTotalScore = 0;
-
-//     for (let player of memberScore) {
-//         clanTotalScore = clanTotalScore + player.total;
-//     };
-//     console.log(clanTotalScore);
-//     return clanTotalScore;
-// }
-
-// totalClanScore();
 
 function drawLineDiagram() {
+
+    let points = clanPointsPerMonth(selectedClan, currentSeason);
+    console.log(points);
+
+    let months = points.map(x => x.month);
+    let maxScore = 0;
+
+    for (let score of points) {
+        maxScore = maxScore + score.points;
+    };
+
     let hSvg = 400;
     let wSvg = 900;
+    let wPad = 100;
+    let hPad = 50;
 
     let svg = d3.select("#svgElement")
         .append("svg")
         .attr("height", hSvg)
         .attr("width", wSvg)
         .style("border", "1px solid black")
+        ;
+
+
+
+    let xScale = d3.scaleBand()
+        .domain(months)
+        .range([wPad, wSvg - wPad])
+        ;
+
+    let yScale = d3.scaleLinear()
+        .domain([0, maxScore])
+        .range([hSvg - hPad, hPad])
+        ;
+
+
+    let xAxel = d3.axisBottom(xScale);
+    let yAxel = d3.axisLeft(yScale);
+
+    svg.append("g")
+        .call(xAxel)
+        .attr("transform", `translate(0, ${hSvg - hPad})`)
+        ;
+
+    svg.append("g")
+        .call(yAxel)
+        .attr("transform", `translate(${wPad}, 0)`)
 
 
 };
@@ -625,4 +593,5 @@ function drawAllArcs(player_id, year) {
 
 //FUNKTIONSANROP
 allMembersPictures();
+clanPointsPerMonth(selectedClan, currentSeason);
 

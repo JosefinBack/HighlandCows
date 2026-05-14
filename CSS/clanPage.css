@@ -160,6 +160,12 @@
     z-index: 1;
 }
 
+#svgElement {
+    display: flex;
+    justify-content: center;
+}
+
+
 #seasonSkills {
     position: relative;
     z-index: 2;

@@ -114,6 +114,7 @@ function showWeeks() {
 }
 
 
+//RÄKNA UT POÄNG UTIFRÅN PLACERING
 function getPoints(placement) {
     if (placement === 1) return 15;
     if (placement === 2) return 10;
