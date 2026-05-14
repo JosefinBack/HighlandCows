@@ -30,10 +30,6 @@ if (!selectedClan) {
 
 
 
-//Clan history
-let historyMacThomas = "Clan MacThomas is one of the oldest and proudest clans in the Highlands. Known for their strength, loyalty, and stubborn spirit, the clan settled in the hills of Glenshee many generations ago. Their cattle became famous for surviving harsh winters, defending their land, and competing fearlessly in the Highland Cow Tournament. Even today, the warriors of Clan MacThomas are respected for their endurance, courage, and unbreakable clan pride."
-
-
 //AddEventLisneters
 // playerButton.addEventListener("click", function () {
 //     main.innerHTML = "";
@@ -98,7 +94,7 @@ function showClanHomePage(clanName) {
 
     for (let clan of clans) {
         if (clan.name === clanName) {
-            h1ClanName.textContent = clan.name;
+            h1ClanName.textContent = `Clan ${clan.name}`;
 
             let crestImg = document.createElement("img");
             crestImg.src = clan.crest;
@@ -112,8 +108,11 @@ function showClanHomePage(clanName) {
         }
     };
 
-    clanHistory.textContent = historyMacThomas;
-
+    for (let clan of claninfo) {
+        if (clan.name === clanName) {
+            clanHistory.textContent = clan.info;
+        }
+    }
     let players = membersClan(clanName);
     return players;
 };
