@@ -44,7 +44,8 @@ function landingPage() {
 
 landingPage();
 drawClanMap();
-displayTop3Players(0);
+displayTop3Players(2);
+displayTop3Clans(2);
 
 function drawClanMap() {
   let container = document.createElement("div");
@@ -141,7 +142,6 @@ function drawClanMap() {
 }
 
 function displayTop3Players(year) {
-
   const getBestPlayer = getBestPlayers(year);
   const top3 = getBestPlayer.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
 
@@ -154,15 +154,14 @@ function displayTop3Players(year) {
     playerDiv.classList.add("ranking-card");
     top3PlayerContainer.append(playerDiv);
 
-    
     const textWrapper = document.createElement("div");
-    textWrapper.classList.add("player-text-content"); 
+    textWrapper.classList.add("player-text-content");
     playerDiv.append(textWrapper);
 
     const nameInfo = document.createElement("p");
     nameInfo.classList.add("fontStyleRanking");
     textWrapper.append(nameInfo);
-    
+
     const pointsInfo = document.createElement("p");
     pointsInfo.classList.add("fontStyleRanking");
     textWrapper.append(pointsInfo);
@@ -179,30 +178,37 @@ function displayTop3Players(year) {
   }
 }
 
-function displayTop3Clans() {
-  // const getBestClan = ;
-  const top3 = getBestClan.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
+function displayTop3Clans(year) {
+  const bestClans = getBestClan(year);
+  const top3 = bestClans.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
 
-  const top3ClanContainer = document.getElementById("top3Clan");
-  top3PlayerContainer.innerHTML = `<p id="top3ClanTitle">Top 3 Clans</p>`;
+  const top3ClansContainer = document.getElementById("top3Clans");
+  top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
 
   for (let i = 0; i < top3.length; i++) {
     let clan = top3[i];
     const clanDiv = document.createElement("div");
     clanDiv.classList.add("ranking-card");
-    top3ClanContainer.append(clanDiv);
+    top3ClansContainer.append(clanDiv);
+
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("player-text-content");
+    clanDiv.append(textWrapper);
 
     const nameInfo = document.createElement("p");
     nameInfo.classList.add("fontStyleRanking");
-
-    playerDiv.append(nameInfo);
+    nameInfo.textContent = `Clan: ${clan.clanName}`;
+    textWrapper.append(nameInfo);
 
     const pointsInfo = document.createElement("p");
     pointsInfo.classList.add("fontStyleRanking");
-    playerDiv.append(pointsInfo);
+    pointsInfo.textContent = `Points: ${clan.points}`;
+    textWrapper.append(pointsInfo);
 
-    nameInfo.textContent = `${clan.name}`;
-    pointsInfo.textContent = `${clan.points}p`;
+    const imgCrest = document.createElement("img");
+    imgCrest.classList.add("rankingImg");
+    imgCrest.src = clan.crest;
+    clanDiv.append(imgCrest);
   }
 }
 
@@ -264,30 +270,31 @@ function calculatePlayerPoints(player_id, year) {
 
 function getBestClan(year) {
   let resultArray = [];
-  let imgCow;
 
   for (let person of allParticipants) {
-    let playerID = person.id;
-    let result = calculatePlayerPoints(playerID, year);
+    for (let clan of clans) {
+      let playerID = person.id;
+      let playerClan = person.clan;
+      let clanName = clan.name;
+      let result = calculatePlayerPoints(playerID, year);
 
-    resultArray.push({
-      id: playerID,
-      name: person.name,
-      points: result,
-      img: person.img,
-    });
+      if (playerClan === clanName) {
+        resultArray.push({
+          id: playerID,
+          name: person.name,
+          points: result,
+          img: person.img,
+          crest: clan.crest,
+          tartan: clan.tartan,
+          clanName : clan.name
+        });
+      }
+    }
   }
 
   resultArray.sort(function (a, b) {
     return b.points - a.points;
   });
 
-  for (let result of resultArray) {
-    imgCow = resultArray.img;
-    img.classList.add("rankingImg");
-  }
-
   return resultArray;
 }
-
-
