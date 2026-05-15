@@ -1,7 +1,14 @@
 
 //Material
 
-let clanNames = ["MacThomas", "Macdowall", "Macqueen", "Macleod", "Mackinnon"];
+let clanNames = [
+    "MacThomas",
+    "MacDowall",
+    "MacQueen",
+    "MacLeod",
+    "MacKinnon",
+    "MacLea"
+];
 
 //Activ season (haft seasong 2(aka 3))
 let threeSeasons = [];
@@ -184,7 +191,6 @@ function calculatePlayerPoints(player_id, year) {
         for (let event of playerPart.events) {
 
             let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
-            //console.log(sortedScores)
             let i = 1;
 
             for (let score of sortedScores) {
@@ -200,16 +206,15 @@ function calculatePlayerPoints(player_id, year) {
         }
     }
 
-    //console.log(calculateTotalPoints(playerPlacings))
     return calculateTotalPoints(playerPlacings);
 };
-//console.log("hej")
 
 
 
 function playerPlacment(player_id, year) {
     let thisYear = threeSeasons.find(x => x.year === year);
 
+    let counter = 0;
     let eventsArray = [];
 
     //  Samla alla events
@@ -251,6 +256,10 @@ function playerPlacment(player_id, year) {
         let title = document.createElement("div");
         title.textContent = `Discipline ${item.event.disciplineId}`;
 
+        if (item.event.disciplineId === 2) {
+            counter++;
+        }
+
         let info = document.createElement("div");
         info.textContent = `${item.day.day}/${item.day.month}`;
 
@@ -288,7 +297,6 @@ function playerPlacment(player_id, year) {
             let player = allParticipants.find(p => p.id === id);
             row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
 
-
             // highlight vald spelare
             if (id === player_id) {
                 row.style.backgroundColor = "yellow";
@@ -299,6 +307,7 @@ function playerPlacment(player_id, year) {
         thisDIV.append(gameDiv);
     }
     main.append(thisDIV);
+    console.log(counter);
 };
 
 
@@ -417,5 +426,57 @@ function getTopThreeClansBySeason(seasonYear) {
         .slice(0, 3);
 }
 
-//console.log(getTopThreeClansBySeason(2));
+//Funktion som tar fram klanernas score utifrån disciplin SAMT season
+function getClanScoreByDiscipline(discipline_id, season) {
+    const clanScores = [];
+
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+
+        for (let member of members) {
+            let thisYear = threeSeasons.find(x => x.year === season);
+
+            for (let competition of thisYear.competitionDays) {
+                for (let event of competition.events) {
+                    if (event.disciplineId !== discipline_id) continue;
+
+                    for (let score of event.scores) {
+                        if (score.participantId === member.id) {
+                            totalPoints += score.score;
+                        }
+                    }
+                }
+            }
+        }
+        clanScores.push({ clan: clan, points: totalPoints });
+    }
+    return clanScores;
+}
+//Funktion som tar fram klanernas poäng utifrån ENDAST säsong = första stapeln
+// på season-sidan
+function getClanTotalScoreBySeason(season) {
+    const clanScores = [];
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+        let thisYear = threeSeasons.find(x => x.year === season);
+
+        for (let member of members) {
+            for (let competition of thisYear.competitionDays) {
+                for (let event of competition.events) {
+                    for (let score of event.scores) {
+                        if (score.participantId === member.id) {
+                            totalPoints += score.score;
+                        }
+                    }
+                }
+            }
+        }
+        clanScores.push({ clan: clan, points: totalPoints });
+    }
+    return clanScores;
+}
+
+console.log(getClanTotalScoreBySeason(0));
 
