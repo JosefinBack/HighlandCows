@@ -22,8 +22,8 @@ startButton.addEventListener("click", function () {
 
 playerButton.addEventListener("click", function () {
     main.innerHTML = "";
-    getResultforPlayer(189, 0);
-    playerPlacment(170, 0);
+    getResultforPlayer(156, 0);
+    playerPlacment(156, 0);
 });
 
 bestPlayers.addEventListener("click", function () {
@@ -47,7 +47,6 @@ schedualButton.addEventListener("click", function () {
     showWeeks();
 
 });
-
 
 
 
@@ -147,12 +146,6 @@ function drawClanMap() {
 
 drawClanMap();
 
-
-
-
-
-
-
 function threeYears(yearOne, yearTwo, yearThree) {
 
     function getParticipants(year) {
@@ -202,8 +195,7 @@ function threeYears(yearOne, yearTwo, yearThree) {
 
 threeYears(0, 1, 2);
 
-
-
+//Stapeldiagram för klanernas resultat utifrån disciplin och season 
 
 
 // console.log(allParticipants);

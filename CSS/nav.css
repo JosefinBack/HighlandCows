@@ -1,0 +1,89 @@
+/* :root {
+    --background-color-: #719188;
+    --font-family-: "Irish Grover";
+
+} */
+
+body {
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Irish Grover";
+    color: white;
+    background-color: #719188;
+    padding: 5px;
+}
+
+#left-side h1 {
+    font-size: 32px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+#left-side h5 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+#left-side {
+    margin-left: 40px;
+}
+
+#right-side {
+    margin-right: 60px;
+    display: flex;
+    gap: 40px;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+#right-side a {
+    color: white;
+    text-decoration: none;
+}
+
+#right-side a:hover {
+    text-decoration: underline;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+/* Drop-down clans */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1f1f1f;
+    min-width: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+}
+
+.dropdownContent a {
+    display: block;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.dropdownContent a:hover {
+    background-color: #3b3b3b;
+}

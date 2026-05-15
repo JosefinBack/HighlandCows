@@ -1,31 +1,75 @@
 let header = document.getElementById("header");
 
-//Buttons
+let contentNav = `
+<nav>
+        <div id="left-side">
+            <h1>Highland Cow</h1>
+            <h5>Tournament</h5>
+        </div>
+        <div id="right-side">
+            <a href="" id="start-Button">Start</a>
+            <a href="" id="season-Button">Season</a>
+            <a href="" id="event-Button">Event</a>
+
+            <div class="dropdown">
+
+            <a href="#" id="clans-Button">
+                Clans
+            </a>
+
+            <div class="dropdownContent">
+
+                <a href="#"
+                   class="clanLink"
+                   data-clan="MacThomas">
+                   MacThomas
+                </a>
+
+                <a href="#"
+                   class="clanLink"
+                   data-clan="MacLeod">
+                   MacLeod
+                </a>
+
+                <a href="#"
+                   class="clanLink"
+                   data-clan="MacQueen">
+                   MacQueen
+                </a>
+
+                <a href="#"
+                   class="clanLink"
+                   data-clan="MacDowall">
+                   MacDowall
+                </a>
+
+                <a href="#"
+                   class="clanLink"
+                   data-clan="MacKinnon">
+                   MacKinnon
+                </a>
+            </div>
+        </div>
+
+            <a href="" id="history-Button">History</a>
+        </div>
+    </nav>
+`
+
 function createHeader() {
-
-    let header = document.getElementById("header");
-
-    let startButton = document.createElement("button");
-    startButton.textContent = "Start";
-
-    let playerButton = document.createElement("button");
-    playerButton.textContent = "Players";
-
-    let bestPlayers = document.createElement("button");
-    bestPlayers.textContent = "Best players";
-
-    let clanButton = document.createElement("button");
-    clanButton.textContent = "Clans";
-
-    let schedualButton = document.createElement("button");
-    schedualButton.textContent = "Schedual";
-
-    startButton.id = "startButton";
-    playerButton.id = "playerButton";
-    bestPlayers.id = "bestPlayers";
-    clanButton.id = "clanButton";
-    schedualButton.id = "schedualButton";
-
-    header.append(startButton, playerButton, bestPlayers, clanButton, schedualButton);
+    header.innerHTML = contentNav;
 };
+createHeader()
 
+
+let clanLinks = document.querySelectorAll(".clanLink");
+
+for (let link of clanLinks) {
+
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+        let selectedClan = link.dataset.clan;
+        localStorage.setItem("selectedClan", selectedClan);
+        window.location.href = "../html/clanPage.html";
+    });
+};

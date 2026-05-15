@@ -5,31 +5,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clan</title>
+    <link rel="stylesheet" href="../CSS/fonts.css">
+    <link rel="stylesheet" href="../CSS/nav.css">
     <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/clanPage.css">
 </head>
 
 <body>
     <div id="header"></div>
     <main>
         <div id="content">
-            <h1>Clan NAME</h1>
 
-
-            <div id="clanInfo">
-                <div id="history"></div>
+            <div class="DIV-flex">
+                <h1 id="clanName"></h1>
+                <div id="clanInfo">
+                    <div id="history"></div>
+                    <div id="clanInfoPictures">
+                        <div id="crest"></div>
+                        <div id="tartan"></div>
+                    </div>
+                </div>
             </div>
 
-            <div id="clanMembers">
-                <button id="198">Spelare 189</button>
+            <div class="DIV-flex">
+                <h3>Clanpoints per month in current season</h3>
+                <div id="svgElement"></div>
             </div>
-            <div id="popUpCowInfo"></div>
+
+            <div class="DIV-flex">
+                <h3>Members</h3>
+                <div id="clanMembers"></div>
+            </div>
+
+
+            <div id="popUpCowInfo">
+                <div class="overlay"></div>
+                <div id="closeButtonDiv">
+                    <button id="closeButton">Close</button>
+                </div>
+
+                <div id="flexCowinfoAndPic">
+                    <div id="cowInfo"></div>
+                    <div id="picOnCow"></div>
+                </div>
+
+
+                <div id="seasonSkills">
+                    <button class="buttonArrow" id="buttonBack">
+                        < </button>
+                            <h2 id="h2Season"></h2>
+                            <button class="buttonArrow" id="buttonForward"> > </button>
+                </div>
+
+                <div id="chart">
+                    <div id="chartOne"></div>
+                    <div id="chartTwo"></div>
+                    <div id="chartThree"></div>
+                    <div id="chartFour"></div>
+                    <div id="chartFive"></div>
+                </div>
+            </div>
         </div>
+        <footer></footer>
     </main>
 
     <script src="../d3.v7.min.js"></script>
     <script src="../dataset.js"></script>
     <script src="../javascript/functions.js"></script>
     <script src="../javascript/header.js"></script>
+    <script src="../javascript/claninfo.js"></script>
     <script src="../javascript/clanPage.js"></script>
 </body>
 

@@ -45,45 +45,6 @@ for (let person of participants) {
     };
 };
 
-// console.log(allParticipants);
-
-
-function showClans() {
-    allClansContent.innerHTML = "";
-
-    for (let clan of clanNames) {
-        let clanDiv = document.createElement("div");
-        clanDiv.classList.add("clanDiv");
-
-        let h2 = document.createElement("h2");
-        h2.classList.add("clickTitleClan")
-        h2.textContent = clan;
-
-        // h2.addEventListener("click", function () {
-        //     let newPage =
-        //         window.location.href = `clanPage.html?clan=${clan}`;
-        // });
-
-        clanDiv.append(h2);
-        let players = membersClan(clan);
-
-        for (let player of players) {
-            let div = document.createElement("div");
-            div.classList.add("clanMember");
-
-            /*             let img = document.createElement("img");
-                        img.src = "../pic/cow.jpg";
-                        img.classList.add("cowImg"); */
-
-            let name = document.createElement("p");
-            name.textContent = player.name;
-
-            div.append(name);
-            clanDiv.append(div);
-        }
-        allClansContent.append(clanDiv);
-    }
-};
 
 
 //Kan den kanske göras lite enklare? 
@@ -93,7 +54,6 @@ function showWeeks() {
     main.append(h2);
 
     let competitions = createWeeks(0);
-    //console.log(competitions);
 
     for (let monthObj of competitions) {
         for (let week of monthObj.weeks) {
@@ -146,7 +106,7 @@ function showWeeks() {
 
                         let row = document.createElement("p");
                         row.classList.add("rowDiv");
-                        row.textContent = `${i}. ${player.name} - ${score.score}`;
+                        row.textContent = `${i}. ${player.name} (${player.clan}) - ${score.score}`;
 
                         eventDiv.append(row);
                         i++;
@@ -161,13 +121,14 @@ function showWeeks() {
 }
 
 
+//RÄKNA UT POÄNG UTIFRÅN PLACERING
 function getPoints(placement) {
     if (placement === 1) return 15;
     if (placement === 2) return 10;
     if (placement === 3) return 6;
     if (placement === 4) return 3;
     if (placement === 5) return 1;
-    return 0;
+    if (placement === 6) return 0;
 }
 
 
@@ -294,7 +255,11 @@ function playerPlacment(player_id, year) {
             totalPointsPerPlayer[id][discipline] += points;
             let total = totalPointsPerPlayer[id][discipline];
 
-            let player = allParticipants.find(p => p.id === id);
+            let player = participants.find(p => p.id === id);
+
+            if (!player.clan) {
+                continue;
+            }
             row.textContent = `${i}. ${player.name} | Score: ${points} | Total (D${discipline}): ${total}`;
 
             // highlight vald spelare
@@ -309,6 +274,175 @@ function playerPlacment(player_id, year) {
     main.append(thisDIV);
     console.log(counter);
 };
+
+
+// function playerPlacment(player_id, year) {
+//     let thisYear = threeSeasons.find(x => x.year === year);
+
+//     // 🔹 Hämta core players (de som finns i alla 3 säsonger)
+//     let corePlayers = threeYears(0, 1, 2);
+
+//     let eventsArray = [];
+
+//     // 🔹 Samla alla events
+//     for (let day of thisYear.competitionDays) {
+//         for (let event of day.events) {
+//             eventsArray.push({
+//                 day: day.date,
+//                 event: event
+//             });
+//         }
+//     }
+
+//     // 🔹 Sortera efter datum
+//     eventsArray.sort(function (a, b) {
+//         if (a.day.month === b.day.month) {
+//             return a.day.day - b.day.day;
+//         }
+//         return a.day.month - b.day.month;
+//     });
+
+//     // 🔹 Container
+//     let container = document.createElement("div");
+//     container.classList.add("dayContainer");
+
+//     let title = document.createElement("h2");
+//     title.textContent = `Season ${year + 1}`;
+//     main.append(title);
+
+//     // 🔥 Totalscore för ALLA spelare
+//     let totalPointsPerPlayer = {};
+
+//     // 🔹 Loop events
+//     for (let item of eventsArray) {
+
+//         let gameDiv = document.createElement("div");
+//         gameDiv.classList.add("bigDiv");
+
+//         let info = document.createElement("p");
+//         info.textContent = `${item.day.day}/${item.day.month}`;
+//         gameDiv.append(info);
+
+//         let sortedScores = item.event.scores.slice().sort(function (a, b) {
+//             return b.score - a.score;
+//         });
+
+//         let i = 1;
+
+//         for (let score of sortedScores) {
+
+//             // 🔴 FILTRERA BORT ICKE-CORE
+//             if (!corePlayers.includes(score.participantId)) {
+//                 continue;
+//             }
+
+//             let points = getPoints(i);
+//             let id = score.participantId;
+
+//             // initiera totalscore
+//             if (!totalPointsPerPlayer[id]) {
+//                 totalPointsPerPlayer[id] = 0;
+//             }
+
+//             totalPointsPerPlayer[id] += points;
+
+//             let total = totalPointsPerPlayer[id];
+
+//             let player = participants.find(p => p.id === id);
+
+//             let row = document.createElement("p");
+//             row.classList.add("rowDiv");
+
+//             row.textContent = `${i}. ${player.name} | Round: ${points} | Total: ${total}`;
+
+//             i++;
+
+//             // highlight vald spelare
+//             if (id === player_id) {
+//                 row.style.backgroundColor = "yellow";
+//             }
+
+//             gameDiv.append(row);
+//         }
+//         container.append(gameDiv);
+//     }
+//     main.append(container);
+// }
+
+
+
+
+
+function analyzePlayersPerYear() {
+
+    let allPlayersSet = new Set();
+
+    // 🔹 samla ALLA spelare (union)
+    for (let year of [0, 1, 2]) {
+        let season = seasons.find(s => s.year === year);
+
+        for (let day of season.competitionDays) {
+            for (let event of day.events) {
+                for (let score of event.scores) {
+                    allPlayersSet.add(score.participantId);
+                }
+            }
+        }
+    }
+
+    let allIds = Array.from(allPlayersSet);
+
+    // 🔥 skapa arrays per år
+    let playersYear0 = [];
+    let playersYear1 = [];
+    let playersYear2 = [];
+
+    for (let id of allIds) {
+
+        for (let year of [0, 1, 2]) {
+
+            let season = seasons.find(s => s.year === year);
+
+            let found = false;
+
+            for (let day of season.competitionDays) {
+                for (let event of day.events) {
+                    for (let score of event.scores) {
+
+                        if (score.participantId === id) {
+                            found = true;
+                        }
+
+                    }
+                }
+            }
+
+            if (found) {
+                if (year === 0) playersYear0.push(id);
+                if (year === 1) playersYear1.push(id);
+                if (year === 2) playersYear2.push(id);
+            }
+        }
+    }
+
+    // 🔹 gör om till namn (valfritt men nice)
+    let y0Names = playersYear0.map(id => participants.find(p => p.id === id).name);
+    let y1Names = playersYear1.map(id => participants.find(p => p.id === id).name);
+    let y2Names = playersYear2.map(id => participants.find(p => p.id === id).name);
+
+    console.log("År 0:", playersYear0.length, y0Names);
+    console.log("År 1:", playersYear1.length, y1Names);
+    console.log("År 2:", playersYear2.length, y2Names);
+
+    return {
+        year0: playersYear0,
+        year1: playersYear1,
+        year2: playersYear2
+    };
+}
+analyzePlayersPerYear()
+
+
 
 
 
