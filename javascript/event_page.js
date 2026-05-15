@@ -21,7 +21,7 @@ window.addEventListener("click", function () {
 
 
 // Skapa din sorterade och begränsade datakälla (Source of Truth)
-let sortedThreeSeasons = seasons
+/* let sortedThreeSeasons = seasons
     .filter(s => s.year >= 0 && s.year <= 2) // Ta bara de 3 första åren
     .map(season => {
         let sortedDays = [...season.competitionDays].sort((a, b) => {
@@ -36,15 +36,14 @@ let sortedThreeSeasons = seasons
 
         return { ...season, competitionDays: sortedDays };
     });
-
+ */
 // --- 2. FUNKTIONER FÖR ATT HÄMTA DATA ---
 
 function getEventResultsByWeek(eventID, seasonYear) {
-    let chosenSeason = sortedThreeSeasons.find(s => s.year === seasonYear);
+    let chosenSeason = threeSeasons.find(s => s.year === seasonYear);
     if (!chosenSeason) return [];
 
     let allDays = chosenSeason.competitionDays;
-    let weekData = [];
 
     for (let i = 0; i < allDays.length; i += 3) {
         let currentWeekDays = allDays.slice(i, i + 3);
@@ -70,6 +69,7 @@ function getEventResultsByWeek(eventID, seasonYear) {
     return weekData;
 }
 
+let weekData = [];
 // --- 3. UI-LOGIK OCH DROPDOWN ---
 
 function updateWeekDropdown(year) {
@@ -153,13 +153,6 @@ function renderWeekCharts(weekData) {
         });
         console.log(clanResults);
 
-        function getEventPoints(placement) {
-            if (placement === 1) return 15;
-            if (placement === 2) return 10;
-            if (placement === 3) return 6;
-            if (placement === 4) return 3;
-            if (placement === 5) return 1; // Här ser vi till att 5:e plats ger poäng
-        }
 
         //console.log(clanResults);
 
@@ -192,4 +185,12 @@ function renderWeekCharts(weekData) {
             .attr("text-anchor", "middle").style("font-weight", "bold")
             .text(`Day ${dayData.day}/${dayData.month}`);
     });
+}
+
+function getEventPoints(placement) {
+    if (placement === 1) return 15;
+    if (placement === 2) return 10;
+    if (placement === 3) return 6;
+    if (placement === 4) return 3;
+    if (placement === 5) return 1; // Här ser vi till att 5:e plats ger poäng
 }
