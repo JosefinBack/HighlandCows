@@ -7,18 +7,16 @@ let contentNav = `
             <h5>Tournament</h5>
         </div>
         <div id="right-side">
-            <a href="" id="start-Button">Start</a>
-            <a href="" id="season-Button">Season</a>
-            <a href="" id="event-Button">Event</a>
+            <a href="nav.html" id="start-Button">Start</a>
+            <a href="season.html" id="season-Button">Season</a>
+            <a href="event_page.html" id="event-Button">Event</a>
 
             <div class="dropdown">
-
-            <a href="#" id="clans-Button">
-                Clans
-            </a>
+                <a href="#" id="clans-Button">
+                    Clans
+                </a>
 
             <div class="dropdownContent">
-
                 <a href="#"
                    class="clanLink"
                    data-clan="MacThomas">
@@ -51,7 +49,7 @@ let contentNav = `
             </div>
         </div>
 
-            <a href="" id="history-Button">History</a>
+            <a href="history.html" id="history-Button">History</a>
         </div>
     </nav>
 `
