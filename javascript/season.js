@@ -42,12 +42,6 @@ svg.selectAll("rect")
 
 console.log(getClanTotalScoreBySeason(1));
 
-
-
-
-
-
-
 //total poäng per klan per tävlingsgren
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
@@ -97,10 +91,7 @@ function getScores(year, discipline_ID) {
   return scoreArray;
 };
 
-
-
 //Stapeldiagram
-
 function drawDiagram(year, disciplines_id) {
   let svgDIV;
 
@@ -169,8 +160,6 @@ function drawDiagram(year, disciplines_id) {
   svg.append("g")
     .call(yAxel)
     .attr("transform", `translate(${wPad}, 0)`)
-
-
 
   svg.append("g")
     .selectAll("rect")
