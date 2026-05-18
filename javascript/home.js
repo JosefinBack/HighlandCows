@@ -7,46 +7,9 @@ const main = document.querySelector("main");
 
 const top3PlayerWrapper = document.getElementById("top3Players");
 
-function landingPage() {
-  main.innerHTML = ``;
-  main.innerHTML = `
-    
-    <div id="pageWrapper">
-    <div id="imgWrapper">
-        <img id="highlandIMG"src="../pic/Bakgrunder/StartsidaBakgrund.png"></img>
-        <h2 id="welcomeHighlandCow">WELCOME TO THE HIGHLAND COW TOURNAMENT</h2>
-        </div>
 
-    <div id="aboutContainer">
-    <div id="aboutWrapper">
-        <h2 id="aboutTitle" class="subtitle">ABOUT</h2>
-        <p id="part1">The modern image of clans, each with their own tartan and specific land, was promulgated by the Scottish author Sir Walter Scott after influence by others. Historically, tartan designs were associated with Lowland and Highland districts whose weavers tended to produce cloth patterns favoured in those districts. By process of social evolution, it followed that the clans/families prominent in a particular district would wear the tartan of that district, and it was but a short step for that community to become identified by it. </p>
-        <p id="part2">Many clans have their own clan chief; those that do not are known as armigerous clans. Clans generally identify with geographical areas originally controlled by their founders, sometimes with an ancestral castle and clan gatherings, which form a regular part of the social scene. The most notable clan event of recent times was The Gathering 2009 in Edinburgh, which attracted at least 47,000 participants from around the world.</p>
-        <p id="part3">It is a common misconception that every person who bears a clan's name is a lineal descendant of the chiefs. Many clansmen, although not related to the chief, took the chief's surname as their own either to show solidarity or to obtain basic protection or for much needed sustenance. Most of the followers of the clan were tenants, who supplied labour to the clan leaders.</p>
-        </div>
-    <div id="svg-map"></div> 
-    
-    </div>
 
-     <div id="rankingWrapper">
-        <h2 id="rankingTitle" class="subtitle">RANKING</h2>
-        <div id="topRankingWrapper">
-        <div id="top3Players">
-        </div>
-        
-        <div id="top3Clans">
-        </div>
-        
-        </div>
-        </div>
-    `;
-}
-
-landingPage();
-drawClanMap();
-displayTop3Players(2);
-displayTop3Clans(2);
-
+//Funktioner
 function drawClanMap() {
   let container = document.createElement("div");
   container.classList.add("bigDiv");
@@ -286,7 +249,7 @@ function getBestClan(year) {
           img: person.img,
           crest: clan.crest,
           tartan: clan.tartan,
-          clanName : clan.name
+          clanName: clan.name
         });
       }
     }
@@ -298,3 +261,11 @@ function getBestClan(year) {
 
   return resultArray;
 }
+
+
+
+//Funktionsanrop
+
+drawClanMap();
+displayTop3Players(2);
+displayTop3Clans(2);
