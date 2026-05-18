@@ -48,7 +48,7 @@ const clans = [{
   "name": "MacQueen",
   "region": 3,
   "crest": "../pic/MacQueen/Macqueen.png",
-  "tartan": "../pc/MacQueen/Macqueen_tartan.png"
+  "tartan": "../pic/MacQueen/Macqueen_tartan.png"
 }, {
   "name": "MacLeod",
   "region": 4,
@@ -113,6 +113,14 @@ const disciplines = [{
   }
 }]
 
+let MacThomasClan = [];
+let MacDowallClan = [];
+let MacQueenClan = [];
+let MacleodClan = [];
+let MacKinnonClan = [];
+let PlayersWithoutClan = [];
+
+
 const participants = [{
   "id": 189,
   "name": "Ewan MacLeish",
@@ -141,7 +149,9 @@ const participants = [{
   "age": 5,
   "furcolor": "Red",
   "img": "../pic/MacThomas/Dougal_MacRae.png"
-}, {
+},
+
+{
   "id": 270,
   "name": "Alistair Buchanan",
   "clan": "MacDowall",
@@ -169,7 +179,9 @@ const participants = [{
   "age": 5,
   "furcolor": "Red",
   "img": "../pic/MacDowall/Lachlan_MacPherson.png"
-}, {
+},
+
+{
   "id": 159,
   "name": "Torin MacNab",
   "clan": "MacQueen",
@@ -197,7 +209,9 @@ const participants = [{
   "age": 5,
   "furcolor": "Red",
   "img": "../pic/MacQueen/Struan_MacGillivray.png"
-}, {
+},
+
+{
   "id": 170,
   "name": "Finlay MacEwan",
   "clan": "MacLeod",
@@ -225,7 +239,9 @@ const participants = [{
   "age": 2,
   "furcolor": "Red",
   "img": "../pic/MacLeod/Duncan_MacBride.png"
-}, {
+},
+
+{
   "id": 239,
   "name": "Blair MacGregor",
   "clan": "MacKinnon",
@@ -259,79 +275,212 @@ const participants = [{
 {
   "id": 65,
   "name": "Ewan MacGregor",
+  "clan": "MacThomas",
+  "age": 9,
+  "furcolor": "Black",
+  "img": "../pic/MacThomas/Ewan_MacLeish.png",
 }, {
   "id": 180,
   "name": "Alasdair Campbell",
+  "clan": "MacThomas",
+  "age": 7,
+  "furcolor": "Red",
+  "img": "../pic/MacThomas/Callum_Fraser.png"
 }, {
   "id": 148,
   "name": "Fraser MacKenzie",
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacThomas/Fergus_MacAlister.png"
 }, {
   "id": 76,
   "name": "Gordon MacLeod",
-}, {
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacThomas/Dougal_MacRae.png"
+},
+
+{
   "id": 125,
   "name": "Malcolm Stewart",
+  "clan": "MacDowall",
+  "age": 6,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacDowall/Alistair_Buchanan.png"
 }, {
   "id": 169,
   "name": "Bruce MacDonald",
+  "clan": "MacDowall",
+  "age": 6,
+  "furcolor": "Yellow",
+  "img": "../pic/MacDowall/Hamish_Sinclair.png"
 }, {
   "id": 195,
   "name": "Neil MacIntyre",
+  "clan": "MacDowall",
+  "age": 7,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacDowall/Iain_MacDougall.png"
 }, {
   "id": 181,
   "name": "Ross MacArthur",
-}, {
+  "clan": "MacDowall",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacDowall/Lachlan_MacPherson.png"
+},
+
+{
   "id": 6,
   "name": "Kenneth MacRitchie",
+  "clan": "MacQueen",
+  "age": 4,
+  "furcolor": "Yellow",
+  "img": "../pic/MacQueen/Torin_MacNab.png"
 }, {
   "id": 141,
   "name": "Cameron MacKey",
+  "clan": "MacQueen",
+  "age": 8,
+  "furcolor": "White",
+  "img": "../pic/MacQueen/Brodie_Cameron.png"
 }, {
   "id": 81,
   "name": "Aidan MacFerguson",
+  "clan": "MacQueen",
+  "age": 3,
+  "furcolor": "Black",
+  "img": "../pic/MacQueen/Angus_MacFarlane.png"
 }, {
   "id": 124,
   "name": "Lewis MacNiven",
-}, {
+  "clan": "MacQueen",
+  "age": 5,
+  "furcolor": "Red",
+  "img": "../pic/MacQueen/Struan_MacGillivray.png"
+},
+
+{
   "id": 192,
   "name": "Craig MacDuff",
+  "clan": "MacLeod",
+  "age": 3,
+  "furcolor": "Yellow",
+  "img": "../pic/MacLeod/Finlay_MacEwan.png"
 }, {
   "id": 150,
   "name": "Scott MacLaren",
+  "clan": "MacLeod",
+  "age": 2,
+  "furcolor": "White",
+  "img": "../pic/MacLeod/Rory_MacCallum.png"
 }, {
   "id": 214,
   "name": "Douglas MacAulay",
+  "clan": "MacLeod",
+  "age": 3,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacLeod/Tavish_MacInnes.png"
 }, {
   "id": 268,
   "name": "Murray MacBain",
-}, {
-  "id": 160,
-  "name": "Colin MacEwen",
+  "clan": "MacLeod",
+  "age": 2,
+  "furcolor": "Red",
+  "img": "../pic/MacLeod/Duncan_MacBride.png"
 },
 
 
 {
-  "id": 296,
-  "name": "P190"
+  "id": 160,
+  "name": "Colin MacEwen",
+  "clan": "MacKinnon",
+  "age": 4,
+  "furcolor": "White",
+  "img": "../pic/MacKinnon/Blair_MacGregor.png"
+  },
+
+{
+  "id": "Hamish MacEwen",
+  "name": "P190",
+  "clan": "MacKinnon",
+  "age": 9,
+  "furcolor": "Red",
+  "img": "../pic/MacKinnon/Niall_MacKellar.png"
 }, {
   "id": 179,
-  "name": "P154"
+  "name": "Steve MacFluff",
+  "clan": "MacKinnon",
+  "age": 8,
+  "furcolor": "Black",
+  "img": "../pic/MacKinnon/Gregor_MacQuarrie.png"
 }, {
   "id": 122,
-  "name": "P240"
-}, {
+  "name": "Robert Stewart",
+  "clan": "MacKinnon",
+  "age": 7,
+  "furcolor": "Dark Brown",
+  "img": "../pic/MacKinnon/Keir_MacLennan.png"
+},
+
+{
   "id": 82,
-  "name": "P057"
+  "name": "Robin Burt",
+  "clan": "MacDowall",
+  "age": 6,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacDowall/Alistair_Buchanan.png"
 }, {
   "id": 11,
-  "name": "P258"
+  "name": "Christopher Stirling",
+  "clan": "MacQueen",
+  "age": 8,
+  "furcolor": "White",
+  "img": "../pic/MacQueen/Brodie_Cameron.png"
 }, {
   "id": 19,
-  "name": "P274"
+  "name": "Kenneth MacDougal",
+  "clan": "MacLeod",
+  "age": 2,
+  "furcolor": "Red",
+  "img": "../pic/MacLeod/Duncan_MacBride.png"
 }, {
   "id": 119,
-  "name": "P254"
+  "name": "David Tennant",
+  "clan": "MacKinnon",
+  "age": 8,
+  "furcolor": "Black",
+  "img": "../pic/MacKinnon/Gregor_MacQuarrie.png"
 }]
+
+for (let player of participants) {
+  if (player.clan === "MacThomas") {
+    MacThomasClan.push(player);
+  } if (player.clan === "MacDowall") {
+    MacDowallClan.push(player);
+  } if (player.clan === "MacQueen") {
+    MacQueenClan.push(player);
+  } if (player.clan === "MacLeod") {
+    MacleodClan.push(player);
+  } if (player.clan === "MacKinnon") {
+    MacKinnonClan.push(player);
+  } if (!player.clan) {
+
+    PlayersWithoutClan.push(player)
+  }
+}
+
+console.log(MacThomasClan);
+console.log(MacDowallClan);
+console.log(MacQueenClan);
+console.log(MacleodClan);
+console.log(MacKinnonClan);
+console.log(PlayersWithoutClan);
+
+
+
 
 const coaches = [{
   "id": 1,
