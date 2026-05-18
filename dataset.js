@@ -275,6 +275,7 @@ const participants = [{
 {
   "id": 65,
   "name": "Ewan MacGregor",
+  "clan": "MacThomas",
   "age": 9,
   "furcolor": "Black",
   "img": "../pic/MacThomas/Ewan_MacLeish.png",
