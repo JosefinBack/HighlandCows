@@ -10,45 +10,7 @@ let contentNav = `
             <a href="nav.html" id="start-Button">Start</a>
             <a href="season.html" id="season-Button">Season</a>
             <a href="event_page.html" id="event-Button">Event</a>
-
-            <div class="dropdown">
-                <a href="#" id="clans-Button">
-                    Clans
-                </a>
-
-            <div class="dropdownContent">
-                <a href="#"
-                   class="clanLink"
-                   data-clan="MacThomas">
-                   MacThomas
-                </a>
-
-                <a href="#"
-                   class="clanLink"
-                   data-clan="MacLeod">
-                   MacLeod
-                </a>
-
-                <a href="#"
-                   class="clanLink"
-                   data-clan="MacQueen">
-                   MacQueen
-                </a>
-
-                <a href="#"
-                   class="clanLink"
-                   data-clan="MacDowall">
-                   MacDowall
-                </a>
-
-                <a href="#"
-                   class="clanLink"
-                   data-clan="MacKinnon">
-                   MacKinnon
-                </a>
-            </div>
-        </div>
-
+            <a href="clanPage.html" id="clans-Button">Clans</a>
             <a href="history.html" id="history-Button">History</a>
         </div>
     </nav>

@@ -22,26 +22,48 @@ let currentSeason = 9;
 
 let popupNotCompeting = document.getElementById("popupNotCompeting");
 
-let selectedClan = localStorage.getItem("selectedClan");
+let selectedClan;
 
-if (!selectedClan) {
+
+//BUTTONS clanes
+let buttonMacThomas = document.getElementById("MT");
+let buttonMacDowall = document.getElementById("MD");
+let buttonMacQueen = document.getElementById("MQ");
+let buttonMacLeod = document.getElementById("ML");
+let buttonMacKinnon = document.getElementById("MK");
+
+buttonMacThomas.addEventListener("click", function () {
     selectedClan = "MacThomas";
-}
+    showClanHomePage(selectedClan);
+    drawLineDiagram();
+});
+
+buttonMacDowall.addEventListener("click", function () {
+    selectedClan = "MacDowall";
+    showClanHomePage(selectedClan);
+    drawLineDiagram();
+});
+
+buttonMacQueen.addEventListener("click", function () {
+    selectedClan = "MacQueen";
+    showClanHomePage(selectedClan);
+    drawLineDiagram();
+});
+
+buttonMacLeod.addEventListener("click", function () {
+    selectedClan = "MacLeod";
+    showClanHomePage(selectedClan);
+    drawLineDiagram();
+});
+
+buttonMacKinnon.addEventListener("click", function () {
+    selectedClan = "MacKinnon";
+    showClanHomePage(selectedClan);
+    drawLineDiagram();
+});
 
 
-//Ladda rätt clan
-
-function runPage() {
-
-}
-
-
-
-
-
-
-
-//BUTTONS
+//BUTTONS on cows 
 let s1 = document.getElementById("s1");
 let s2 = document.getElementById("s2");
 let s3 = document.getElementById("s3");
@@ -135,8 +157,10 @@ function membersClan(clanName) {
 }
 
 function showClanHomePage(clanName) {
+    contentClanHomepage.style.display = "flex";
     crestDiv.innerHTML = "";
     tartanDiv.innerHTML = "";
+    clanMembersDIV.innerHTML = "";
     allMembersPictures(clanName);
 
     for (let clan of clans) {
@@ -258,27 +282,22 @@ function personalInfo(player_id) {
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
     infoPic.append(img);
 
-
-
     for (let i = 0; i < seasonButtons.length; i++) {
-
         let button = seasonButtons[i];
-
         let playerSkills = calculatePlayerSkills(player_id, i);
-
         let totalPoints = 0;
 
         for (let skill in playerSkills) {
             totalPoints = totalPoints + playerSkills[skill];
-        }
+        };
 
         if (totalPoints === 0) {
             button.classList.add("memberNotCompeteSeasonButton");
         }
         else {
             button.classList.remove("memberNotCompeteSeasonButton");
-        }
-    }
+        };
+    };
 };
 
 
@@ -339,16 +358,12 @@ function clanPointsPerMonth(clan, year) {
     // console.log(total)
     // console.log(allScores);
     return allScores;
-}
-
-
-
+};
 
 
 function drawLineDiagram() {
-
+    document.getElementById("svgElement").innerHTML = "";
     let points = clanPointsPerMonth(selectedClan, currentSeason);
-    console.log(points);
 
     let months = points.map(x => x.month);
     let highestScore = 0;
