@@ -42,23 +42,23 @@ const clans = [{
 }, {
   "name": "MacDowall",
   "region": 2,
-  "crest" : "../pic/MacDowall/MacDowall.png",
-  "tartan" : "../pic/MacDowall/MacDowall_Tartan.jpeg"
+  "crest": "../pic/MacDowall/MacDowall.png",
+  "tartan": "../pic/MacDowall/MacDowall_Tartan.jpeg"
 }, {
   "name": "MacQueen",
   "region": 3,
-  "crest" :"../pic/MacQueen/Macqueen.png",
-  "tartan" : "../pc/MacQueen/Macqueen_tartan.png"
+  "crest": "../pic/MacQueen/Macqueen.png",
+  "tartan": "../pic/MacQueen/Macqueen_tartan.png"
 }, {
   "name": "MacLeod",
   "region": 4,
-  "crest" : "../pic/Macleod/Macleod.png",
-  "tartan" : "../pic/Macleod/Macleod_tartans.png"
+  "crest": "../pic/Macleod/Macleod.png",
+  "tartan": "../pic/Macleod/Macleod_tartans.png"
 }, {
   "name": "MacKinnon",
   "region": 5,
-  "crest" : "../pic/MacKinnon/MacKinnon.png",
-  "tartan" : "../pic/MacKinnon/MacKinnon_tartan.jpeg"
+  "crest": "../pic/MacKinnon/MacKinnon.png",
+  "tartan": "../pic/MacKinnon/MacKinnon_tartan.jpeg"
 }]
 
 const disciplines = [{
