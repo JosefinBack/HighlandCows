@@ -63,6 +63,7 @@ createHeader()
 
 
 let clanLinks = document.querySelectorAll(".clanLink");
+let homePage = document.getElementById("start-button");
 
 for (let link of clanLinks) {
 

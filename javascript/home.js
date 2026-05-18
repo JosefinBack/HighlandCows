@@ -61,14 +61,12 @@ function drawClanMap() {
     .attr("width", width)
     .attr("height", height);
 
-  //  KARTA SOM BAKGRUND
   svg
     .append("image")
     .attr("href", "../pic/Scotland.jpg")
     .attr("width", width)
     .attr("height", height);
 
-  // 📍 POSITIONER (justera dessa så de passar kartan)
   let clanPositions = [
     { clan: "MacThomas", x: 300, y: 170 },
     { clan: "Macqueen", x: 360, y: 360 },
@@ -77,7 +75,6 @@ function drawClanMap() {
     { clan: "MacDonall", x: 380, y: 200 },
   ];
 
-  // 🎨 färger
   let colorScale = d3
     .scaleOrdinal()
     .domain(clanPositions.map((d) => d.clan))
@@ -95,7 +92,6 @@ function drawClanMap() {
     .style("pointer-events", "none")
     .style("border", "1px solid white");
 
-  // 🔵 små punkter (valfria men snygga)
   svg
     .selectAll("circle")
     .data(clanPositions)
@@ -108,7 +104,9 @@ function drawClanMap() {
     .attr("fill", (d) => colorScale(d.clan))
 
     .on("mouseover", function (event, d) {
-      tooltip.style("display", "block").text(d.clan);
+      tooltip
+        .style("display", "block")
+        .text(d.clan);
 
       d3.select(event.currentTarget).attr("r", 12); // gör cirkeln större
     })
@@ -120,16 +118,17 @@ function drawClanMap() {
     })
 
     .on("mouseout", function (event) {
-      tooltip.style("display", "none");
+      tooltip
+        .style("display", "none");
 
-      d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
+        d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
     })
 
-    .on("click", function () {
-      //anropa funktion
+    .on("click", function (event, d) {
+      localStorage.setItem("selectedClan", d.clan);
+      window.location.href = "../html/clanPage.html";
     });
 
-  // KLICKBAR TEXT
   let labels = svg
     .selectAll("g.label")
     .data(clanPositions)
@@ -297,4 +296,8 @@ function getBestClan(year) {
   });
 
   return resultArray;
+}
+
+function chooseClanPage(){
+
 }
