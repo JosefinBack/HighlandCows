@@ -10,43 +10,53 @@
     <link rel="stylesheet" href="../CSS/fonts.css">
     <link rel="stylesheet" href="../CSS/nav.css">
 </head>
-
 <body>
     <div id="header"></div>
     <main>
         <div id="content">
             <h1>SEASON SCORES</h1>
             <div id="filteringBoxes">
-
                 <div id="seasonButtons">
-                    <div id="currentSeason" class="filteringBoxesDIV">
+                    <div id="currentSeason" class="filteringBoxesDIV" data-season="0">
                         <p>Current Season</p>
                     </div>
-
-                    <div id="season2" class="filteringBoxesDIV">
+                    <div id="season1" class="filteringBoxesDIV" data-season="1">
+                        <p>Season 1</p>
+                    </div>
+                    <div id="season2" class="filteringBoxesDIV" data-season="2">
                         <p>Season 2</p>
                     </div>
-
-                    <div id="season3" class="filteringBoxesDIV">
+                    <div id="season3" class="filteringBoxesDIV" data-season="3">
                         <p>Season 3</p>
+                    </div>
+                    <div id="season4" class="filteringBoxesDIV" data-season="4">
+                        <p>Season 4</p>
+                    </div>
+                    <div id="season5" class="filteringBoxesDIV" data-season="5">
+                        <p>Season 5</p>
+                    </div>
+                    <div id="season6" class="filteringBoxesDIV" data-season="6">
+                        <p>Season 6</p>
+                    </div>
+                    <div id="season7" class="filteringBoxesDIV" data-season="7">
+                        <p>Season 7</p>
+                    </div>
+                    <div id="season8" class="filteringBoxesDIV" data-season="8">
+                        <p>Season 8</p>
                     </div>
                 </div>
             </div>
 
             <div id="svgElement">
-
-                <svg id="chart"></svg>
-
+                <svg id="stackedChart"></svg>
                 <div id="firstCompetition" class="competitionDiv">
                     <h2>The great Moo-of</h2>
                     <svg id="moo-off"></svg>
                 </div>
-
                 <div id="secondCompetition" class="competitionDiv">
                     <h2>Fluff-styling</h2>
                     <svg id="fluff"></svg>
                 </div>
-
                 <div id="thirdCompetition" class="competitionDiv">
                     <h2>Mountain-Race</h2>
                     <svg id="mountainRace"></svg>
@@ -61,7 +71,6 @@
                     <h2>The bagpipe test</h2>
                     <svg id="bagpipe"></svg>
                 </div>
-
             </div>
         </div>
     </main>
@@ -73,6 +82,4 @@
     <script src="../javascript/season.js"></script>
 
 </body>
-
-
 </html>
