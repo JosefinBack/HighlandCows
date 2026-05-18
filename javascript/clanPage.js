@@ -409,75 +409,61 @@ function getMainSkill(disciplineID) {
 
 function playerPlacementInDiscipline(player_id, year, disciplineID) {
 
-    let thisYear = threeSeasons.find(x => x.year === year);
-    let allPlacings = [];
+    let thisYear = threeSeasons.find(season => season.year === year);
 
-    // =========================
-    // HÄMTA ALLA PLACERINGAR
-    // =========================
+    // spelarens placeringar
+    let placements = [];
+
+    // HÄMTA PLACERINGAR
+
 
     for (let day of thisYear.competitionDays) {
+
         for (let event of day.events) {
-            if (event.disciplineId === disciplineID) {
 
-                let copiedScores = [...event.scores];
-                // högst score först
-                copiedScores.sort(function (a, b) {
-                    return b.score - a.score;
-                });
+            // bara rätt disciplin
+            if (event.disciplineId !== disciplineID) {
+                continue;
+            }
 
-                for (let i = 0; i < copiedScores.length; i++) {
+            // kopiera + sortera
+            let sortedScores = [...event.scores];
 
-                    let score = copiedScores[i];
+            sortedScores.sort((a, b) => b.score - a.score);
+
+            // hitta spelarens placering
+            for (let i = 0; i < sortedScores.length; i++) {
+
+                if (sortedScores[i].participantId === player_id) {
                     let placement = i + 1;
-
-                    if (score.participantId === player_id) {
-                        allPlacings.push(placement);
-                    }
+                    placements.push(placement);
                 }
             }
         }
     }
-    // =========================
-    // RÄKNA TOTAL
-    // =========================
 
+    console.log(placements);
+
+    // RÄKNA AVERAGE
     let total = 0;
-    for (let place of allPlacings) {
-        total = total + place;
+
+    for (let placement of placements) {
+        total += placement;
     }
 
-    // =========================
-    // AVERAGE PLACEMENT
-    // =========================
+    let averagePlacement = total / placements.length;
 
-    let average = total / allPlacings.length;
-    average = Number(average.toFixed(2));
+    averagePlacement = Number(averagePlacement.toFixed(2));
 
     // =========================
-    // SKILL SCORE (0–100)
+    // SKILL SCORE
     // =========================
 
-    // 1st place = 100
-    // 6th place = 0
-
-    let skillScore = ((6 - average) / 5) * 100;
+    let skillScore = ((6 - averagePlacement) / 5) * 100;
 
     skillScore = Math.round(skillScore);
 
-    // säkerhet
-    if (skillScore < 0) {
-        skillScore = 0;
-    }
-    if (skillScore > 100) {
-        skillScore = 100;
-    }
-
-    // =========================
-    // LABEL + FÄRG
-    // =========================
-
-    let gaugeColor;
+    let gaugeColor = "#E53935";
 
     if (skillScore >= 90) {
         gaugeColor = "#FFD700";
@@ -491,23 +477,14 @@ function playerPlacementInDiscipline(player_id, year, disciplineID) {
     else if (skillScore >= 35) {
         gaugeColor = "#FF9800";
     }
-    else {
-        gaugeColor = "#E53935";
-    }
 
-    // =========================
-    // RESULTAT
-    // =========================
-
-    let result = {
+    return {
         discipline: disciplineID,
-        placings: allPlacings,
-        averagePlacement: average,
+        placements: placements,
+        averagePlacement: averagePlacement,
         skillScore: skillScore,
         gaugeColor: gaugeColor
     };
-    console.log(result);
-    return result;
 }
 
 
