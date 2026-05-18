@@ -1,6 +1,7 @@
 
 //Material
 
+
 let clanNames = [
     "MacThomas",
     "MacDowall",
@@ -612,4 +613,19 @@ function getClanTotalScoreBySeason(season) {
 }
 
 console.log(getClanTotalScoreBySeason(0));
+
+function getClanPlacementPointBySeason (season) {
+    const clanScores = [];
+
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+
+        for (let member of members) {
+            totalPoints += calculatePlayerPoints(member)
+        }
+        clanScores.push( {clan: clan, points: totalPoints} );
+    }
+    return clanScores;
+}
 

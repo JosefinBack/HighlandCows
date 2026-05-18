@@ -1,4 +1,4 @@
-const data = getClanTotalScoreBySeason(1);
+const data = getClanPlacementPointBySeason(1);
 const colors = ["#e63946", "#2a9d8f", "#e9c46a", "#457b9d", "#8338ec"];
 
 const wSvg = 800;
