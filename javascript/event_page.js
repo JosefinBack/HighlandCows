@@ -1,11 +1,67 @@
 // --- 1. INITIALISERING OCH DATAPREPARERING ---
+let currentEventID = 1;
+let currentSeasonYear = 9;
+
+
+//Event knappar
+let event_1DOM = document.getElementById("event_1").addEventListener("click", function () {
+    let event = {
+        name: "Moo Off",
+        id: 1,
+        info: "lorem"
+    }
+    handleEventChange(event);
+});
+let event_2DOM = document.getElementById("event_2").addEventListener("click", function () {
+    let event = {
+        name: "Fluff Styling",
+        id: 2,
+        info: "lorem"
+    }
+    handleEventChange(event);
+});
+let event_3DOM = document.getElementById("event_3").addEventListener("click", function () {
+    let event = {
+        name: "Mountain Race",
+        id: 3,
+        info: "lorem"
+    }
+    handleEventChange(event);
+});
+let event_4DOM = document.getElementById("event_4").addEventListener("click", function () {
+    let event = {
+        name: "Whiskey Barrell Kicking",
+        id: 4,
+        info: "lorem"
+    }
+    handleEventChange(event);
+});
+let event_5DOM = document.getElementById("event_5").addEventListener("click", function () {
+    let event = {
+        name: "Bagpipe Napping",
+        id: 5,
+        info:"lorem"
+    }
+    handleEventChange(event);
+});
+
 
 // Se till att 'main' är ett enskilt element för D3
 const main = document.querySelector("main");
+let eventTitleDOM = document.getElementById("eventName")
 const dropBtn = document.getElementById("dropdownBtn");
 const dropdownMenu = document.getElementById("myDropdown");
-
-let currentEventID = 1;
+// säsongsknappar
+document.getElementById("event_currentSeason").addEventListener("click", () => handleSeasonChange(9));
+document.getElementById("event_season9").addEventListener("click", () => handleSeasonChange(8));
+document.getElementById("event_season8").addEventListener("click", () => handleSeasonChange(7));
+document.getElementById("event_season7").addEventListener("click", () => handleSeasonChange(6));
+document.getElementById("event_season6").addEventListener("click", () => handleSeasonChange(5));
+document.getElementById("event_season5").addEventListener("click", () => handleSeasonChange(4));
+document.getElementById("event_season4").addEventListener("click", () => handleSeasonChange(3));
+document.getElementById("event_season3").addEventListener("click", () => handleSeasonChange(2));
+document.getElementById("event_season2").addEventListener("click", () => handleSeasonChange(1));
+document.getElementById("event_season1").addEventListener("click", () => handleSeasonChange(0));
 
 
 // --- FIX: Öppna/stäng menyn när man klickar på knappen ---
@@ -21,6 +77,31 @@ window.addEventListener("click", function () {
     }
 });
 
+
+function handleEventChange(event) {
+    // Spara valt event
+    currentEventID = event.id;
+
+    // Reset text
+    dropBtn.innerText = "Select Week";
+    eventTitleDOM.innerHTML = `${event.name}`;
+
+    // Uppdatera veckor
+    updateWeekDropdown(currentSeasonYear);
+
+
+}
+
+function handleSeasonChange(seasonYear) {
+    // Spara vald säsong
+    currentSeasonYear = seasonYear;
+
+    // Reset text
+    dropBtn.innerText = "Select Week";
+
+    // Uppdatera dropdown
+    updateWeekDropdown(currentSeasonYear);;
+}
 
 function getEventResultsByWeek(eventID, seasonYear) {
 
@@ -149,22 +230,8 @@ function updateWeekDropdown(year) {
     }
 }
 
-function handleSeasonChange(seasonYear) {
-    dropBtn.innerText = "Select Week";
-    updateWeekDropdown(seasonYear);
-}
 
-// Koppla säsongsknappar
-document.getElementById("event_currentSeason").addEventListener("click", () => handleSeasonChange(9));
-document.getElementById("event_season9").addEventListener("click", () => handleSeasonChange(8));
-document.getElementById("event_season8").addEventListener("click", () => handleSeasonChange(7));
-document.getElementById("event_season7").addEventListener("click", () => handleSeasonChange(6));
-document.getElementById("event_season6").addEventListener("click", () => handleSeasonChange(5));
-document.getElementById("event_season5").addEventListener("click", () => handleSeasonChange(4));
-document.getElementById("event_season4").addEventListener("click", () => handleSeasonChange(3));
-document.getElementById("event_season3").addEventListener("click", () => handleSeasonChange(2));
-document.getElementById("event_season2").addEventListener("click", () => handleSeasonChange(1));
-document.getElementById("event_season1").addEventListener("click", () => handleSeasonChange(0));
+
 
 
 
@@ -335,4 +402,9 @@ function getEventPoints(placement) {
     if (placement === 5) return 1;
     if (placement === 6) return 0;// Här ser vi till att 5:e plats ger poäng
 }
+let current_event = {
+    name: "Moo Off",
+    id: 1
+}
 handleSeasonChange(9)
+handleEventChange(current_event)
