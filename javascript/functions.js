@@ -12,11 +12,7 @@ let clanNames = [
 //säsong 0 - 8, och halva 9
 let allSeasons = [];
 for (let game of seasons) {
-    if (game.year === 0 || game.year === 1) {
-        threeSeasons.push(game);
-    }
-
-    if (game.year === 2) {
+    if (game.year === 9) {
         let filteredDays = [];
         for (let competition of game.competitionDays) {
             if (competition.date.day < 8) {
@@ -29,11 +25,13 @@ for (let game of seasons) {
             trainers: game.trainers,
             competitionDays: filteredDays
         };
-        threeSeasons.push(halfSeason);
+        allSeasons.push(halfSeason);
+    } else {
+        allSeasons.push(game);
     }
 };
 
-// console.log(threeSeasons);
+console.log(allSeasons);
 
 
 //participants 1-37 
@@ -143,7 +141,7 @@ function calculateTotalPoints(playerPlacings) {
 
 //ska vi ha denna???
 function calculatePlayerPoints(player_id, year) {
-    let thisYear = threeSeasons.find(x => x.year === year);
+    let thisYear = allSeasons.find(x => x.year === year);
     let playerID = player_id;
     let playerPlacings = [];
 
@@ -172,7 +170,7 @@ function calculatePlayerPoints(player_id, year) {
 
 
 function playerPlacment(player_id, year) {
-    let thisYear = threeSeasons.find(x => x.year === year);
+    let thisYear = allSeasons.find(x => x.year === year);
 
     let counter = 0;
     let eventsArray = [];
@@ -276,7 +274,7 @@ function playerPlacment(player_id, year) {
 
 
 // function playerPlacment(player_id, year) {
-//     let thisYear = threeSeasons.find(x => x.year === year);
+//     let thisYear = allSeasons.find(x => x.year === year);
 
 //     // 🔹 Hämta core players (de som finns i alla 3 säsonger)
 //     let corePlayers = threeYears(0, 1, 2);
@@ -509,7 +507,7 @@ function membersClan(clanName) {
 
 
 function createWeeks(year) {
-    let thisYear = threeSeasons.find(x => x.year === year);
+    let thisYear = allSeasons.find(x => x.year === year);
     let allMonths = [];
 
     for (let month = 2; month <= 11; month++) {
@@ -568,7 +566,7 @@ function getClanScoreByDiscipline(discipline_id, season) {
         const members = membersClan(clan);
 
         for (let member of members) {
-            let thisYear = threeSeasons.find(x => x.year === season);
+            let thisYear = allSeasons.find(x => x.year === season);
 
             for (let competition of thisYear.competitionDays) {
                 for (let event of competition.events) {
@@ -593,7 +591,7 @@ function getClanTotalScoreBySeason(season) {
     for (let clan of clanNames) {
         let totalPoints = 0;
         const members = membersClan(clan);
-        let thisYear = threeSeasons.find(x => x.year === season);
+        let thisYear = allSeasons.find(x => x.year === season);
 
         for (let member of members) {
             for (let competition of thisYear.competitionDays) {
