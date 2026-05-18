@@ -9,8 +9,8 @@ let clanNames = [
     "MacKinnon"
 ];
 
-//Activ season (haft seasong 2(aka 3))
-let threeSeasons = [];
+//säsong 0 - 8, och halva 9
+let allSeasons = [];
 for (let game of seasons) {
     if (game.year === 0 || game.year === 1) {
         threeSeasons.push(game);

@@ -84,7 +84,7 @@ function drawClanMap() {
       tooltip
         .style("display", "none");
 
-        d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
+      d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
     })
 
     .on("click", function (event, d) {
@@ -268,3 +268,53 @@ function getBestClan(year) {
 drawClanMap();
 displayTop3Players(2);
 displayTop3Clans(2);
+
+
+
+
+function totalPointsPerDicipline(year, dicipline_ID, clanName) {
+  let thisYear = threeSeasons.find(x => x.year === year);
+  let clanTotalScore = 0;
+
+  for (let competition of thisYear.competitionDays) {
+    for (let event of competition.events) {
+      if (event.disciplineId === dicipline_ID) {
+        let copyEventArray = [...event.scores]
+
+        let scoreSorted = copyEventArray.sort((a, b) => b.score - a.score);
+
+        let placement = 1;
+
+
+        for (let score of scoreSorted) {
+          let player = allParticipants.find(x => Number(x.id) === Number(score.participantId));
+
+          if (player) {
+            if (player.clan === clanName) {
+              let pointsMember = getPoints(placement);
+
+              clanTotalScore = clanTotalScore + pointsMember;
+            }
+          }
+          placement++;
+        }
+      }
+    }
+  }
+  // console.log(clanTotalScore);
+  let result = { clan: clanName, points: clanTotalScore };
+
+  return result;
+}
+
+function getScores(year, discipline_ID) {
+  let scoreArray = [];
+
+  for (let clan of clans) {
+    let scorePerClan = totalPointsPerDicipline(year, discipline_ID, clan.name);
+
+    scoreArray.push(scorePerClan);
+  }
+  console.log(scoreArray);
+  return scoreArray;
+};
