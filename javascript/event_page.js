@@ -5,6 +5,8 @@ const main = document.querySelector("main");
 const dropBtn = document.getElementById("dropdownBtn");
 const dropdownMenu = document.getElementById("myDropdown");
 
+let currentEventID = 1;
+
 
 // --- FIX: Öppna/stäng menyn när man klickar på knappen ---
 dropBtn.addEventListener("click", function (e) {
@@ -109,21 +111,41 @@ function getEventResultsByWeek(eventID, seasonYear) {
 
 function updateWeekDropdown(year) {
     dropdownMenu.innerHTML = "";
-    const results = getEventResultsByWeek(1, year); // Vi kollar event 1 som standard
+    const results = getEventResultsByWeek(currentEventID, year);
     const totalWeeks = results.length > 0 ? results[results.length - 1].weekNumber : 0;
 
     for (let i = 1; i <= totalWeeks; i++) {
         let a = document.createElement("a");
         a.href = "#";
         a.textContent = `Week ${i}`;
+        //Kolla igenom denna koden och förklara till 100% inför kodredovisning
         a.addEventListener("click", (e) => {
             e.preventDefault();
             dropBtn.textContent = `Week ${i}`;
             let selectedWeekData = results.filter(r => r.weekNumber === i);
-            renderWeekCharts(selectedWeekData);
+            renderWeekBarCharts(selectedWeekData)
             dropdownMenu.classList.remove("show");
         });
         dropdownMenu.append(a);
+    }
+    // =========================
+    // VISA SENASTE VECKAN DIREKT
+    // =========================
+
+    if (results.length > 0) {
+
+        let latestWeek =
+            results[results.length - 1].weekNumber;
+
+        let latestWeekData =
+            results.filter(result => {
+                return result.weekNumber === latestWeek;
+            });
+
+        dropBtn.textContent =
+            `Week ${latestWeek}`;
+
+        renderWeekBarCharts(latestWeekData);
     }
 }
 
@@ -146,8 +168,6 @@ document.getElementById("event_season1").addEventListener("click", () => handleS
 
 
 
-
-
 // --- 4. D3 VISUALISERING --- SKRIV OM
 
 
@@ -157,75 +177,25 @@ let threeDayChartSVG = d3.select("main").insert("svg", ":first-child")
     .style("border", "1px solid grey")
 
 
-function renderWeekCharts(weekData) {
 
-    // Rensa svg
+
+function renderWeekBarCharts(weekData) {
+
+    // Rensa SVG
     threeDayChartSVG.selectAll("*").remove();
 
-    // Margins
+    // Storlek
     const margin = {
         top: 50,
-        right: 50,
-        bottom: 50,
-        left: 80
+        right: 30,
+        bottom: 120,
+        left: 60
     };
 
-    // Storlek på själva grafytan
-    const innerWidth = wSvg - margin.left - margin.right;
-    const innerHeight = hSvg - margin.top - margin.bottom;
+    const chartWidth = 350;
+    const chartHeight = 500;
 
-    // Grupp för hela diagrammet
-    const chartGroup = threeDayChartSVG.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-
-
-    // =========================
-    // X-AXEL
-    // =========================
-
-    // Skapa labels för dagarna
-    let dayLabels = weekData.map(dayData => {
-        return `${dayData.day}/${dayData.month}`;
-    });
-
-    // Scale för x
-    const xScale = d3.scalePoint()
-        .domain(dayLabels)
-        .range([0, innerWidth])
-        .padding(0.5);
-
-
-
-    // =========================
-    // Y-AXEL
-    // =========================
-
-    const yScale = d3.scaleLinear()
-        .domain([-1, 15])
-        .range([innerHeight, 0])
-
-
-
-    // =========================
-    // RITA AXLAR
-    // =========================
-
-    // X-axel
-    chartGroup.append("g")
-        .attr("transform", `translate(0, ${innerHeight + 10})`)
-        .call(d3.axisBottom(xScale));
-
-    // Y-axel //ändra ticksen så att de är enligt poäng ställningen
-    chartGroup.append("g")
-        .call(d3.axisLeft(yScale).tickValues([0, 1, 3, 6, 10, 15]));
-
-
-
-    // =========================
-    // FÄRGER FÖR KLANER
-    // =========================
-
+    // Färger för klaner
     const clanColors = {
         "MacThomas": "#3C4360",
         "MacDowall": "#6C82BC",
@@ -234,48 +204,127 @@ function renderWeekCharts(weekData) {
         "MacKinnon": "#5D5B2C",
     };
 
-
-
-    // =========================
-    // SKAPA ALLA CIRKLAR
-    // =========================
-
     // Loopa varje dag
-    for (let dayData of weekData) {
+    weekData.forEach((dayData, index) => {
 
-        // Label för x-position
-        let dayLabel = `${dayData.day}/${dayData.month}`;
+        // Grupp för dagens diagram
+        const chartGroup = threeDayChartSVG.append("g")
+            .attr(
+                "transform",
+                `translate(${index * 380 + 50}, 50)`
+            );
 
-        // Loopa deltagare
-        for (let participant of dayData.participants) {
+        // =========================
+        // SORTERA DELTAGARE
+        // =========================
 
-            chartGroup.append("circle")
+        let sortedParticipants = dayData.participants.slice().sort((a, b) => {
+            return b.points - a.points;
+        });
 
-                // X-position
-                .attr("cx", xScale(dayLabel))
+        // =========================
+        // X SCALE
+        // =========================
 
-                // Y-position
-                .attr("cy", yScale(participant.points))
+        const xScale = d3.scaleBand()
+            .domain(
+                sortedParticipants.map(player => player.participantName)
+            )
+            .range([0, chartWidth])
+            .padding(0.2);
 
-                // Storlek
-                .attr("r", 8)
+        // =========================
+        // Y SCALE
+        // =========================
 
-                // Färg
-                .attr("fill", clanColors[participant.clan])
+        const yScale = d3.scaleLinear()
+            .domain([0, 15])
+            .range([chartHeight, 0]);
 
-                // Outline
-                .attr("stroke", "black")
+        // =========================
+        // X AXEL
+        // =========================
 
-                // Tooltip
-                .append("title")
-                .text(
-                    `${participant.participantName}
-                    Clan: ${participant.clan}
-                    Placement: ${participant.placement}
-                    Points: ${participant.points}`
-                );
-        }
-    }
+        chartGroup.append("g")
+            .attr("transform", `translate(0, ${chartHeight})`)
+            .call(d3.axisBottom(xScale))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+
+        // =========================
+        // Y AXEL
+        // =========================
+
+        chartGroup.append("g")
+            .call(
+                d3.axisLeft(yScale)
+                    .tickValues([0, 1, 3, 6, 10, 15])
+            );
+
+        // =========================
+        // STAPLAR
+        // =========================
+
+        chartGroup.selectAll("rect")
+            .data(sortedParticipants)
+            .enter()
+            .append("rect")
+
+            // X position
+            .attr("x", player => {
+                return xScale(player.participantName);
+            })
+
+            // Y position
+            .attr("y", player => {
+                return yScale(player.points);
+            })
+
+            // Bredd
+            .attr("width", xScale.bandwidth())
+
+            // Höjd
+            .attr("height", player => {
+                return chartHeight - yScale(player.points);
+            })
+
+            // Färg
+            .attr("fill", player => {
+                return clanColors[player.clan];
+            })
+
+            // Outline
+            .attr("stroke", "black");
+
+        // =========================
+        // TOOLTIP
+        // =========================
+
+        chartGroup.selectAll("rect")
+            .append("title")
+            .text(player => {
+                return `
+                        ${player.participantName}
+                        Clan: ${player.clan}
+                        Placement: ${player.placement}
+                        Points: ${player.points}
+                        Score: ${player.rawScore}
+                `;
+            });
+
+        // =========================
+        // TITEL
+        // =========================
+
+        chartGroup.append("text")
+            .attr("x", chartWidth / 2)
+            .attr("y", -20)
+            .attr("text-anchor", "middle")
+            .style("font-size", "18px")
+            .style("font-weight", "bold")
+            .text(`Day ${dayData.day}/${dayData.month}`);
+    });
 }
 
 function getEventPoints(placement) {
@@ -286,4 +335,4 @@ function getEventPoints(placement) {
     if (placement === 5) return 1;
     if (placement === 6) return 0;// Här ser vi till att 5:e plats ger poäng
 }
-
+handleSeasonChange(9)

@@ -39,10 +39,12 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+
 }
 
 .dropdown-content a:hover {
     background-color: #ddd;
+
 }
 
 /* Klassen som vi lägger till med JS för att visa menyn */
