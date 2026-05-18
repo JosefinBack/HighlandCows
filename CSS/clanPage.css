@@ -1,3 +1,13 @@
+.buttonClans {
+    width: 150px;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.buttonClans p {
+    margin: 5px;
+}
+
 #chart {
     display: flex;
     justify-content: center;
@@ -22,6 +32,12 @@
     width: auto;
     height: 200px;
     object-fit: contain;
+}
+
+#cowsCompeteIMG {
+    width: 1200px;
+    margin-top: 30px;
+    border-radius: 20px;
 }
 
 .clanMember {
@@ -85,6 +101,12 @@
     padding: 30px 10px;
     position: relative;
     z-index: 2;
+}
+
+#greatClans {
+    font-family: "Irish Grover";
+    font-size: 50px;
+    text-align: center;
 }
 
 
@@ -212,10 +234,4 @@
     justify-content: center;
     align-items: center;
     margin: 20px 0px;
-}
-
-.buttonClans {
-    width: 150px;
-    font-size: 16px;
-    padding: 5px;
 }

@@ -2,12 +2,15 @@
 //Variabler
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
+let cowInCompetition = document.getElementById("cowInCompetition");
 let backButton = document.getElementById("backButton");
 let h1ClanName = document.getElementById("clanName");
 let tartanDiv = document.getElementById("tartan");
 let crestDiv = document.getElementById("crest");
 let clanHistory = document.getElementById("history");
 let clanMembersDIV = document.getElementById("clanMembers");
+let activeMembers = document.getElementById("activeMembers");
+let notActiveMembers = document.getElementById("notActiveMembers");
 let activeCow = document.getElementById("activeCows");
 let notActiveCow = document.getElementById("notAcriveCows");
 let clanInfo = document.getElementById("clanInfo");
@@ -157,6 +160,7 @@ function membersClan(clanName) {
 }
 
 function showClanHomePage(clanName) {
+    cowInCompetition.style.display = "none";
     contentClanHomepage.style.display = "flex";
     crestDiv.innerHTML = "";
     tartanDiv.innerHTML = "";
@@ -219,12 +223,12 @@ function allMembersPictures(clanName) {
             popUpCowInfo.style.display = "flex"
             setActiveButton(s9);
             currentSeason = 8;
-            setActiveMember(imgDIV);
+            setClickedMember(imgDIV);
             personalInfo(player_id);
             drawAllArcs(player_id, currentSeason);
         });
 
-        function setActiveMember(clickedMember) {
+        function setClickedMember(clickedMember) {
             let allCowImages = document.querySelectorAll(".cowMembers");
             for (let img of allCowImages) {
                 img.classList.remove("memberChoosen");
@@ -745,6 +749,6 @@ function drawAllArcs(player_id, year) {
 
 
 //===========================//
-//===== FUNKTIONSANROP =====//
+//===== ANROP =====//
 //===========================//
-
+cowInCompetition.style.display = "block";
