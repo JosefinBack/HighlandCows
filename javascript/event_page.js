@@ -20,56 +20,81 @@ window.addEventListener("click", function () {
 });
 
 
-// Skapa din sorterade och begränsade datakälla (Source of Truth)
-/* let sortedThreeSeasons = seasons
-    .filter(s => s.year >= 0 && s.year <= 2) // Ta bara de 3 första åren
-    .map(season => {
-        let sortedDays = [...season.competitionDays].sort((a, b) => {
-            if (a.date.month !== b.date.month) return a.date.month - b.date.month;
-            return a.date.day - b.date.day;
-        });
-
-        // Om säsong 2 ska vara en "halvsäsong" (första 8 dagarna i månaden)
-        if (season.year === 2) {
-            sortedDays = sortedDays.filter(d => d.date.day < 8);
-        }
-
-        return { ...season, competitionDays: sortedDays };
-    });
- */
-// --- 2. FUNKTIONER FÖR ATT HÄMTA DATA ---
-
 function getEventResultsByWeek(eventID, seasonYear) {
-    let chosenSeason = threeSeasons.find(s => s.year === seasonYear);
-    if (!chosenSeason) return [];
+
+    let chosenSeason = threeSeasons.find(season => season.year === seasonYear);
+
+    if (!chosenSeason) {
+        return [];
+    }
 
     let allDays = chosenSeason.competitionDays;
 
+    let weekData = [];
+
+    // Loopa igenom alla dagar
     for (let i = 0; i < allDays.length; i += 3) {
+
+        // Skapa grupper om 3 dagar = en vecka
         let currentWeekDays = allDays.slice(i, i + 3);
+
         let currentWeekNumber = (i / 3) + 1;
 
-        currentWeekDays.forEach(week => {
-            let specificEvent = week.events.find(ev => ev.disciplineId === eventID);
-            if (specificEvent) {
-                // Vi sorterar baserat på totalscoren för att se vem som ligger högst just nu
-                // (Eftersom den som presterade bäst idag har ökat sin total mest inbördes)
-                let rankedToday = [...specificEvent.scores].sort((a, b) => b.score - a.score);
+        // Loopa igenom dagarna i veckan
+        for (let day of currentWeekDays) {
 
+            // Hitta rätt event
+            let specificEvent = day.events.find(event => {
+                return event.disciplineId === eventID;
+            });
+
+            // Om eventet finns
+            if (specificEvent) {
+
+                // Sortera deltagarna efter högst score
+                let sortedScores = specificEvent.scores.slice().sort((a, b) => {
+                    return b.score - a.score;
+                });
+
+                let participantsWithPoints = [];
+
+                // Loopa deltagarna
+                for (let index = 0; index < sortedScores.length; index++) {
+
+                    let scoreObject = sortedScores[index];
+
+                    let placement = index + 1;
+
+                    let points = getEventPoints(placement);
+
+                    // Hitta deltagaren
+                    let participant = allParticipants.find(player => {
+                        return player.id === scoreObject.participantId;
+                    });
+
+                    participantsWithPoints.push({
+                        participantName: participant.name,
+                        clan: participant.clan,
+                        placement: placement,
+                        points: points,
+                        rawScore: scoreObject.score
+                    });
+                }
+
+                // Spara dagens data
                 weekData.push({
                     weekNumber: currentWeekNumber,
-                    day: week.date.day,
-                    month: week.date.month,
-                    scores: specificEvent.scores, // Rådatan
-                    rankedScores: rankedToday    // Sorterad för poängutdelning
+                    day: day.date.day,
+                    month: day.date.month,
+                    participants: participantsWithPoints
                 });
             }
-        });
+        }
     }
+
     return weekData;
 }
 
-let weekData = [];
 // --- 3. UI-LOGIK OCH DROPDOWN ---
 
 function updateWeekDropdown(year) {
@@ -106,7 +131,7 @@ document.getElementById("event_season1").addEventListener("click", () => handleS
 
 
 
-// --- 4. D3 VISUALISERING ---
+// --- 4. D3 VISUALISERING --- SKRIV OM
 
 let hSvg = 650, wSvg = 900;
 let threeDayChartSVG = d3.select("main").append("svg")
@@ -114,77 +139,124 @@ let threeDayChartSVG = d3.select("main").append("svg")
     .style("border", "1px solid grey");
 
 function renderWeekCharts(weekData) {
-    threeDayChartSVG.selectAll("*").remove(); // Rensa SVG
 
-    const margin = { top: 50, right: 20, bottom: 80, left: 50 };
-    const chartWidth = wSvg / 3;
+    // Rensa svg
+    threeDayChartSVG.selectAll("*").remove();
 
-    const yScale = d3.scaleLinear().domain([0, 15]).range([hSvg - margin.bottom, margin.top]);
+    // Margins
+    const margin = {
+        top: 50,
+        right: 50,
+        bottom: 100,
+        left: 80
+    };
 
-    weekData.forEach((dayData, i) => {
-        const chartG = threeDayChartSVG.append("g")
-            .attr("transform", `translate(${i * chartWidth}, 0)`);
+    // Storlek på själva grafytan
+    const innerWidth = wSvg - margin.left - margin.right;
+    const innerHeight = hSvg - margin.top - margin.bottom;
 
-        // Mappa klaner till dagens prestation
-        let clanResults = clanNames.map(clanName => {
-            // 1. Hitta alla medlemmar i denna klan
-            let clanMemberIds = allParticipants
-                .filter(p => p.clan === clanName)
-                .map(p => p.id);
-
-            // 2. Hitta klanens placering i dagens ranking
-            // Vi letar efter det första indexet i rankedScores som tillhör en klanmedlem
-            let rankIndex = dayData.rankedScores.findIndex(s => clanMemberIds.includes(s.participantId));
-
-            let points = 0;
-            if (rankIndex !== -1) {
-                // rankIndex 0 = 1:a plats, 1 = 2:a plats... 4 = 5:e plats
-                let placement = rankIndex + 1;
-                points = getEventPoints(placement);
-            } else {
-                // Om klanen mot förmodan inte deltog alls i just detta event
-                points = 0;
-            }
-
-            return {
-                clan: clanName,
-                score: points
-            };
-        });
-        console.log(clanResults);
+    // Grupp för hela diagrammet
+    const chartGroup = threeDayChartSVG.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
-        //console.log(clanResults);
 
-        const xScale = d3.scaleBand()
-            .domain(clanNames)
-            .range([margin.left, chartWidth - 10])
-            .padding(0.3);
+    // =========================
+    // X-AXEL
+    // =========================
 
-        // Rita staplar
-        chartG.selectAll(".bar")
-            .data(clanResults).enter().append("rect")
-            .attr("x", d => xScale(d.clan))
-            .attr("y", d => yScale(d.score))
-            .attr("width", xScale.bandwidth())
-            .attr("height", d => (hSvg - margin.bottom) - yScale(d.score))
-            .attr("fill", (d, idx) => ["#4a3728", "#8b5e3c", "#bc8f8f", "#d2b48c", "#deb887"][idx]);
-
-        // Axlar
-        chartG.append("g").attr("transform", `translate(0, ${hSvg - margin.bottom})`)
-            .call(d3.axisBottom(xScale)).selectAll("text")
-            .attr("transform", "rotate(-45)").style("text-anchor", "end");
-
-        if (i === 0) {
-            chartG.append("g").attr("transform", `translate(${margin.left}, 0)`)
-                .call(d3.axisLeft(yScale).ticks(5));
-        }
-
-        chartG.append("text")
-            .attr("x", (chartWidth + margin.left) / 2).attr("y", margin.top / 2)
-            .attr("text-anchor", "middle").style("font-weight", "bold")
-            .text(`Day ${dayData.day}/${dayData.month}`);
+    // Skapa labels för dagarna
+    let dayLabels = weekData.map(dayData => {
+        return `${dayData.day}/${dayData.month}`;
     });
+
+    // Scale för x
+    const xScale = d3.scalePoint()
+        .domain(dayLabels)
+        .range([0, innerWidth]);
+
+
+
+    // =========================
+    // Y-AXEL
+    // =========================
+
+    const yScale = d3.scaleLinear()
+        .domain([0, 15])
+        .range([innerHeight, 0]);
+
+
+
+    // =========================
+    // RITA AXLAR
+    // =========================
+
+    // X-axel
+    chartGroup.append("g")
+        .attr("transform", `translate(0, ${innerHeight})`)
+        .call(d3.axisBottom(xScale));
+
+    // Y-axel
+    chartGroup.append("g")
+        .call(d3.axisLeft(yScale));
+
+
+
+    // =========================
+    // FÄRGER FÖR KLANER
+    // =========================
+
+    const clanColors = {
+        "MacThomas": "#4a3728",
+        "MacDowall": "#8b5e3c",
+        "MacQueen": "#bc8f8f",
+        "MacLeod": "#d2b48c",
+        "MacKinnon": "#deb887",
+        "MacLea": "#999999"
+    };
+
+
+
+    // =========================
+    // SKAPA ALLA CIRKLAR
+    // =========================
+
+    // Loopa varje dag
+    for (let dayData of weekData) {
+
+        // Label för x-position
+        let dayLabel = `${dayData.day}/${dayData.month}`;
+
+        // Loopa deltagare
+        for (let participant of dayData.participants) {
+
+            chartGroup.append("circle")
+
+                // X-position
+                .attr("cx", xScale(dayLabel))
+
+                // Y-position
+                .attr("cy", yScale(participant.points))
+
+                // Storlek
+                .attr("r", 8)
+
+                // Färg
+                .attr("fill", clanColors[participant.clan])
+
+                // Outline
+                .attr("stroke", "black")
+
+                // Tooltip
+                .append("title")
+                .text(
+                    `${participant.participantName}
+                    Clan: ${participant.clan}
+                    Placement: ${participant.placement}
+                    Points: ${participant.points}`
+                );
+        }
+    }
 }
 
 function getEventPoints(placement) {

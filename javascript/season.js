@@ -45,7 +45,7 @@ console.log(getClanTotalScoreBySeason(1));
 //total poäng per klan per tävlingsgren
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
-  let thisYear = threeSeasons.find(x => x.year === year);
+  let thisYear = allSeasons.find(x => x.year === year);
   let clanTotalScore = 0;
 
   for (let competition of thisYear.competitionDays) {
