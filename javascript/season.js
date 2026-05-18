@@ -1,49 +1,17 @@
-const data = getClanPlacementPointBySeason(1);
-const colors = ["#e63946", "#2a9d8f", "#e9c46a", "#457b9d", "#8338ec"];
-
-const wSvg = 800;
-const hSvg = 400;
-
-const margin = { top: 20, right: 20, bottom: 40, left: 60 };
-
-const svg = d3.select("#chart")
-  .attr("width", wSvg)
-  .attr("height", hSvg)
-
-const y = d3.scaleLinear()
-  .domain([0, d3.max(data, d => d.points)])
-  .range([hSvg - margin.bottom, margin.top]);
-
-const x = d3.scaleBand()
-  .domain(data.map(d => d.clan))
-  .range([margin.left, wSvg - margin.right])
-  .padding(0.2);
-
-svg.append("g")
-  .attr("transform", `translate(${margin.left}, 0)`)
-  .call(d3.axisLeft(y));
-
-svg.append("g")
-  .attr("transform", `translate(0, ${hSvg - margin.bottom})`)
-  .call(d3.axisBottom(x));
-
-svg.selectAll("rect")
-  .data(data)
-  .enter()
-  .append("rect")
-  .attr("x", d => x(d.clan))
-  .attr("y", d => y(d.points))
-  //Bandwidth() räknar automatiskt ut hur bred varje stapel ska 
-  // vara baserat på antal klaner, range och padding
-  .attr("width", x.bandwidth())
-  .attr("height", d => hSvg - margin.bottom - y(d.points))
-  .attr("fill", (d, i) => colors[i]);
-
-
-console.log(getClanTotalScoreBySeason(1));
+const seasonButtons = document.querySelectorAll(".filteringBoxesDIV");
+const disciplineIds = [1, 2, 3, 4, 5];
+const colors = {
+    1: "#FF0FBB", // Moo-Off (pink)
+    2: "#1CB5B5", // Mountain Race
+    3: "#48C973", // Fluff-styling
+    4: "#FF9000", // Whiskey Barrel
+    5: "#A600FF"  // Bagpipe
+};
+const wStack = 1000;
+const hStack = 500;
+const mStack = { top: 20, right: 180, bottom: 60, left: 60 };
 
 //total poäng per klan per tävlingsgren
-
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let thisYear = allSeasons.find(x => x.year === year);
   let clanTotalScore = 0;
@@ -73,9 +41,7 @@ function totalPointsPerDicipline(year, dicipline_ID, clanName) {
       }
     }
   }
-  // console.log(clanTotalScore);
   let result = { clan: clanName, points: clanTotalScore };
-
   return result;
 }
 
@@ -90,6 +56,84 @@ function getScores(year, discipline_ID) {
   console.log(scoreArray);
   return scoreArray;
 };
+
+function drawStackedChart(season) {
+  d3.select("#stackedChart").selectAll("*").remove();
+  const stacked_Data = getStackedClanData(season);
+  const svg = d3.select("#stackedChart")
+    .attr("width", wStack)
+    .attr("height", hStack)
+
+  const stack = d3.stack().keys(disciplineIds);
+  const series = stack(stacked_Data);
+
+  const yMax = d3.max(series, layer => d3.max(layer, d => d[1]));
+  const xStack = d3.scaleBand()
+        .domain(stacked_Data.map(d => d.clan))
+        .range([mStack.left, wStack - mStack.right])
+        .padding(0.3)
+  const yStack = d3.scaleLinear()
+        .domain([0, yMax])
+        .nice()   
+        .range([hStack - mStack.bottom, mStack.top]);
+
+
+        svg.append("g")
+        .attr("transform", `translate(${mStack.left}, 0)`)
+        .call(d3.axisLeft(yStack));
+    
+    svg.append("g")
+        .attr("transform", `translate(0, ${hStack - mStack.bottom})`)
+        .call(d3.axisBottom(xStack));
+    
+    // Rita en grupp per disciplin (= ett lager)
+    svg.append("g")
+    .selectAll("g")
+    .data(series)
+    .enter()
+    .append("g")
+        .attr("fill", d => colors[d.key])
+    .selectAll("rect")
+    .data(d => d)
+    .enter()
+    .append("rect")
+        .attr("x", d => xStack(d.data.clan))
+        .attr("width", xStack.bandwidth())
+        .attr("y", hStack - mStack.bottom)
+        .attr("height", 0)
+        .transition()
+        .duration(800)
+        .ease(d3.easeCubicOut)
+        .attr("y", d => yStack(d[1]))
+        .attr("height", d => yStack(d[0]) - yStack(d[1]));
+
+  const legendItems = disciplineIds.map(id => ({
+    id: id,
+    name: disciplines.find(d => d.id === id).name,
+    color: colors[id]
+}));
+
+  const legend = svg.append("g")
+    .attr("transform", `translate(${wStack - mStack.right + 20}, ${mStack.top})`);
+
+  const legendRow = legend.selectAll("g")
+    .data(legendItems)
+    .enter()
+    .append("g")
+    .attr("transform", (d, i) => `translate(0, ${i * 22})`);
+
+legendRow.append("rect")
+    .attr("width", 16)
+    .attr("height", 16)
+    .attr("fill", d => d.color);
+
+legendRow.append("text")
+    .attr("x", 22)
+    .attr("y", 13)
+    .style("font-size", "13px")
+    .text(d => d.name);
+
+}
 
 //Stapeldiagram
 function drawDiagram(year, disciplines_id) {
@@ -198,5 +242,13 @@ function drawAllDiagrams(year) {
   drawDiagram(year, 5);
 };
 
+for (let btn of seasonButtons) {
+  btn.addEventListener("click", function () {
+      const season = Number(btn.dataset.season);
+      drawStackedChart(season);
+  });
+}
+
 drawAllDiagrams(0);
+drawStackedChart(1);
 
