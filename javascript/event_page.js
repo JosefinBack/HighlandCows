@@ -22,7 +22,7 @@ window.addEventListener("click", function () {
 
 function getEventResultsByWeek(eventID, seasonYear) {
 
-    let chosenSeason = threeSeasons.find(season => season.year === seasonYear);
+    let chosenSeason = allSeasons.find(season => season.year === seasonYear);
 
     if (!chosenSeason) {
         return [];
@@ -71,6 +71,16 @@ function getEventResultsByWeek(eventID, seasonYear) {
                     let participant = allParticipants.find(player => {
                         return player.id === scoreObject.participantId;
                     });
+
+                    if (!participant) {
+                        console.log("Missing participant:", scoreObject.participantId);
+                        continue;
+                    }
+
+                    if (!participant.clan) {
+                        console.log("Participant missing clan:", participant);
+                        continue;
+                    }
 
                     participantsWithPoints.push({
                         participantName: participant.name,
@@ -123,7 +133,14 @@ function handleSeasonChange(seasonYear) {
 }
 
 // Koppla säsongsknappar
-document.getElementById("event_currentSeason").addEventListener("click", () => handleSeasonChange(2));
+document.getElementById("event_currentSeason").addEventListener("click", () => handleSeasonChange(9));
+document.getElementById("event_season9").addEventListener("click", () => handleSeasonChange(8));
+document.getElementById("event_season8").addEventListener("click", () => handleSeasonChange(7));
+document.getElementById("event_season7").addEventListener("click", () => handleSeasonChange(6));
+document.getElementById("event_season6").addEventListener("click", () => handleSeasonChange(5));
+document.getElementById("event_season5").addEventListener("click", () => handleSeasonChange(4));
+document.getElementById("event_season4").addEventListener("click", () => handleSeasonChange(3));
+document.getElementById("event_season3").addEventListener("click", () => handleSeasonChange(2));
 document.getElementById("event_season2").addEventListener("click", () => handleSeasonChange(1));
 document.getElementById("event_season1").addEventListener("click", () => handleSeasonChange(0));
 
@@ -133,10 +150,12 @@ document.getElementById("event_season1").addEventListener("click", () => handleS
 
 // --- 4. D3 VISUALISERING --- SKRIV OM
 
-let hSvg = 650, wSvg = 900;
-let threeDayChartSVG = d3.select("main").append("svg")
+
+let hSvg = 650, wSvg = 1200;
+let threeDayChartSVG = d3.select("main").insert("svg", ":first-child")
     .attr("height", hSvg).attr("width", wSvg)
-    .style("border", "1px solid grey");
+    .style("border", "1px solid grey")
+
 
 function renderWeekCharts(weekData) {
 
@@ -147,7 +166,7 @@ function renderWeekCharts(weekData) {
     const margin = {
         top: 50,
         right: 50,
-        bottom: 100,
+        bottom: 50,
         left: 80
     };
 
@@ -173,7 +192,8 @@ function renderWeekCharts(weekData) {
     // Scale för x
     const xScale = d3.scalePoint()
         .domain(dayLabels)
-        .range([0, innerWidth]);
+        .range([0, innerWidth])
+        .padding(0.5);
 
 
 
@@ -182,8 +202,8 @@ function renderWeekCharts(weekData) {
     // =========================
 
     const yScale = d3.scaleLinear()
-        .domain([0, 15])
-        .range([innerHeight, 0]);
+        .domain([-1, 15])
+        .range([innerHeight, 0])
 
 
 
@@ -193,12 +213,12 @@ function renderWeekCharts(weekData) {
 
     // X-axel
     chartGroup.append("g")
-        .attr("transform", `translate(0, ${innerHeight})`)
+        .attr("transform", `translate(0, ${innerHeight + 10})`)
         .call(d3.axisBottom(xScale));
 
-    // Y-axel
+    // Y-axel //ändra ticksen så att de är enligt poäng ställningen
     chartGroup.append("g")
-        .call(d3.axisLeft(yScale));
+        .call(d3.axisLeft(yScale).tickValues([0, 1, 3, 6, 10, 15]));
 
 
 
@@ -207,12 +227,11 @@ function renderWeekCharts(weekData) {
     // =========================
 
     const clanColors = {
-        "MacThomas": "#4a3728",
-        "MacDowall": "#8b5e3c",
-        "MacQueen": "#bc8f8f",
-        "MacLeod": "#d2b48c",
-        "MacKinnon": "#deb887",
-        "MacLea": "#999999"
+        "MacThomas": "#3C4360",
+        "MacDowall": "#6C82BC",
+        "MacQueen": "#C80000",
+        "MacLeod": "#C8C800",
+        "MacKinnon": "#5D5B2C",
     };
 
 
@@ -267,3 +286,4 @@ function getEventPoints(placement) {
     if (placement === 5) return 1;
     if (placement === 6) return 0;// Här ser vi till att 5:e plats ger poäng
 }
+

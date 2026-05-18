@@ -37,9 +37,9 @@ for (let game of seasons) {
 //participants 1-37 
 let allParticipants = [];
 for (let person of participants) {
-    if (person.clan) {
-        allParticipants.push(person)
-    };
+    
+    allParticipants.push(person)
+
 };
 
 
@@ -427,9 +427,7 @@ function analyzePlayersPerYear() {
     let y1Names = playersYear1.map(id => participants.find(p => p.id === id).name);
     let y2Names = playersYear2.map(id => participants.find(p => p.id === id).name);
 
-    console.log("År 0:", playersYear0.length, y0Names);
-    console.log("År 1:", playersYear1.length, y1Names);
-    console.log("År 2:", playersYear2.length, y2Names);
+
 
     return {
         year0: playersYear0,
