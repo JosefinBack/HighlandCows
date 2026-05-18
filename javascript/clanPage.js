@@ -19,7 +19,7 @@ let closeButton = document.getElementById("closeButton");
 let buttonBack = document.getElementById("buttonBack");
 let buttonForward = document.getElementById("buttonForward");
 let choosenCow = null;
-let currentSeason = 2;
+let currentSeason = 9;
 
 
 let selectedClan = localStorage.getItem("selectedClan");
@@ -57,19 +57,19 @@ if (!selectedClan) {
 //     showWeeks();
 // });
 
-buttonBack.addEventListener("click", function () {
-    if (currentSeason > 0) {
-        currentSeason--;
-        drawAllArcs(choosenCow, currentSeason);
-    }
-});
+// buttonBack.addEventListener("click", function () {
+//     if (currentSeason > 0) {
+//         currentSeason--;
+//         drawAllArcs(choosenCow, currentSeason);
+//     }
+// });
 
-buttonForward.addEventListener("click", function () {
-    if (currentSeason < 2) {
-        currentSeason++;
-        drawAllArcs(choosenCow, currentSeason);
-    }
-});
+// buttonForward.addEventListener("click", function () {
+//     if (currentSeason < 2) {
+//         currentSeason++;
+//         drawAllArcs(choosenCow, currentSeason);
+//     }
+// });
 
 closeButtonDiv.addEventListener("click", function () {
     popUpCowInfo.style.display = "none"
@@ -407,224 +407,242 @@ function getMainSkill(disciplineID) {
 
 
 
-function playerPlacementInDiscipline(player_id, year, disciplineID) {
 
-    let thisYear = allSeasons.find(season => season.year === year);
+//FUNKTIONSANROP
+allMembersPictures();
+clanPointsPerMonth(selectedClan, currentSeason);
 
-    // spelarens placeringar
-    let placements = [];
 
-    // HÄMTA PLACERINGAR
 
+
+function calculatePlayerSkills(player_id, year) {
+
+    // HÄMTA RÄTT SÄSONG
+    let thisYear = allSeasons.find(function (season) {
+        return season.year === year;
+    });
+
+    // =========================
+    // SPARAR ALLA SKILL-VÄRDEN
+    // =========================
+
+    let skillTotals = {
+        "Mental endurance": 0,
+        "Lugn-capacity": 0,
+        "Personal-hygien": 0,
+        "Speed": 0,
+        "Leg-strength": 0
+    };
+
+    // =========================
+    // LOOPA IGENOM ALLA DAGAR
+    // =========================
 
     for (let day of thisYear.competitionDays) {
 
+
+
+        // =========================
+        // LOOPA IGENOM ALLA EVENTS
+        // =========================
+
         for (let event of day.events) {
 
-            // bara rätt disciplin
-            if (event.disciplineId !== disciplineID) {
-                continue;
-            }
 
-            // kopiera + sortera
+
+            // =========================
+            // SORTERA RESULTATEN
+            // =========================
+
             let sortedScores = [...event.scores];
 
-            sortedScores.sort((a, b) => b.score - a.score);
+            sortedScores.sort(function (a, b) {
+                return b.score - a.score;
+            });
 
-            // hitta spelarens placering
+
+
+            // =========================
+            // HITTA SPELARENS PLACERING
+            // =========================
+
             for (let i = 0; i < sortedScores.length; i++) {
-
+                // rätt spelare?
                 if (sortedScores[i].participantId === player_id) {
+
+                    // placering
                     let placement = i + 1;
-                    placements.push(placement);
+                    //omvandla placering till poäng
+                    let points = getPoints(placement);
+
+                    //Hämta diciplinen
+                    let discipline = disciplines.find(function (d) {
+                        return d.id === event.disciplineId;
+                    });
+
+                    // LÄGG TILL SKILL-POÄNG
+                    for (let skill in discipline.skillFactors) {
+
+                        // hur viktig skillen är
+                        let factor = discipline.skillFactors[skill];
+
+                        // poäng * faktor
+                        let skillPoints = points * factor;
+
+                        // lägg till på totalen
+                        skillTotals[skill] = skillTotals[skill] + skillPoints;
+                    }
                 }
             }
         }
     }
-
-    console.log(placements);
-
-    // RÄKNA AVERAGE
-    let total = 0;
-
-    for (let placement of placements) {
-        total += placement;
-    }
-
-    let averagePlacement = total / placements.length;
-
-    averagePlacement = Number(averagePlacement.toFixed(2));
-
-    // =========================
-    // SKILL SCORE
-    // =========================
-
-    let skillScore = ((6 - averagePlacement) / 5) * 100;
-
-    skillScore = Math.round(skillScore);
-
-    let gaugeColor = "#E53935";
-
-    if (skillScore >= 90) {
-        gaugeColor = "#FFD700";
-    }
-    else if (skillScore >= 75) {
-        gaugeColor = "#4CAF50";
-    }
-    else if (skillScore >= 55) {
-        gaugeColor = "#3498DB";
-    }
-    else if (skillScore >= 35) {
-        gaugeColor = "#FF9800";
-    }
-
-    return {
-        discipline: disciplineID,
-        placements: placements,
-        averagePlacement: averagePlacement,
-        skillScore: skillScore,
-        gaugeColor: gaugeColor
-    };
+    // console.log(skillTotals)
+    return skillTotals;
 }
 
 
-function drawArcs(playerID, year, disciplineID, chartDiv) {
-    currentSeason = year;
-    let h2Season = document.getElementById("h2Season");
 
-    if (year === 0) {
-        h2Season.textContent = "Season 1";
+
+function drawSkillArc(playerID, year, skillName, chartDiv) {
+
+    //Hämta spelaren skills
+    let playerSkills = calculatePlayerSkills(playerID, year);
+
+    //Hämta spevifik skill
+    let rawSkillValue = playerSkills[skillName];
+
+    let highestSkillValue = 0;
+
+    // LOOPA IGENOM ALLA SKILLS
+    for (let skill in playerSkills) {
+        let value = playerSkills[skill];
+
+        if (value > highestSkillValue) {
+            highestSkillValue = value;
+        };
+    };
+
+
+    //Gör om värdet (skala om)
+    let scaleSkill = d3.scaleLinear()
+        .domain([0, highestSkillValue])
+        .range([0, 100]);
+
+    let gaugeValue = scaleSkill(rawSkillValue);
+
+    gaugeValue = Math.round(gaugeValue);
+
+
+    // säkerhet
+    if (gaugeValue > 100) {
+        gaugeValue = 100;
     }
-    else if (year === 1) {
-        h2Season.textContent = "Season 2";
+
+    if (gaugeValue < 0) {
+        gaugeValue = 0;
     }
-    else if (year === 2) {
-        h2Season.textContent = "Current season";
-    }
-
-    let result = playerPlacementInDiscipline(
-        playerID,
-        year,
-        disciplineID
-    );
-
-    let label = result.label;
-    let value = result.skillScore;
-    let originalValue = value;
-    let gaugeColor = result.gaugeColor;
-
-    let textValue;
-    if (originalValue === null) {
-        textValue = "-";
-    }
-    else {
-        textValue = originalValue;
-    }
-
-
-    let rightDicipline = disciplines.find(x => result.discipline === x.id);
-
-    let disciplineName = rightDicipline.name;
-    let mainSkill = getMainSkill(disciplineID);
 
     //SVG
-    const width = 160;
-    const height = 150;
+    let width = 160;
+    let height = 150;
 
-    const svg = d3.select(chartDiv)
+    let svg = d3.select(chartDiv)
         .append("svg")
         .attr("width", width)
         .attr("height", height);
 
     // centrera gauge
-    const g = svg.append("g")
-        .attr("transform", `translate(${width / 2}, ${height - 30})`);
-    // =========================
-    // VINKLAR
-    // =========================
-
-    // halvcirkel
-    const startAngle = -Math.PI / 2;
-    const endAngle = Math.PI / 2;
+    let g = svg.append("g")
+        .attr("transform",
+            `translate(${width / 2}, ${height - 30})`
+        );
 
 
-    // konvertera 0–100 till vinkel
-    const angleScale = d3.scaleLinear()
+
+    //vinklar
+    let startAngle = -Math.PI / 2;
+    let endAngle = Math.PI / 2;
+
+    let angleScale = d3.scaleLinear()
         .domain([0, 100])
         .range([startAngle, endAngle]);
 
-
-    // =========================
-    // BAKGRUNDSBÅGE
-    // =========================
-
-    const backgroundArc = d3.arc()
+    //Bakgrund
+    let backgroundArc = d3.arc()
         .innerRadius(35)
         .outerRadius(55)
         .startAngle(startAngle)
         .endAngle(endAngle);
 
+
     g.append("path")
         .attr("d", backgroundArc)
         .attr("fill", "white");
 
+    // Färgskala
+    let colorScale = d3.scaleQuantize()
+        .domain([0, 100])
+        .range([
+            "#E53935",
+            "#FF9800",
+            "#3498DB",
+            "#4CAF50",
+            "#FFD700"
+        ]);
+
+    let gaugeColor = colorScale(gaugeValue);
     // =========================
     // FYLLD BÅGE
     // =========================
 
-    const valueArc = d3.arc()
+    let valueArc = d3.arc()
         .innerRadius(35)
         .outerRadius(55)
         .startAngle(startAngle)
-        .endAngle(angleScale(value));
+        .endAngle(angleScale(gaugeValue));
+
 
     g.append("path")
         .attr("d", valueArc)
         .attr("fill", gaugeColor);
 
-
     // =========================
-    // PROCENT I MITTEN
+    // TEXT I MITTEN
     // =========================
 
     g.append("text")
-        .text(originalValue)
+        .text(gaugeValue + "%")
         .attr("text-anchor", "middle")
         .attr("y", -10)
         .style("font-size", "24px")
         .style("font-weight", "bold");
 
+
+
     // =========================
-    // DISCIPLIN-NAMN
+    // SKILL-NAMN
     // =========================
 
     svg.append("text")
-        .text(mainSkill)
+        .text(skillName)
         .attr("x", width / 2)
         .attr("y", 30)
         .attr("text-anchor", "middle")
-        .style("font-size", "20px")
+        .style("font-size", "16px")
         .style("font-weight", "bold");
 
-    svg.append("text")
-        .text(`Based on: ${disciplineName} `)
-        .attr("x", width / 2)
-        .attr("y", 50)
-        .attr("text-anchor", "middle")
-        .style("font-size", "12px")
-        .style("fill", "black");
-
-    svg.append("text")
-        .text(`Average placement: ${result.averagePlacement} / 6`)
-        .attr("x", width / 2)
-        .attr("y", height - 10)
-        .attr("text-anchor", "middle")
-        .style("font-size", "13px")
-        .style("fill", "black");
-};
+    // svg.append("text")
+    //     .text("Skill factor: " + rawSkillValue)
+    //     .attr("x", width / 2)
+    //     .attr("y", height - 10)
+    //     .attr("text-anchor", "middle")
+    //     .style("font-size", "12px");
+}
 
 
-//skapa och rita diagrammen för skills
+
+
+// //skapa och rita diagrammen för skills
 function drawAllArcs(player_id, year) {
 
     document.getElementById("chartOne").innerHTML = "";
@@ -633,16 +651,9 @@ function drawAllArcs(player_id, year) {
     document.getElementById("chartFour").innerHTML = "";
     document.getElementById("chartFive").innerHTML = "";
 
-    drawArcs(player_id, year, 1, "#chartOne");
-    drawArcs(player_id, year, 2, "#chartTwo");
-    drawArcs(player_id, year, 3, "#chartThree");
-    drawArcs(player_id, year, 4, "#chartFour");
-    drawArcs(player_id, year, 5, "#chartFive");
+    drawSkillArc(player_id, year, "Mental endurance", "#chartOne");
+    drawSkillArc(player_id, year, "Lugn-capacity", "#chartTwo");
+    drawSkillArc(player_id, year, "Personal-hygien", "#chartThree");
+    drawSkillArc(player_id, year, "Speed", "#chartFour");
+    drawSkillArc(player_id, year, "Leg-strength", "#chartFive");
 };
-
-
-
-//FUNKTIONSANROP
-allMembersPictures();
-clanPointsPerMonth(selectedClan, currentSeason);
-
