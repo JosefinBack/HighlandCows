@@ -270,8 +270,6 @@ displayTop3Players(2);
 displayTop3Clans(2);
 
 
-
-
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let thisYear = threeSeasons.find(x => x.year === year);
   let clanTotalScore = 0;
@@ -301,11 +299,11 @@ function totalPointsPerDicipline(year, dicipline_ID, clanName) {
       }
     }
   }
-  // console.log(clanTotalScore);
   let result = { clan: clanName, points: clanTotalScore };
 
   return result;
 }
+
 
 function getScores(year, discipline_ID) {
   let scoreArray = [];
@@ -318,3 +316,12 @@ function getScores(year, discipline_ID) {
   console.log(scoreArray);
   return scoreArray;
 };
+
+function displayDiscipline(){
+  let pointsPerDicipline = totalPointsPerDicipline(year, dicipline_ID, clanName);
+  let points;
+
+  for(let data of pointsPerDicipline){
+    points = 
+  }
+}
