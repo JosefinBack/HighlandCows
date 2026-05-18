@@ -612,7 +612,7 @@ function getClanTotalScoreBySeason(season) {
 
 console.log(getClanTotalScoreBySeason(0));
 
-function getClanPlacementPointBySeason (season) {
+function getClanPlacementPointBySeason(season) {
     const clanScores = [];
 
     for (let clan of clanNames) {
@@ -620,7 +620,7 @@ function getClanPlacementPointBySeason (season) {
         const members = membersClan(clan);
 
         for (let member of members) {
-            totalPoints += calculatePlayerPoints(member)
+            totalPoints += calculatePlayerPoints(member.id, season)
         }
         clanScores.push( {clan: clan, points: totalPoints} );
     }
