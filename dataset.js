@@ -113,12 +113,7 @@ const disciplines = [{
   }
 }]
 
-let MacThomasClan = [];
-let MacDowallClan = [];
-let MacQueenClan = [];
-let MacleodClan = [];
-let MacKinnonClan = [];
-let PlayersWithoutClan = [];
+
 
 
 const participants = [{
@@ -455,29 +450,6 @@ const participants = [{
   "img": "../pic/MacKinnon/Gregor_MacQuarrie.png"
 }]
 
-for (let player of participants) {
-  if (player.clan === "MacThomas") {
-    MacThomasClan.push(player);
-  } if (player.clan === "MacDowall") {
-    MacDowallClan.push(player);
-  } if (player.clan === "MacQueen") {
-    MacQueenClan.push(player);
-  } if (player.clan === "MacLeod") {
-    MacleodClan.push(player);
-  } if (player.clan === "MacKinnon") {
-    MacKinnonClan.push(player);
-  } if (!player.clan) {
-
-    PlayersWithoutClan.push(player)
-  }
-}
-
-console.log(MacThomasClan);
-console.log(MacDowallClan);
-console.log(MacQueenClan);
-console.log(MacleodClan);
-console.log(MacKinnonClan);
-console.log(PlayersWithoutClan);
 
 
 
