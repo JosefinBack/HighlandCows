@@ -264,5 +264,6 @@ function getEventPoints(placement) {
     if (placement === 2) return 10;
     if (placement === 3) return 6;
     if (placement === 4) return 3;
-    if (placement === 5) return 1; // Här ser vi till att 5:e plats ger poäng
+    if (placement === 5) return 1;
+    if (placement === 6) return 0;// Här ser vi till att 5:e plats ger poäng
 }
