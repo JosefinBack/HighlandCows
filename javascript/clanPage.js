@@ -1,5 +1,4 @@
 
-
 //Variabler
 let main = document.querySelector("main");
 let contentClanHomepage = document.getElementById("content");
@@ -28,6 +27,18 @@ let selectedClan = localStorage.getItem("selectedClan");
 if (!selectedClan) {
     selectedClan = "MacThomas";
 }
+
+
+//Ladda rätt clan
+
+function runPage() {
+
+}
+
+
+
+
+
 
 
 //BUTTONS
@@ -106,20 +117,6 @@ s9.addEventListener("click", function () {
     drawAllArcs(choosenCow, currentSeason);
 });
 
-// buttonBack.addEventListener("click", function () {
-//     if (currentSeason > 0) {
-//         currentSeason--;
-//         drawAllArcs(choosenCow, currentSeason);
-//     }
-// });
-
-// buttonForward.addEventListener("click", function () {
-//     if (currentSeason < 2) {
-//         currentSeason++;
-//         drawAllArcs(choosenCow, currentSeason);
-//     }
-// });
-
 closeButtonDiv.addEventListener("click", function () {
     popUpCowInfo.style.display = "none"
 });
@@ -140,6 +137,7 @@ function membersClan(clanName) {
 function showClanHomePage(clanName) {
     crestDiv.innerHTML = "";
     tartanDiv.innerHTML = "";
+    allMembersPictures(clanName);
 
     for (let clan of clans) {
         if (clan.name === clanName) {
@@ -169,9 +167,9 @@ function showClanHomePage(clanName) {
 
 
 //personlig info för varje ko, som ska synas på klansida
-function allMembersPictures() {
+function allMembersPictures(clanName) {
 
-    let allMembers = showClanHomePage(selectedClan);
+    let allMembers = membersClan(clanName);
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
@@ -472,7 +470,7 @@ function drawLineDiagram() {
 
 };
 
-drawLineDiagram()
+// drawLineDiagram()
 
 function getMainSkill(disciplineID) {
     let discipline = disciplines.find(d => d.id === disciplineID);
@@ -488,15 +486,6 @@ function getMainSkill(disciplineID) {
     }
     return highestSkill;
 };
-
-
-
-
-
-//FUNKTIONSANROP
-allMembersPictures();
-clanPointsPerMonth(selectedClan, currentSeason);
-
 
 
 
@@ -737,3 +726,10 @@ function drawAllArcs(player_id, year) {
     drawSkillArc(player_id, year, "Speed", "#chartFour");
     drawSkillArc(player_id, year, "Leg-strength", "#chartFive");
 };
+
+
+
+//===========================//
+//===== FUNKTIONSANROP =====//
+//===========================//
+
