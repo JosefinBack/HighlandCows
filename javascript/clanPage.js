@@ -103,6 +103,7 @@ function showClanHomePage(clanName) {
 
             let tartanImg = document.createElement("img");
             tartanImg.src = clan.tartan;
+            tartanImg.classList.add("tartanPic");
             tartanImg.classList.add("picCrestAndTartan");
             tartanDiv.append(tartanImg);
         }

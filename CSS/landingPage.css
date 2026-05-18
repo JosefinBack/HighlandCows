@@ -1,35 +1,36 @@
-#pageWrapper{
-    background-color: rgba(113, 145, 136, 0.3);
+#imgWrapper {
+    position: relative;
 }
 
-
-#highlandIMG{
+#highlandIMG {
     width: 95%;
     margin-left: 35px;
     margin-top: 10px;
     border-radius: 10px;
 }
 
-#welcomeHighlandCow{
+#welcomeHighlandCow {
     color: white;
     font-family: "Irish Grover";
-    font-size: 48px;
+    font-size: 43px;
 
-    position:absolute;
-    top: 580px;
-    left: 85px;
+    position: absolute;
+    top: 82%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 984px;
 }
 
-#aboutContainer{
+#aboutContainer {
     display: flex;
     gap: 40px;
 }
 
-#aboutWrapper{
+#aboutWrapper {
     width: 40%;
 }
 
-.subtitle{
+.subtitle {
     font-family: "Irish Grover";
     font-size: 28px;
     color: #233629;
@@ -37,27 +38,31 @@
     margin-left: 50px;
 }
 
-#part1, #part2, #part3{
+#part1,
+#part2,
+#part3 {
     font-family: "Instrumental serif";
     font-size: 18px;
     margin-top: 5px;
     margin-left: 50px;
 }
 
-#svg-map{
+#svg-map {
     margin-top: 60px;
 }
 
-#topRankingWrapper{
+#topRankingWrapper {
     display: flex;
     align-items: center;
-    justify-content:center;
-    gap:50px;
+    justify-content: center;
+    gap: 50px;
+    margin: 0px 50px;
 }
 
-#top3Players, #top3Clans{
+#top3Players,
+#top3Clans {
     margin-top: 10px;
-    width: 30%;
+    width: 50%;
     background-color: #FEFBEF;
     border-radius: 10px;
     padding: 10px;
@@ -68,7 +73,8 @@
     margin-bottom: 50px;
 }
 
-#top3PlayerTitle, #top3ClansTitle{
+#top3PlayerTitle,
+#top3ClansTitle {
     text-align: center;
     font-family: "Irish Grover";
     font-size: 24px;
@@ -77,32 +83,32 @@
 }
 
 
-.ranking-card{
-    background-color:rgba(174, 133, 104, 0.3);
+.ranking-card {
+    background-color: rgba(174, 133, 104, 0.3);
     border-radius: 10px;
     width: 80%;
     padding: 10px;
     margin-left: 30px;
 
     display: flex;
-    gap:10px;
+    gap: 10px;
 }
 
-.rankingImg{
+.rankingImg {
     width: 94px;
     height: 94px;
     border-radius: 10px;
 }
 
-.fontStyleRanking{
+.fontStyleRanking {
     font-family: "Irish Grover";
     font-size: 18px;
     margin: 2px;
     color: #233629;
 }
 
-.player-text-content{
+.player-text-content {
     display: flex;
-    gap:10px;
+    gap: 10px;
     flex-direction: column;
 }
