@@ -34,12 +34,10 @@ for (let game of seasons) {
 //console.log(allSeasons);
 
 
-//participants 1-37 
+//participants
 let allParticipants = [];
 for (let person of participants) {
-    
     allParticipants.push(person)
-
 };
 
 
