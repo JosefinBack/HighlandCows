@@ -9,7 +9,11 @@ button {
     border-radius: 10px;
     font-family: Irish Grover;
     padding: 10px 15px;
-    font-size: 16px;
+    font-size: 12px;
+}
+
+.buttonActive {
+    background-color: rgb(113, 145, 136);
 }
 
 .bigDiv {

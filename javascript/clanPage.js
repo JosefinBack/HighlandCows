@@ -29,33 +29,64 @@ if (!selectedClan) {
 }
 
 
+//BUTTONS
+let s1 = document.getElementById("s1");
+let s2 = document.getElementById("s2");
+let s3 = document.getElementById("s3");
+let s4 = document.getElementById("s4");
+let s5 = document.getElementById("s5");
+let s6 = document.getElementById("s6");
+let s7 = document.getElementById("s7");
+let s8 = document.getElementById("s8");
+let s9 = document.getElementById("s9");
 
-//AddEventLisneters
-// playerButton.addEventListener("click", function () {
-//     main.innerHTML = "";
-//     getResultforPlayer(189, 0);
-//     playerPlacment(189, 0);
-// });
+let seasonButtons = [s1, s2, s3, s4, s5, s6, s7, s8, s9];
 
-// bestPlayers.addEventListener("click", function () {
-//     main.innerHTML = "";
-//     getBestPlayers(0);
-//     getBestPlayers(1);
-//     getBestPlayers(2);
-// });
+s1.addEventListener("click", function () {
+    s1.classList.add("buttonActive");
+    currentSeason = 0;
+    drawAllArcs(choosenCow, currentSeason);
+});
 
-// clanButton.addEventListener("click", function () {
-//     main.innerHTML = "";
+s2.addEventListener("click", function () {
+    currentSeason = 1;
+    drawAllArcs(choosenCow, currentSeason);
+});
 
-//     main.classList.add("contentClanPage");
-//     showClans();
-// });
+s3.addEventListener("click", function () {
+    currentSeason = 2;
+    drawAllArcs(choosenCow, currentSeason);
+});
 
+s4.addEventListener("click", function () {
+    currentSeason = 3;
+    drawAllArcs(choosenCow, currentSeason);
+});
 
-// schedualButton.addEventListener("click", function () {
-//     main.innerHTML = "";
-//     showWeeks();
-// });
+s5.addEventListener("click", function () {
+    currentSeason = 4;
+    drawAllArcs(choosenCow, currentSeason);
+});
+
+s6.addEventListener("click", function () {
+    currentSeason = 5;
+    drawAllArcs(choosenCow, currentSeason);
+});
+
+s7.addEventListener("click", function () {
+    currentSeason = 6;
+    drawAllArcs(choosenCow, currentSeason);
+});
+
+s8.addEventListener("click", function () {
+    currentSeason = 7;
+    drawAllArcs(choosenCow, currentSeason);
+});
+
+s9.addEventListener("click", function () {
+    currentSeason = 8;
+    drawAllArcs(choosenCow, currentSeason);
+});
 
 // buttonBack.addEventListener("click", function () {
 //     if (currentSeason > 0) {
@@ -146,7 +177,7 @@ function allMembersPictures() {
             let player_id = Number(imgDIV.id);
             popUpCowInfo.style.display = "flex"
             personalInfo(player_id);
-            drawAllArcs(player_id, 2);
+            drawAllArcs(player_id, currentSeason);
         });
     }
 }
