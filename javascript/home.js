@@ -318,10 +318,13 @@ function getScores(year, discipline_ID) {
 };
 
 function displayDiscipline(){
-  let pointsPerDicipline = totalPointsPerDicipline(year, dicipline_ID, clanName);
+  let pointsPerDicipline = totalPointsPerDicipline(9, 1, MacQueen);
   let points;
 
   for(let data of pointsPerDicipline){
-    points = 
+    points = data.points;
   }
+  console.log(points)
 }
+
+displayDiscipline()
