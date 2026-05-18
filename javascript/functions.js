@@ -6,8 +6,7 @@ let clanNames = [
     "MacDowall",
     "MacQueen",
     "MacLeod",
-    "MacKinnon",
-    "MacLea"
+    "MacKinnon"
 ];
 
 //Activ season (haft seasong 2(aka 3))
