@@ -424,8 +424,14 @@ const participants = [{
   "age": 7,
   "furcolor": "Dark Brown",
   "img": "../pic/MacKinnon/Keir_MacLennan.png"
+  }, {
+  "id": 296,
+  "name": "Melvin MacKenzie",
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacThomas/Fergus_MacAlister.png"
 },
-
 {
   "id": 82,
   "name": "Robin Burt",

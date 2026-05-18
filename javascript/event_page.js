@@ -72,6 +72,16 @@ function getEventResultsByWeek(eventID, seasonYear) {
                         return player.id === scoreObject.participantId;
                     });
 
+                    if (!participant) {
+                        console.log("Missing participant:", scoreObject.participantId);
+                        continue;
+                    }
+
+                    if (!participant.clan) {
+                        console.log("Participant missing clan:", participant);
+                        continue;
+                    }
+
                     participantsWithPoints.push({
                         participantName: participant.name,
                         clan: participant.clan,
