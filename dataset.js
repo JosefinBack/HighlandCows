@@ -38,27 +38,32 @@ const clans = [{
   "name": "MacThomas",
   "region": 1,
   "crest": "../pic/MacThomas/MacThomas.png",
-  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg"
+  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg",
+  "color": "#3C4360"
 }, {
   "name": "MacDowall",
   "region": 2,
   "crest": "../pic/MacDowall/MacDowall.png",
-  "tartan": "../pic/MacDowall/MacDowall_Tartan.jpeg"
+  "tartan": "../pic/MacDowall/MacDowall_Tartan.jpeg",
+  "color": "#6C82BC"
 }, {
   "name": "MacQueen",
   "region": 3,
   "crest": "../pic/MacQueen/Macqueen.png",
-  "tartan": "../pic/MacQueen/Macqueen_tartan.png"
+  "tartan": "../pic/MacQueen/Macqueen_tartan.png",
+  "color": "#C80000"
 }, {
   "name": "MacLeod",
   "region": 4,
   "crest": "../pic/Macleod/Macleod.png",
-  "tartan": "../pic/Macleod/Macleod_tartans.png"
+  "tartan": "../pic/Macleod/Macleod_tartans.png",
+  "color": "#C8C800"
 }, {
   "name": "MacKinnon",
   "region": 5,
   "crest": "../pic/MacKinnon/MacKinnon.png",
-  "tartan": "../pic/MacKinnon/MacKinnon_tartan.jpeg"
+  "tartan": "../pic/MacKinnon/MacKinnon_tartan.jpeg",
+  "color": "#5D5B2C"
 }]
 
 const disciplines = [{
@@ -70,7 +75,8 @@ const disciplines = [{
     "Personal-hygien": 2,
     "Speed": 1,
     "Leg-strength": 3
-  }
+  },
+  "color": "#FF0FBB"
 }, {
   "id": 2,
   "name": "Fluff-styling",
@@ -395,7 +401,7 @@ const participants = [{
   "age": 4,
   "furcolor": "White",
   "img": "../pic/MacKinnon/Blair_MacGregor.png"
-  },
+},
 
 {
   "id": "Hamish MacEwen",
