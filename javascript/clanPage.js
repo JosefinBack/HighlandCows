@@ -21,6 +21,7 @@ let buttonForward = document.getElementById("buttonForward");
 let choosenCow = null;
 let currentSeason = 9;
 
+let popupNotCompeting = document.getElementById("popupNotCompeting");
 
 let selectedClan = localStorage.getItem("selectedClan");
 
@@ -42,48 +43,65 @@ let s9 = document.getElementById("s9");
 
 let seasonButtons = [s1, s2, s3, s4, s5, s6, s7, s8, s9];
 
+function setActiveButton(buttonClicked) {
+    // ta bort active från alla
+    for (let button of seasonButtons) {
+        button.classList.remove("buttonActive");
+    }
+    // lägg till på klickad knapp
+    buttonClicked.classList.add("buttonActive");
+};
+
 s1.addEventListener("click", function () {
-    s1.classList.add("buttonActive");
+    setActiveButton(s1);
     currentSeason = 0;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s2.addEventListener("click", function () {
+    setActiveButton(s2);
     currentSeason = 1;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s3.addEventListener("click", function () {
+    setActiveButton(s3);
     currentSeason = 2;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s4.addEventListener("click", function () {
+    setActiveButton(s4);
     currentSeason = 3;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s5.addEventListener("click", function () {
+    setActiveButton(s5);
     currentSeason = 4;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s6.addEventListener("click", function () {
+    setActiveButton(s6);
     currentSeason = 5;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s7.addEventListener("click", function () {
+    setActiveButton(s7);
     currentSeason = 6;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s8.addEventListener("click", function () {
+    setActiveButton(s8);
     currentSeason = 7;
     drawAllArcs(choosenCow, currentSeason);
 });
 
 s9.addEventListener("click", function () {
+    setActiveButton(s9);
     currentSeason = 8;
     drawAllArcs(choosenCow, currentSeason);
 });
@@ -157,6 +175,7 @@ function allMembersPictures() {
 
     for (let player of allMembers) {
         let imgDIV = document.createElement("div");
+        imgDIV.classList.add("memberCard");
         imgDIV.style.textAlign = "center";
 
         let img = document.createElement("img");
@@ -176,11 +195,24 @@ function allMembersPictures() {
         imgDIV.addEventListener("click", function () {
             let player_id = Number(imgDIV.id);
             popUpCowInfo.style.display = "flex"
+            setActiveButton(s9);
+            currentSeason = 8;
+            setActiveMember(imgDIV);
             personalInfo(player_id);
             drawAllArcs(player_id, currentSeason);
         });
-    }
-}
+
+        function setActiveMember(clickedMember) {
+            let allCowImages = document.querySelectorAll(".cowMembers");
+            for (let img of allCowImages) {
+                img.classList.remove("memberChoosen");
+            }
+
+            let clickedImage = clickedMember.querySelector(".cowMembers");
+            clickedImage.classList.add("memberChoosen");
+        }
+    };
+};
 
 
 function personalInfo(player_id) {
@@ -227,6 +259,28 @@ function personalInfo(player_id) {
 
     infoDiv.append(cownameP, cowAgeP, cowFurColorP, cowregion);
     infoPic.append(img);
+
+
+
+    for (let i = 0; i < seasonButtons.length; i++) {
+
+        let button = seasonButtons[i];
+
+        let playerSkills = calculatePlayerSkills(player_id, i);
+
+        let totalPoints = 0;
+
+        for (let skill in playerSkills) {
+            totalPoints = totalPoints + playerSkills[skill];
+        }
+
+        if (totalPoints === 0) {
+            button.classList.add("memberNotCompeteSeasonButton");
+        }
+        else {
+            button.classList.remove("memberNotCompeteSeasonButton");
+        }
+    }
 };
 
 
@@ -448,7 +502,6 @@ clanPointsPerMonth(selectedClan, currentSeason);
 
 function calculatePlayerSkills(player_id, year) {
 
-    // HÄMTA RÄTT SÄSONG
     let thisYear = allSeasons.find(function (season) {
         return season.year === year;
     });
@@ -465,25 +518,8 @@ function calculatePlayerSkills(player_id, year) {
         "Leg-strength": 0
     };
 
-    // =========================
-    // LOOPA IGENOM ALLA DAGAR
-    // =========================
-
     for (let day of thisYear.competitionDays) {
-
-
-
-        // =========================
-        // LOOPA IGENOM ALLA EVENTS
-        // =========================
-
         for (let event of day.events) {
-
-
-
-            // =========================
-            // SORTERA RESULTATEN
-            // =========================
 
             let sortedScores = [...event.scores];
 
@@ -491,16 +527,9 @@ function calculatePlayerSkills(player_id, year) {
                 return b.score - a.score;
             });
 
-
-
-            // =========================
-            // HITTA SPELARENS PLACERING
-            // =========================
-
             for (let i = 0; i < sortedScores.length; i++) {
                 // rätt spelare?
                 if (sortedScores[i].participantId === player_id) {
-
                     // placering
                     let placement = i + 1;
                     //omvandla placering till poäng
@@ -527,17 +556,37 @@ function calculatePlayerSkills(player_id, year) {
             }
         }
     }
-    // console.log(skillTotals)
+    console.log(skillTotals)
     return skillTotals;
 }
 
 
 
-
 function drawSkillArc(playerID, year, skillName, chartDiv) {
 
-    //Hämta spelaren skills
     let playerSkills = calculatePlayerSkills(playerID, year);
+
+
+    let totalSkills = 0;
+    for (let skill in playerSkills) {
+        totalSkills = totalSkills + playerSkills[skill];
+    };
+
+    if (totalSkills === 0) {
+        let cowName = document.getElementById("cowName");
+
+        for (let cow of allParticipants) {
+            if (cow.id === playerID) {
+                cowName.textContent = cow.name;
+            }
+        };
+
+        popupNotCompeting.style.display = "block";
+        return;
+    } else {
+        popupNotCompeting.style.display = "none";
+    }
+
 
     //Hämta spevifik skill
     let rawSkillValue = playerSkills[skillName];
