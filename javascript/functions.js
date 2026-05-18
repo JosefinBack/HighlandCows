@@ -31,7 +31,7 @@ for (let game of seasons) {
     }
 };
 
-console.log(allSeasons);
+//console.log(allSeasons);
 
 
 //participants 1-37 
