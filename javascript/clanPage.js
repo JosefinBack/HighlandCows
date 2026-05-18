@@ -201,7 +201,7 @@ function personalInfo(player_id) {
 
 
 function clanPointsPerMonth(clan, year) {
-    let thisYear = threeSeasons.find(x => x.year === year);
+    let thisYear = allSeasons.find(x => x.year === year);
     let members = membersClan(clan);
     let monthScores = {};
     let allScores = [];
@@ -409,7 +409,7 @@ function getMainSkill(disciplineID) {
 
 function playerPlacementInDiscipline(player_id, year, disciplineID) {
 
-    let thisYear = threeSeasons.find(season => season.year === year);
+    let thisYear = allSeasons.find(season => season.year === year);
 
     // spelarens placeringar
     let placements = [];
