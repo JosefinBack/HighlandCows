@@ -131,7 +131,7 @@ document.getElementById("event_season1").addEventListener("click", () => handleS
 
 
 
-// --- 4. D3 VISUALISERING ---
+// --- 4. D3 VISUALISERING --- SKRIV OM
 
 let hSvg = 650, wSvg = 900;
 let threeDayChartSVG = d3.select("main").append("svg")
