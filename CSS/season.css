@@ -39,13 +39,6 @@ h1 {
     gap: 50px;
 }
 
-#colorBoxes{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    margin-left: 0;
-    gap: 10px;
-}
 
 #colorBoxes div {
 
