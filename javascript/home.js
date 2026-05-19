@@ -175,56 +175,51 @@ function getBestPlayers(year) {
   let resultArray = [];
 
   for (let person of allParticipants) {
-    let playerID = person.id;
-    let result = calculatePlayerPoints(playerID, year);
-    let playerImg = person.img;
+    let result = calculatePlayerPoints(person.id, year);
 
     resultArray.push({
-      id: playerID,
+      season: year + 1,
+      id: person.id,
       name: person.name,
       points: result,
-      img: playerImg,
+      img: person.img
     });
   }
 
-  for (let i = 0; i < resultArray.length; i++) {
-    for (let j = 0; j < resultArray.length - 1; j++) {
-      if (resultArray[j].points < resultArray[j + 1].points) {
-        let temp = resultArray[j]; //swap
-        resultArray[j] = resultArray[j + 1];
-        resultArray[j + 1] = temp;
-      }
-    }
-  }
+  // Sortera högst poäng först
+  resultArray.sort(function (a, b) {
+    return b.points - a.points;
+  });
 
   return resultArray;
 }
 
 function calculatePlayerPoints(player_id, year) {
-  let thisYear = allSeasons.find((x) => x.year === year);
-  let playerID = player_id;
-  let playerPlacings = [];
 
-  for (let playerPart of thisYear.competitionDays) {
-    for (let event of playerPart.events) {
-      let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
+  let thisYear = allSeasons.find(x => x.year === year);
+  let totalPoints = 0;
 
-      let i = 1;
+  for (let day of thisYear.competitionDays) {
+
+    for (let event of day.events) {
+
+      let sortedScores = event.scores.slice().sort(function (a, b) {
+        return b.score - a.score;
+      });
+
+      let placement = 1;
 
       for (let score of sortedScores) {
-        if (score.participantId === playerID) {
-          playerPlacings.push({
-            year: thisYear.year,
-            discipline: event.disciplineId,
-            placement: i,
-          });
+
+        if (score.participantId === player_id) {
+          let points = getPoints(placement);
+          totalPoints = totalPoints + points;
         }
-        i++;
+        placement++;
       }
     }
   }
-
-  return calculateTotalPoints(playerPlacings);
+  return totalPoints;
 }
 
 function getBestClan(year) {
@@ -314,18 +309,6 @@ function getScores(year, discipline_ID) {
   return scoreArray;
 };
 
-// function displayDiscipline() {
-//   let pointsPerDicipline = totalPointsPerDicipline(year, dicipline_ID, clanName);
-//   let points;
-
-//   for (let data of pointsPerDicipline) {
-//     points = 
-//   }
-// }
-
-
-//scatterplot
-
 function playerScores(year) {
   let allPlayersScore = getBestPlayers(year);
 
@@ -338,17 +321,117 @@ function playerScores(year) {
   };
 
   return activePlayers;
-}
-playerScores(9);
+};
 
 
 //värdena för scatterplot
 
 function drawScatterPlot() {
-  let allPlayers = playerScores(9);
 
-  // en array med enbart poängen (i storleksordning dessutom, så det är lätt att hitta högsta värdet, vilket vi vill använda när vi skapar y-axeln)
-  let points = allPlayers.map(x => x.points);
-  // console.log(points)
+  let firstPlace = [];
+  let secondPlace = [];
+  let thirdPlace = [];
+
+  //ta bara hela säsonger, ej säsong 9
+  for (let i = 0; i < 8; i++) {
+    let allPlayers = playerScores(i);
+
+    firstPlace.push(allPlayers[0]);
+    secondPlace.push(allPlayers[1]);
+    thirdPlace.push(allPlayers[2]);
+  };
+
+  let dataArrayer = [firstPlace, secondPlace, thirdPlace];
+  let seasongs = firstPlace.map(x => x.season);
+
+  let highestPoint = 0;
+
+  for (let array of dataArrayer) {
+    for (let score of array) {
+      if (score.points > highestPoint) {
+        highestPoint = score.points;
+      };
+    };
+  };
+
+  let hSvg = 400;
+  let wSvg = 800;
+  let hPad = 50;
+  let wPad = 100;
+
+
+  let svg = d3.select("#linjediagram")
+    .append("svg")
+    .attr("height", hSvg)
+    .attr("width", wSvg)
+    .style("border", "1px solid black");
+
+
+  let xScale = d3.scaleBand()
+    .domain(seasongs)
+    .range([wPad, wSvg - wPad])
+    .paddingInner(0.2)
+    .paddingOuter(0.2);
+
+  let yScale = d3.scaleLinear()
+    .domain([1000, highestPoint + 100])
+    .range([hSvg - hPad, hPad]);
+
+  let dMaker = d3.line()
+    .x(d => xScale(d.season) + xScale.bandwidth() / 2)
+    .y(d => yScale(d.points));
+
+
+  let xAxel = d3.axisBottom(xScale);
+  let yAxel = d3.axisLeft(yScale);
+
+  svg.append("g")
+    .call(xAxel)
+    .attr("transform", `translate(0, ${hSvg - hPad})`)
+
+  svg.append("g")
+    .call(yAxel)
+    .attr("transform", `translate(${wPad}, 0)`);
+
+
+  svg.append("g")
+    .selectAll("path")
+    .data(dataArrayer)
+    .enter()
+    .append("path")
+    .attr("stroke", "black")
+    .attr("fill", "none")
+    .attr("stroke", setColor)
+    .attr("stroke-width", 2)
+    .attr("d", d => dMaker(d))
+
+  function setColor(d, i) {
+    let colors = ["gold", "silver", "#cd7f32"];
+    return colors[i];
+  }
+
+
+  for (let array of dataArrayer) {
+    svg.append("g")
+      .selectAll("circle")
+      .data(array)
+      .enter()
+      .append("circle")
+      .attr("fill", "black")
+      .attr("cx", setX)
+      .attr("cy", setY)
+      .attr("r", 2)
+
+
+    function setX(d) {
+      let valueX = xScale(d.season) + xScale.bandwidth() / 2;
+      return valueX;
+    };
+
+    function setY(d) {
+      let valueY = yScale(d.points)
+      return valueY;
+    };
+  }
 }
 drawScatterPlot()
