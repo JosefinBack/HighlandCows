@@ -64,6 +64,7 @@ const clans = [{
 const disciplines = [{
   "id": 1,
   "name": "The great Moo-of",
+  "color": "#FF0FBB",
   "skillFactors": {
     "Mental endurance": 4,
     "Lugn-capacity": 5,
@@ -74,6 +75,7 @@ const disciplines = [{
 }, {
   "id": 2,
   "name": "Fluff-styling",
+  "color": "#48C973",
   "skillFactors": {
     "Mental endurance": 4,
     "Lugn-capacity": 1,
@@ -84,6 +86,7 @@ const disciplines = [{
 }, {
   "id": 3,
   "name": "Mountain-Race",
+  "color": "#1CB5B5",
   "skillFactors": {
     "Mental endurance": 2,
     "Lugn-capacity": 3,
@@ -94,6 +97,7 @@ const disciplines = [{
 }, {
   "id": 4,
   "name": "Whiskey-Kicking",
+  "color": "#FF9000",
   "skillFactors": {
     "Mental endurance": 2,
     "Lugn-capacity": 3,
@@ -104,6 +108,7 @@ const disciplines = [{
 }, {
   "id": 5,
   "name": "The bagpipe test",
+  "color": "#A600FF",
   "skillFactors": {
     "Mental endurance": 5,
     "Lugn-capacity": 4,

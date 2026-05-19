@@ -112,3 +112,30 @@
     gap: 10px;
     flex-direction: column;
 }
+
+.color{
+    width: 20px;
+    height: 20px;
+}
+
+.pDiscipline{
+    font-family: "Irish Grover";
+}
+
+#colorCodeDiscipline{
+    display: flex;
+    gap: 20px;
+}
+
+.colorBox{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-family: "Irish Grover";
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+#style{
+    font-size: 12px;
+}
