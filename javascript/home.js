@@ -11,9 +11,6 @@ const top3PlayerWrapper = document.getElementById("top3Players");
 
 //Funktioner
 function drawClanMap() {
-  let container = document.createElement("div");
-  container.classList.add("bigDiv");
-  main.append(container);
 
   let width = 600;
   let height = 500;
@@ -204,7 +201,7 @@ function getBestPlayers(year) {
 }
 
 function calculatePlayerPoints(player_id, year) {
-  let thisYear = threeSeasons.find((x) => x.year === year);
+  let thisYear = allSeasons.find((x) => x.year === year);
   let playerID = player_id;
   let playerPlacings = [];
 
@@ -266,8 +263,8 @@ function getBestClan(year) {
 //Funktionsanrop
 
 drawClanMap();
-displayTop3Players(2);
-displayTop3Clans(2);
+displayTop3Players(9);
+displayTop3Clans(9);
 
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
@@ -317,11 +314,30 @@ function getScores(year, discipline_ID) {
   return scoreArray;
 };
 
-function displayDiscipline(){
-  let pointsPerDicipline = totalPointsPerDicipline(year, dicipline_ID, clanName);
-  let points;
+// function displayDiscipline() {
+//   let pointsPerDicipline = totalPointsPerDicipline(year, dicipline_ID, clanName);
+//   let points;
 
-  for(let data of pointsPerDicipline){
-    points = 
-  }
+//   for (let data of pointsPerDicipline) {
+//     points = 
+//   }
+// }
+
+
+//scatterplot
+
+function playerScores(year) {
+  let allPlayersScore = getBestPlayers(year);
+
+  let activePlayers = [];
+
+  for (let player of allPlayersScore) {
+    if (player.points != 0) {
+      activePlayers.push(player);
+    };
+  };
+  console.log(activePlayers)
+
+
 }
+playerScores(9)
