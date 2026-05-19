@@ -336,8 +336,19 @@ function playerScores(year) {
       activePlayers.push(player);
     };
   };
-  console.log(activePlayers)
 
-
+  return activePlayers;
 }
-playerScores(9)
+playerScores(9);
+
+
+//värdena för scatterplot
+
+function drawScatterPlot() {
+  let allPlayers = playerScores(9);
+
+  // en array med enbart poängen (i storleksordning dessutom, så det är lätt att hitta högsta värdet, vilket vi vill använda när vi skapar y-axeln)
+  let points = allPlayers.map(x => x.points);
+  // console.log(points)
+}
+drawScatterPlot()
