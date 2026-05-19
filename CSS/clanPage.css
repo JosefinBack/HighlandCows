@@ -1,19 +1,11 @@
-.buttonArrow {
-    font-weight: bold;
-    font-size: 20px;
-    border: none;
-    background: none;
+.buttonClans {
+    width: 150px;
+    font-size: 14px;
     padding: 5px;
-    box-sizing: border-box;
 }
 
-.buttonArrow:hover {
-    font-size: 23px;
-    text-decoration: underline;
-}
-
-.buttonArrow:active {
-    color: white;
+.buttonClans p {
+    margin: 5px;
 }
 
 #chart {
@@ -30,10 +22,8 @@
     z-index: 2;
 }
 
-/* #colorsMeaning {} */
-
 #content {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 80px;
 }
@@ -42,6 +32,12 @@
     width: auto;
     height: 200px;
     object-fit: contain;
+}
+
+#cowsCompeteIMG {
+    width: 1200px;
+    margin-top: 30px;
+    border-radius: 20px;
 }
 
 .clanMember {
@@ -61,7 +57,7 @@
     width: 220px;
     height: 210px;
     border-radius: 50%;
-    border: 2px solid black;
+    border: 5px solid black;
     object-fit: contain;
     background-color: white;
 }
@@ -107,6 +103,12 @@
     z-index: 2;
 }
 
+#greatClans {
+    font-family: "Irish Grover";
+    font-size: 50px;
+    text-align: center;
+}
+
 
 #history {
     width: 40%;
@@ -114,8 +116,14 @@
     line-height: 1.5;
 }
 
-#h2Season {
-    width: 160px;
+
+.memberNotCompeteSeasonButton {
+    text-decoration: line-through;
+    background-color: grey;
+}
+
+.memberChoosen {
+    border: 5px solid #FDEFC7;
 }
 
 .picCrestAndTartan {
@@ -152,6 +160,21 @@
 
     background-image: url("../pic/Bakgrunder/Landskap_beskär.png");
     background-size: cover;
+}
+
+#popupNotCompeting {
+    position: relative;
+    display: none;
+    width: 300px;
+    height: auto;
+    background-color: #FDEFC7;
+    z-index: 2;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 .overlay {
@@ -194,4 +217,21 @@
     display: flex;
     gap: 10px;
     justify-content: center;
+}
+
+#seasonSkills {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#secondHeader {
+    width: 1200px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;
 }

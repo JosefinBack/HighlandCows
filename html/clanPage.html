@@ -14,6 +14,28 @@
 <body>
     <div id="header"></div>
     <main>
+        <div id="secondHeader">
+            <button id="MT" class="buttonClans">
+                <p>MacThomas</p>
+            </button>
+            <button id="MD" class="buttonClans">
+                <p>MacDowall</p>
+            </button>
+            <button id="MQ" class="buttonClans">
+                <p>MacQueen</p>
+            </button>
+            <button id="ML" class="buttonClans">
+                <p>MacLeod</p>
+            </button>
+            <button id="MK" class="buttonClans">
+                <p>MacKinnon</p>
+            </button>
+        </div>
+
+        <div id="cowInCompetition">
+            <h1 id="greatClans">The Great Clans of Scotland</h1>
+            <img id="cowsCompeteIMG" src="../pic/Bakgrunder/korTävlar.png" alt="">
+        </div>
         <div id="content">
 
             <div class="DIV-flex">
@@ -34,9 +56,11 @@
 
             <div class="DIV-flex">
                 <h3>Members</h3>
-                <div id="clanMembers"></div>
+                <div id="clanMembers">
+                    <div id="activeMembers"></div>
+                    <div id="notActiveMembers"></div>
+                </div>
             </div>
-
 
             <div id="popUpCowInfo">
                 <div class="overlay"></div>
@@ -51,10 +75,15 @@
 
 
                 <div id="seasonSkills">
-                    <button class="buttonArrow" id="buttonBack">
-                        < </button>
-                            <h2 id="h2Season"></h2>
-                            <button class="buttonArrow" id="buttonForward"> > </button>
+                    <button id="s1">Season 1</button>
+                    <button id="s2">Season 2</button>
+                    <button id="s3">Season 3</button>
+                    <button id="s4">Season 4</button>
+                    <button id="s5">Season 5</button>
+                    <button id="s6">Season 6</button>
+                    <button id="s7">Season 7</button>
+                    <button id="s8">Season 8</button>
+                    <button id="s9">Current Season</button>
                 </div>
 
                 <div id="chart">
@@ -64,6 +93,11 @@
                     <div id="chartFour"></div>
                     <div id="chartFive"></div>
                 </div>
+
+                <div id="popupNotCompeting">
+                    <p><span id="cowName"></span> did not compete this season.</p>
+                </div>
+
             </div>
         </div>
         <footer></footer>

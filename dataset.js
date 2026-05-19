@@ -38,27 +38,32 @@ const clans = [{
   "name": "MacThomas",
   "region": 1,
   "crest": "../pic/MacThomas/MacThomas.png",
-  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg"
+  "tartan": "../pic/MacThomas/MacThomas_tartan.jpeg",
+  "color": "#3C4360"
 }, {
   "name": "MacDowall",
   "region": 2,
   "crest": "../pic/MacDowall/MacDowall.png",
-  "tartan": "../pic/MacDowall/MacDowall_Tartan.jpeg"
+  "tartan": "../pic/MacDowall/MacDowall_Tartan.jpeg",
+  "color": "#6C82BC"
 }, {
   "name": "MacQueen",
   "region": 3,
   "crest": "../pic/MacQueen/Macqueen.png",
-  "tartan": "../pic/MacQueen/Macqueen_tartan.png"
+  "tartan": "../pic/MacQueen/Macqueen_tartan.png",
+  "color": "#C80000"
 }, {
   "name": "MacLeod",
   "region": 4,
   "crest": "../pic/Macleod/Macleod.png",
-  "tartan": "../pic/Macleod/Macleod_tartans.png"
+  "tartan": "../pic/Macleod/Macleod_tartans.png",
+  "color": "#C8C800"
 }, {
   "name": "MacKinnon",
   "region": 5,
   "crest": "../pic/MacKinnon/MacKinnon.png",
-  "tartan": "../pic/MacKinnon/MacKinnon_tartan.jpeg"
+  "tartan": "../pic/MacKinnon/MacKinnon_tartan.jpeg",
+  "color": "#5D5B2C"
 }]
 
 const disciplines = [{
@@ -70,7 +75,8 @@ const disciplines = [{
     "Personal-hygien": 2,
     "Speed": 1,
     "Leg-strength": 3
-  }
+  },
+  "color": "#FF0FBB"
 }, {
   "id": 2,
   "name": "Fluff-styling",
@@ -113,12 +119,7 @@ const disciplines = [{
   }
 }]
 
-let MacThomasClan = [];
-let MacDowallClan = [];
-let MacQueenClan = [];
-let MacleodClan = [];
-let MacKinnonClan = [];
-let PlayersWithoutClan = [];
+
 
 
 const participants = [{
@@ -275,6 +276,7 @@ const participants = [{
 {
   "id": 65,
   "name": "Ewan MacGregor",
+  "clan": "MacThomas",
   "age": 9,
   "furcolor": "Black",
   "img": "../pic/MacThomas/Ewan_MacLeish.png",
@@ -399,7 +401,7 @@ const participants = [{
   "age": 4,
   "furcolor": "White",
   "img": "../pic/MacKinnon/Blair_MacGregor.png"
-  },
+},
 
 {
   "id": "Hamish MacEwen",
@@ -422,8 +424,14 @@ const participants = [{
   "age": 7,
   "furcolor": "Dark Brown",
   "img": "../pic/MacKinnon/Keir_MacLennan.png"
+  }, {
+  "id": 296,
+  "name": "Melvin MacKenzie",
+  "clan": "MacThomas",
+  "age": 5,
+  "furcolor": "Dark brown",
+  "img": "../pic/MacThomas/Fergus_MacAlister.png"
 },
-
 {
   "id": 82,
   "name": "Robin Burt",
@@ -454,29 +462,6 @@ const participants = [{
   "img": "../pic/MacKinnon/Gregor_MacQuarrie.png"
 }]
 
-for (let player of participants) {
-  if (player.clan === "MacThomas") {
-    MacThomasClan.push(player);
-  } if (player.clan === "MacDowall") {
-    MacDowallClan.push(player);
-  } if (player.clan === "MacQueen") {
-    MacQueenClan.push(player);
-  } if (player.clan === "MacLeod") {
-    MacleodClan.push(player);
-  } if (player.clan === "MacKinnon") {
-    MacKinnonClan.push(player);
-  } if (!player.clan) {
-
-    PlayersWithoutClan.push(player)
-  }
-}
-
-console.log(MacThomasClan);
-console.log(MacDowallClan);
-console.log(MacQueenClan);
-console.log(MacleodClan);
-console.log(MacKinnonClan);
-console.log(PlayersWithoutClan);
 
 
 

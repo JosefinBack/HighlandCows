@@ -1,6 +1,7 @@
 
 //Material
 
+
 let clanNames = [
     "MacThomas",
     "MacDowall",
@@ -31,15 +32,13 @@ for (let game of seasons) {
     }
 };
 
-console.log(allSeasons);
+//console.log(allSeasons);
 
 
-//participants 1-37 
+//participants
 let allParticipants = [];
 for (let person of participants) {
-    if (person.clan) {
-        allParticipants.push(person)
-    };
+    allParticipants.push(person)
 };
 
 
@@ -427,9 +426,7 @@ function analyzePlayersPerYear() {
     let y1Names = playersYear1.map(id => participants.find(p => p.id === id).name);
     let y2Names = playersYear2.map(id => participants.find(p => p.id === id).name);
 
-    console.log("År 0:", playersYear0.length, y0Names);
-    console.log("År 1:", playersYear1.length, y1Names);
-    console.log("År 2:", playersYear2.length, y2Names);
+
 
     return {
         year0: playersYear0,
@@ -610,4 +607,39 @@ function getClanTotalScoreBySeason(season) {
 }
 
 console.log(getClanTotalScoreBySeason(0));
+
+//Funktion som ger rätt poäng utifrån vilken placering en klan hade i tävlingen 
+function getClanPlacementPointBySeason(season) {
+    const clanScores = [];
+
+    for (let clan of clanNames) {
+        let totalPoints = 0;
+        const members = membersClan(clan);
+
+        for (let member of members) {
+            totalPoints += calculatePlayerPoints(member.id, season)
+        }
+        clanScores.push( {clan: clan, points: totalPoints} );
+    }
+    return clanScores;
+}
+
+//Funktion för att göra stacked-diagram i seasons-page
+function getStackedClanData(season) {
+    const disciplineIds = [1,2,3,4,5];
+    const result = [];
+
+    for (let clan of clanNames) {
+        let row = { clan: clan };
+        for (let id of disciplineIds) {
+            row[id] = totalPointsPerDicipline (season, id, clan).points;
+        }
+        result.push(row);
+    }
+    return result;
+}
+
+
+
+
 
