@@ -80,8 +80,8 @@ function drawClanMap() {
       const specificClanData = allMapData.find((item) => item.clan === d.clan);
 
       d3.select(event.currentTarget)  //förklara event.currentTarget
-      .transition()
-      .attr("r", 12);
+        .transition()
+        .attr("r", 12);
     })
     .on("mousemove", function (event) {
       tooltip
@@ -106,7 +106,7 @@ function drawClanMap() {
 
 function displayTop3Players(year) {
   const getBestPlayer = getBestPlayers(year);
-  const top3 = getBestPlayer.slice(0, 3); 
+  const top3 = getBestPlayer.slice(0, 3);
 
   const top3PlayerContainer = document.getElementById("top3Players");
   top3PlayerContainer.innerHTML = `<p id="top3PlayerTitle">Top 3 Players</p>`;
@@ -143,7 +143,7 @@ function displayTop3Players(year) {
 
 function displayTop3Clans(year) {
   const bestClans = getBestClan(year);
-  const top3 = bestClans.slice(0, 3); 
+  const top3 = bestClans.slice(0, 3);
 
   const top3ClansContainer = document.getElementById("top3Clans");
   top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
@@ -266,7 +266,7 @@ console.log(getBestClan(7));
 drawClanMap();
 displayTop3Players(9);
 displayTop3Clans(9);
-drawScatterPlot();
+drawLine();
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let clanTotalScore = 0;
@@ -275,7 +275,7 @@ function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   for (let i = 0; i < allSeasons.length; i++) {
     if (allSeasons[i].year === year) {
       thisYear = allSeasons[i];
-      break; 
+      break;
     }
   }
 
@@ -342,7 +342,7 @@ function playerScores(year) {
   return activePlayers;
 }
 
-function drawScatterPlot() {
+function drawLine() {
   let firstPlace = [];
   let secondPlace = [];
   let thirdPlace = [];
