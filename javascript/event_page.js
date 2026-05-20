@@ -231,27 +231,22 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
 
 // --- 4. D3 VISUALISERING --- SKRIV OM
 
+let hSvg = 650, wSvg = 1000;
+let wPad = 50, hPad = 50;
 
-let hSvg = 650, wSvg = 1200;
 let monthChartSVG = d3.select("#monthChart").append("svg")
     .attr("height", hSvg).attr("width", wSvg)
     .style("border", "1px solid grey")
+    .attr("transform", `translate(${wPad}, ${hPad.top})`);
+
 
 function drawScatterPlot(monthData) {
 
+    let eventPoints = [0, 1, 3, 6, 10, 15];
+
     // Rensa SVG
     monthChartSVG.selectAll("*").remove();
-
     // Storlek
-    const margin = {
-        top: 50,
-        right: 30,
-        bottom: 120,
-        left: 60
-    };
-
-    const chartWidth = 350;
-    const chartHeight = 500;
 
     // Färger för klaner
     const clanColors = {
@@ -262,137 +257,46 @@ function drawScatterPlot(monthData) {
         "MacKinnon": "#5D5B2C",
     };
 
-    
-
-}
-
-
-function renderWeekBarCharts(monthData) {
-
-
-
-    // Loopa varje dag
-    monthData.forEach((dayData, index) => {
-
-        // Grupp för dagens diagram
-        const chartGroup = threeDayChartSVG.append("g")
-            .attr(
-                "transform",
-                `translate(${index * 380 + 50}, 50)`
-            );
-
-        // =========================
-        // SORTERA DELTAGARE
-        // =========================
-
-        let sortedParticipants = dayData.participants.slice().sort((a, b) => {
-            return b.points - a.points;
-        });
-
-        // =========================
-        // X SCALE
-        // =========================
-
-        const xScale = d3.scaleBand()
-            .domain(
-                sortedParticipants.map(player => player.participantName)
-            )
-            .range([0, chartWidth])
-            .padding(0.2);
-
-        // =========================
-        // Y SCALE
-        // =========================
-
-        const yScale = d3.scaleLinear()
-            .domain([0, 15])
-            .range([chartHeight, 0]);
-
-        // =========================
-        // X AXEL
-        // =========================
-
-        chartGroup.append("g")
-            .attr("transform", `translate(0, ${chartHeight})`)
-            .call(d3.axisBottom(xScale))
-            .selectAll("text")
-            .attr("transform", "rotate(-45)")
-            .style("text-anchor", "end");
-
-        // =========================
-        // Y AXEL
-        // =========================
-
-        chartGroup.append("g")
-            .call(
-                d3.axisLeft(yScale)
-                    .tickValues([0, 1, 3, 6, 10, 15])
-            );
-
-        // =========================
-        // STAPLAR
-        // =========================
-
-        chartGroup.selectAll("rect")
-            .data(sortedParticipants)
-            .enter()
-            .append("rect")
-
-            // X position
-            .attr("x", player => {
-                return xScale(player.participantName);
-            })
-
-            // Y position
-            .attr("y", player => {
-                return yScale(player.points);
-            })
-
-            // Bredd
-            .attr("width", xScale.bandwidth())
-
-            // Höjd
-            .attr("height", player => {
-                return chartHeight - yScale(player.points);
-            })
-
-            // Färg
-            .attr("fill", player => {
-                return clanColors[player.clan];
-            })
-
-            // Outline
-            .attr("stroke", "black");
-
-        // =========================
-        // TOOLTIP
-        // =========================
-
-        chartGroup.selectAll("rect")
-            .append("title")
-            .text(player => {
-                return `
-                        ${player.participantName}
-                        Clan: ${player.clan}
-                        Placement: ${player.placement}
-                        Points: ${player.points}
-                        Score: ${player.rawScore}
-                `;
-            });
-
-        // =========================
-        // TITEL
-        // =========================
-
-        chartGroup.append("text")
-            .attr("x", chartWidth / 2)
-            .attr("y", -20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("font-weight", "bold")
-            .text(`Day ${dayData.day}/${dayData.month}`);
+    let dayLabels = monthData.map(dayData => {
+        return `${monthData.day}/${monthData.month}`;
     });
+    const xScale = d3.scaleLinear()
+        .domain([dayLabels])
+        .range([0, wSvg])
+
+
+    const yScale = d3.scaleLinear()
+        .domain([eventPoints])
+        .range([hSvg - hPad, 0])
+
+    monthChartSVG.append("g")
+        .call(d3.axisBottom(xScale))
+        .attr("transform", `translate(${hPad}, ${hSvg - hPad})`);
+
+    monthChartSVG.append("g")
+        .call(d3.axisLeft(yScale).tickValues([0, 1, 3, 6, 10, 15]))
+        .attr("transform", `translate(${wPad}, ${hPad})`);
+
+
+    monthChartSVG.selectAll("circle")
+        .data(monthData)
+        .enter()
+        .append("circle")
+
+        .attr("cx", d => xScale(d.day))
+
+        .attr("cy", d => yScale(d.points))
+
+        .attr("r", 8)
+
+        .attr("fill", d => clanColors[d.clan])
+
+
+
+
 }
+
+
 
 function getEventPoints(placement) {
     if (placement === 1) return 15;
