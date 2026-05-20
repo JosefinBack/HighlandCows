@@ -1,17 +1,17 @@
 const seasonButtons = document.querySelectorAll(".filteringBoxesDIV");
 const disciplineIds = [1, 2, 3, 4, 5];
 const colors = {
-    1: "#FF0FBB", // Moo-Off (pink)
-    2: "#1CB5B5", // Mountain Race
-    3: "#48C973", // Fluff-styling
-    4: "#FF9000", // Whiskey Barrel
-    5: "#A600FF"  // Bagpipe
+  1: "#FF0FBB", // Moo-Off (pink)
+  2: "#1CB5B5", // Mountain Race
+  3: "#48C973", // Fluff-styling
+  4: "#FF9000", // Whiskey Barrel
+  5: "#A600FF"  // Bagpipe
 };
 const wStack = 1000;
 const hStack = 500;
 const mStack = { top: 20, right: 180, bottom: 60, left: 60 };
 
-function getGlobalMax () {
+function getGlobalMax() {
   let globalMax = 0;
 
   for (let season of allSeasons) {
@@ -34,7 +34,7 @@ function getGlobalStackedMax() {
     for (let clan of stackedData) {
       let total = 0;
       for (let id of disciplineIds) {
-        if(clan[id]) {
+        if (clan[id]) {
           total = total + clan[id];
         }
       }
@@ -88,7 +88,7 @@ function getScores(year, discipline_ID) {
 
     scoreArray.push(scorePerClan);
   }
-  console.log(scoreArray);
+  // console.log(scoreArray);
   return scoreArray;
 };
 
@@ -104,48 +104,48 @@ function drawStackedChart(season) {
 
   const yMax = getGlobalStackedMax();
   const xStack = d3.scaleBand()
-        .domain(stacked_Data.map(d => d.clan))
-        .range([mStack.left, wStack - mStack.right])
-        .padding(0.3)
+    .domain(stacked_Data.map(d => d.clan))
+    .range([mStack.left, wStack - mStack.right])
+    .padding(0.3)
   const yStack = d3.scaleLinear()
-        .domain([0, yMax])
-        .nice()   
-        .range([hStack - mStack.bottom, mStack.top]);
+    .domain([0, yMax])
+    .nice()
+    .range([hStack - mStack.bottom, mStack.top]);
 
-        svg.append("g")
-        .attr("transform", `translate(${mStack.left}, 0)`)
-        .call(d3.axisLeft(yStack));
-    
-    svg.append("g")
-        .attr("transform", `translate(0, ${hStack - mStack.bottom})`)
-        .call(d3.axisBottom(xStack));
-    
-    // Rita en grupp per disciplin (= ett lager)
-    svg.append("g")
+  svg.append("g")
+    .attr("transform", `translate(${mStack.left}, 0)`)
+    .call(d3.axisLeft(yStack));
+
+  svg.append("g")
+    .attr("transform", `translate(0, ${hStack - mStack.bottom})`)
+    .call(d3.axisBottom(xStack));
+
+  // Rita en grupp per disciplin (= ett lager)
+  svg.append("g")
     .selectAll("g")
     .data(series)
     .enter()
     .append("g")
-        .attr("fill", d => colors[d.key])
+    .attr("fill", d => colors[d.key])
     .selectAll("rect")
     .data(d => d)
     .enter()
     .append("rect")
-        .attr("x", d => xStack(d.data.clan))
-        .attr("width", xStack.bandwidth())
-        .attr("y", hStack - mStack.bottom)
-        .attr("height", 0)
-        .transition()
-        .duration(800)
-        .ease(d3.easeCubicOut)
-        .attr("y", d => yStack(d[1]))
-        .attr("height", d => yStack(d[0]) - yStack(d[1]));
+    .attr("x", d => xStack(d.data.clan))
+    .attr("width", xStack.bandwidth())
+    .attr("y", hStack - mStack.bottom)
+    .attr("height", 0)
+    .transition()
+    .duration(800)
+    .ease(d3.easeCubicOut)
+    .attr("y", d => yStack(d[1]))
+    .attr("height", d => yStack(d[0]) - yStack(d[1]));
 
   const legendItems = disciplineIds.map(id => ({
     id: id,
     name: disciplines.find(d => d.id === id).name,
     color: colors[id]
-}));
+  }));
 
   const legend = svg.append("g")
     .attr("transform", `translate(${wStack - mStack.right + 20}, ${mStack.top})`);
@@ -156,12 +156,12 @@ function drawStackedChart(season) {
     .append("g")
     .attr("transform", (d, i) => `translate(0, ${i * 22})`);
 
-legendRow.append("rect")
+  legendRow.append("rect")
     .attr("width", 16)
     .attr("height", 16)
     .attr("fill", d => d.color);
 
-legendRow.append("text")
+  legendRow.append("text")
     .attr("x", 22)
     .attr("y", 13)
     .style("font-size", "13px")
@@ -171,8 +171,10 @@ legendRow.append("text")
 
 for (let btn of seasonButtons) {
   btn.addEventListener("click", function () {
-      const season = Number(btn.dataset.season);
-      drawStackedChart(season);
+    const season = Number(btn.dataset.season);
+    drawStackedChart(season);
+
+    drawAllDiagrams(season);
   });
 }
 //Stapeldiagram
@@ -281,6 +283,5 @@ function drawAllDiagrams(year) {
   drawDiagram(year, 5);
 };
 
-drawAllDiagrams(0);
 drawStackedChart(1);
 
