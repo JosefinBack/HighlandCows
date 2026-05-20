@@ -228,13 +228,19 @@ function allMembersPictures(clanName) {
             drawAllArcs(player_id, currentSeason);
         });
 
-        function setClickedMember(clickedMember) {
+        function setClickedMember(memberCard) {
+
             let allCowImages = document.querySelectorAll(".cowMembers");
+
+            // Ta bort tidigare markering
             for (let img of allCowImages) {
                 img.classList.remove("memberChoosen");
             }
 
-            let clickedImage = clickedMember.querySelector(".cowMembers");
+            // Hitta bilden inuti det klickade kortet
+            let clickedImage = memberCard.querySelector(".cowMembers");
+
+            // Lägg till markering på bilden
             clickedImage.classList.add("memberChoosen");
         }
     };
@@ -490,23 +496,6 @@ function drawLineDiagram() {
 };
 
 
-// function getMainSkill(disciplineID) {
-//     let discipline = disciplines.find(d => d.id === disciplineID);
-//     let highestSkill = "";
-//     let highestValue = 0;
-
-//     for (let skill in discipline.skillFactors) {
-//         let value = discipline.skillFactors[skill];
-//         if (value > highestValue) {
-//             highestValue = value;
-//             highestSkill = skill;
-//         }
-//     }
-//     return highestSkill;
-// };
-
-
-
 function calculatePlayerSkills(player_id, year) {
 
     let thisYear = allSeasons.find(function (season) {
@@ -574,57 +563,146 @@ function calculatePlayerSkills(player_id, year) {
 
 
 function drawSkillArc(playerID, year, skillName, chartDiv) {
+    // =========================================
+    // HÄMTA ALLA SKILL-VÄRDEN FÖR SPELAREN
+    // =========================================
+
+    // Funktionen calculatePlayerSkills() returnerar ett objekt
+    // med alla spelarens skills.
+    //
+    // Exempel:
+    // {
+    //    strength: 120,
+    //    speed: 80,
+    //    fluffiness: 200
+    // }
 
     let playerSkills = calculatePlayerSkills(playerID, year);
-    console.log(playerSkills)
+
+    // =========================================
+    // KONTROLLERA OM SPELAREN HAR TÄVLAT
+    // =========================================
+
+    // Vi summerar alla skill-värden.
+    // Om summan blir 0 betyder det att spelaren
+    // inte deltagit i någon tävling.
 
     let totalSkills = 0;
+
+    // "for in" används för objekt.
+    // skill blir nyckeln:
+    //
+    // "strength"
+    // "speed"
+    // osv.
+
     for (let skill in playerSkills) {
+
+        // playerSkills[skill]
+        // hämtar värdet från objektet
+        //
+        // Exempel:
+        // playerSkills["strength"] -> 120
+
         totalSkills = totalSkills + playerSkills[skill];
     };
 
+    // Om spelaren inte tävlat:
     if (totalSkills === 0) {
+
         let cowName = document.getElementById("cowName");
 
+        // hitta rätt namn
         for (let cow of allParticipants) {
+
             if (cow.id === playerID) {
                 cowName.textContent = cow.name;
             }
         };
+
+        // visa popup
         popupNotCompeting.style.display = "block";
+
+        // avsluta funktionen direkt
         return;
+
     } else {
+
         popupNotCompeting.style.display = "none";
     };
 
+    // =========================================
+    // HÄMTA SPECIFIK SKILL
+    // =========================================
 
-    //Hämta specifik skillvärde från objektet i playserSkills
+    // skillName skickas in som argument.
+    //
+    // Exempel:
+    // "strength"
+    //
+    // Då hämtas:
+    //
+    // playerSkills["strength"]
+
     let rawSkillValue = playerSkills[skillName];
-    // console.log(rawSkillValue)
+
+    // =========================================
+    // HITTA HÖGSTA SKILL-VÄRDET
+    // =========================================
+
+    // Gauge charten ska visa ett värde mellan 0-100.
+    //
+    // För att kunna skala om värdena behöver vi först veta:
+    //
+    // vilket skill-värde som är högst.
 
     let highestSkillValue = 0;
 
-    // loopa igenom alla skills
     for (let skill in playerSkills) {
+
         let value = playerSkills[skill];
 
         if (value > highestSkillValue) {
+
             highestSkillValue = value;
         };
     };
 
+    // =========================================
+    // SKALA OM VÄRDET
+    // =========================================
 
-    //Gör om värdet (skala om)
+    // Här används d3.scaleLinear().
+    //
+    // Den används för att omvandla ett värde
+    // från ett intervall till ett annat.
+    //
+    // Exempel:
+    //
+    // 0 - 250   --->   0 - 100
+
     let scaleSkill = d3.scaleLinear()
+        // originalvärden
         .domain([0, highestSkillValue])
+        // nya värden
         .range([0, 100]);
+
+    // Omvandla spelarens riktiga skillvärde
+    // till ett procentvärde mellan 0-100
 
     let gaugeValue = scaleSkill(rawSkillValue);
 
+    // Avrunda värdet
     gaugeValue = Math.round(gaugeValue);
 
 
-    // säkerhet
+    // =========================================
+    // SÄKERHET
+    // =========================================
+
+    // Säkerställer att värdet aldrig går över 100
+    // eller under 0.
+
     if (gaugeValue > 100) {
         gaugeValue = 100;
     }
@@ -633,7 +711,10 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
         gaugeValue = 0;
     }
 
-    //SVG
+    // =========================================
+    // SKAPA SVG
+    // =========================================
+
     let width = 160;
     let height = 150;
 
@@ -642,35 +723,84 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
         .attr("width", width)
         .attr("height", height);
 
-    // centrera gauge
+    // =========================================
+    // CENTRERA CHARTEN
+    // =========================================
+
+    // Ett <g>-element fungerar som en grupp/container.
+    //
+    // translate() flyttar gruppen.
+    //
+    // width / 2:
+    // flyttar till mitten på x-axeln
+    //
+    // height - 30:
+    // flyttar ner gauge charten
+
     let g = svg.append("g")
-        .attr("transform",
+        .attr(
+            "transform",
             `translate(${width / 2}, ${height - 30})`
         );
 
+    // =========================================
+    // VINKLAR
+    // =========================================
 
+    // Gauge charten är en halvcirkel.
+    //
+    // -PI/2 = vänster sida
+    // PI/2 = höger sida
 
-    //vinklar
     let startAngle = -Math.PI / 2;
     let endAngle = Math.PI / 2;
 
+    // =========================================
+    // SKALA OM 0-100 TILL VINKLAR
+    // =========================================
+
+    // Här omvandlas:
+    //
+    // 0-100
+    //
+    // till:
+    //
+    // vänster -> höger
+
     let angleScale = d3.scaleLinear()
+
         .domain([0, 100])
         .range([startAngle, endAngle]);
 
-    //Bakgrund
+    // =========================================
+    // BAKGRUNDSBÅGE
+    // =========================================
+
+    // d3.arc() används för att skapa bågar/cirklar.
+
     let backgroundArc = d3.arc()
+        // inre radie
         .innerRadius(35)
+        // yttre radie
         .outerRadius(55)
+        // startvinkel
         .startAngle(startAngle)
+        // slutvinkel
         .endAngle(endAngle);
 
+    // Rita bakgrundsbågen
 
     g.append("path")
         .attr("d", backgroundArc)
         .attr("fill", "white");
 
-    // Färgskala
+    // =========================================
+    // FÄRGSKALA
+    // =========================================
+
+    // d3.scaleQuantize()
+    // delar upp värden i olika färggrupper.
+
     let colorScale = d3.scaleQuantize()
         .domain([0, 100])
         .range([
@@ -681,38 +811,45 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
             "#FFD700"
         ]);
 
+    // Hämta rätt färg för värdet
     let gaugeColor = colorScale(gaugeValue);
-    // =========================
+
+    // =========================================
     // FYLLD BÅGE
-    // =========================
+    // =========================================
+
+    // Denna båge visar spelarens värde.
 
     let valueArc = d3.arc()
         .innerRadius(35)
         .outerRadius(55)
+        // startar alltid längst till vänster
         .startAngle(startAngle)
+        // slutvinkel beror på spelarens värde
         .endAngle(angleScale(gaugeValue));
 
-
+    // Rita den fyllda bågen
     g.append("path")
         .attr("d", valueArc)
         .attr("fill", gaugeColor);
 
-    // =========================
+    // =========================================
     // TEXT I MITTEN
-    // =========================
+    // =========================================
 
     g.append("text")
-        .text(gaugeValue + "%")
+        // visa värdet
+        .text(gaugeValue)
+        // centrera texten
         .attr("text-anchor", "middle")
+        // flytta upp texten lite
         .attr("y", -10)
         .style("font-size", "24px")
         .style("font-weight", "bold");
 
-
-
-    // =========================
-    // SKILL-NAMN
-    // =========================
+    // =========================================
+    // RUBRIK / SKILL-NAMN
+    // =========================================
 
     svg.append("text")
         .text(skillName)
@@ -721,14 +858,7 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .style("font-weight", "bold");
-
-    // svg.append("text")
-    //     .text("Skill factor: " + rawSkillValue)
-    //     .attr("x", width / 2)
-    //     .attr("y", height - 10)
-    //     .attr("text-anchor", "middle")
-    //     .style("font-size", "12px");
-};
+}
 
 
 
