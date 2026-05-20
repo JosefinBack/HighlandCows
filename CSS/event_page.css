@@ -7,14 +7,13 @@
 }
 
 /* Själva knappen */
-.btn {
-    background-color: #4a3728;
-    /* Brun färg som i din bild */
+.monthButton {
+    background-color: #7629ae;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-family: Irish Grover;
+    padding: 10px 15px;
+    font-size: 12px;
 }
 
 /* Behållaren */
@@ -70,4 +69,10 @@
     justify-content: center;
     gap: 10px;
     padding: 20px 0;
+}
+
+#buttonContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

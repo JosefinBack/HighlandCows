@@ -2,9 +2,9 @@
 let currentEventID = 1;
 let currentSeasonYear = 9;
 
-
 //Event knappar
-let event_1DOM = document.getElementById("event_1").addEventListener("click", function () {
+let event_1DOM = document.getElementById("event_1");
+event_1DOM.addEventListener("click", function () {
     let event = {
         name: "Moo Off",
         id: 1,
@@ -12,7 +12,8 @@ let event_1DOM = document.getElementById("event_1").addEventListener("click", fu
     }
     handleEventChange(event);
 });
-let event_2DOM = document.getElementById("event_2").addEventListener("click", function () {
+let event_2DOM = document.getElementById("event_2");
+event_2DOM.addEventListener("click", function () {
     let event = {
         name: "Fluff Styling",
         id: 2,
@@ -20,7 +21,8 @@ let event_2DOM = document.getElementById("event_2").addEventListener("click", fu
     }
     handleEventChange(event);
 });
-let event_3DOM = document.getElementById("event_3").addEventListener("click", function () {
+let event_3DOM = document.getElementById("event_3");
+event_3DOM.addEventListener("click", function () {
     let event = {
         name: "Mountain Race",
         id: 3,
@@ -28,7 +30,8 @@ let event_3DOM = document.getElementById("event_3").addEventListener("click", fu
     }
     handleEventChange(event);
 });
-let event_4DOM = document.getElementById("event_4").addEventListener("click", function () {
+let event_4DOM = document.getElementById("event_4");
+event_4DOM.addEventListener("click", function () {
     let event = {
         name: "Whiskey Barrell Kicking",
         id: 4,
@@ -36,220 +39,208 @@ let event_4DOM = document.getElementById("event_4").addEventListener("click", fu
     }
     handleEventChange(event);
 });
-let event_5DOM = document.getElementById("event_5").addEventListener("click", function () {
+let event_5DOM = document.getElementById("event_5");
+event_5DOM.addEventListener("click", function () {
     let event = {
         name: "Bagpipe Napping",
         id: 5,
-        info:"lorem"
+        info: "lorem"
     }
     handleEventChange(event);
 });
 
 
 // Se till att 'main' är ett enskilt element för D3
-const main = document.querySelector("main");
+const mainDOM = document.querySelector("main");
 let eventTitleDOM = document.getElementById("eventName")
-const dropBtn = document.getElementById("dropdownBtn");
-const dropdownMenu = document.getElementById("myDropdown");
-// säsongsknappar
-document.getElementById("event_currentSeason").addEventListener("click", () => handleSeasonChange(9));
-document.getElementById("event_season9").addEventListener("click", () => handleSeasonChange(8));
-document.getElementById("event_season8").addEventListener("click", () => handleSeasonChange(7));
-document.getElementById("event_season7").addEventListener("click", () => handleSeasonChange(6));
-document.getElementById("event_season6").addEventListener("click", () => handleSeasonChange(5));
-document.getElementById("event_season5").addEventListener("click", () => handleSeasonChange(4));
-document.getElementById("event_season4").addEventListener("click", () => handleSeasonChange(3));
-document.getElementById("event_season3").addEventListener("click", () => handleSeasonChange(2));
-document.getElementById("event_season2").addEventListener("click", () => handleSeasonChange(1));
-document.getElementById("event_season1").addEventListener("click", () => handleSeasonChange(0));
+const seasonRowDOM = document.getElementById("seasonRow");
+const monthRow = document.getElementById("monthRow");
+let eventInfoDOM = document.getElementById("event_info");
+let monthChartDOM = document.getElementById("monthChart");
 
 
-// --- FIX: Öppna/stäng menyn när man klickar på knappen ---
-dropBtn.addEventListener("click", function (e) {
-    e.stopPropagation(); // Hindrar klicket från att spridas
-    dropdownMenu.classList.toggle("show");
-});
+function seasonButtons() {
 
-// Stäng menyn om man klickar var som helst utanför den
-window.addEventListener("click", function () {
-    if (dropdownMenu.classList.contains('show')) {
-        dropdownMenu.classList.remove('show');
+    for (let season of allSeasons) {
+
+        let seasonButtonDOM =
+            document.createElement("button");
+
+        if (season.year === 9) {
+
+            seasonButtonDOM.innerHTML =
+                "Current Season";
+
+        } else {
+
+            seasonButtonDOM.innerHTML =
+                `Season ${season.year + 1}`;
+        }
+
+        seasonButtonDOM.addEventListener("click", () => {
+
+            handleSeasonChange(season.year);
+
+        });
+
+        seasonRowDOM.append(seasonButtonDOM);
     }
-});
-
+}
 
 function handleEventChange(event) {
-    // Spara valt event
+
+    eventInfoDOM.innerHTML = ``;
     currentEventID = event.id;
+    let eventInformation = event.info;
 
-    // Reset text
-    dropBtn.innerText = "Select Week";
-    eventTitleDOM.innerHTML = `${event.name}`;
+    eventTitleDOM.innerHTML = event.name;
 
-    // Uppdatera veckor
-    updateWeekDropdown(currentSeasonYear);
-
+    handleSeasonChange(currentSeasonYear);
+    eventInfoDOM.innerHTML = `${eventInformation}`
 
 }
 
 function handleSeasonChange(seasonYear) {
-    // Spara vald säsong
+
     currentSeasonYear = seasonYear;
 
-    // Reset text
-    dropBtn.innerText = "Select Week";
+    monthRow.innerHTML = "";
 
-    // Uppdatera dropdown
-    updateWeekDropdown(currentSeasonYear);;
+    updateMonthButtons(
+        currentEventID,
+        currentSeasonYear
+    );
 }
 
-function getEventResultsByWeek(eventID, seasonYear) {
+function updateMonthButtons(eventID, year) {
+    //const results = getEventResultsByMonth(currentEventID, year);
+    let monthArrayForSeason = createWeeks(year);
+    const monthNames = [
+        "",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ]
 
-    let chosenSeason = allSeasons.find(season => season.year === seasonYear);
+    for (let monthIndex of monthArrayForSeason) {
+        if (monthNames[monthIndex.month] === "") {
+            continue
+        }
+        let chosenMonth = monthIndex.month;
+        let monthButton = document.createElement("button");
+        monthButton.classList.add("monthButton");
+        monthButton.textContent = monthNames[monthIndex.month];
+        monthRow.append(monthButton);
+        monthButton.addEventListener("click", function () {
+
+            let monthData = getEventResultsByMonth(
+                eventID,
+                year,
+                chosenMonth
+            );
+
+            drawScatterPlot(monthData);
+
+        });
+
+    }
+}
+
+function getEventResultsByMonth(eventID, seasonYear, month) {
+
+    let chosenSeason = allSeasons.find(season => {
+        return season.year === seasonYear;
+    });
 
     if (!chosenSeason) {
         return [];
     }
 
-    let allDays = chosenSeason.competitionDays;
+    let monthData = [];
 
-    let weekData = [];
+    // Loopa igenom alla tävlingsdagar
+    for (let day of chosenSeason.competitionDays) {
 
-    // Loopa igenom alla dagar
-    for (let i = 0; i < allDays.length; i += 3) {
+        // Hoppa över dagar från andra månader
+        if (day.date.month !== month) {
+            continue;
+        }
 
-        // Skapa grupper om 3 dagar = en vecka
-        let currentWeekDays = allDays.slice(i, i + 3);
+        // Hitta rätt event
+        let specificEvent = day.events.find(event => {
+            return event.disciplineId === eventID;
+        });
 
-        let currentWeekNumber = (i / 3) + 1;
+        // Om eventet inte finns
+        if (!specificEvent) {
+            continue;
+        }
 
-        // Loopa igenom dagarna i veckan
-        for (let day of currentWeekDays) {
-
-            // Hitta rätt event
-            let specificEvent = day.events.find(event => {
-                return event.disciplineId === eventID;
+        // Sortera score
+        let sortedScores = specificEvent.scores
+            .slice()
+            .sort((a, b) => {
+                return b.score - a.score;
             });
 
-            // Om eventet finns
-            if (specificEvent) {
+        // Loopa deltagare
+        for (let index = 0; index < sortedScores.length; index++) {
 
-                // Sortera deltagarna efter högst score
-                let sortedScores = specificEvent.scores.slice().sort((a, b) => {
-                    return b.score - a.score;
-                });
+            let scoreObject = sortedScores[index];
 
-                let participantsWithPoints = [];
+            let participant = allParticipants.find(player => {
+                return player.id === scoreObject.participantId;
+            });
 
-                // Loopa deltagarna
-                for (let index = 0; index < sortedScores.length; index++) {
-
-                    let scoreObject = sortedScores[index];
-
-                    let placement = index + 1;
-
-                    let points = getEventPoints(placement);
-
-                    // Hitta deltagaren
-                    let participant = allParticipants.find(player => {
-                        return player.id === scoreObject.participantId;
-                    });
-
-                    if (!participant) {
-                        console.log("Missing participant:", scoreObject.participantId);
-                        continue;
-                    }
-
-                    if (!participant.clan) {
-                        console.log("Participant missing clan:", participant);
-                        continue;
-                    }
-
-                    participantsWithPoints.push({
-                        participantName: participant.name,
-                        clan: participant.clan,
-                        placement: placement,
-                        points: points,
-                        rawScore: scoreObject.score
-                    });
-                }
-
-                // Spara dagens data
-                weekData.push({
-                    weekNumber: currentWeekNumber,
-                    day: day.date.day,
-                    month: day.date.month,
-                    participants: participantsWithPoints
-                });
+            if (!participant) {
+                continue;
             }
+
+            monthData.push({
+
+                participantName: participant.name,
+
+                clan: participant.clan,
+
+                day: day.date.day,
+
+                month: day.date.month,
+
+                placement: index + 1,
+
+                points: getEventPoints(index + 1),
+
+                rawScore: scoreObject.score
+
+            });
         }
     }
 
-    return weekData;
+    return monthData;
 }
-
-// --- 3. UI-LOGIK OCH DROPDOWN ---
-
-function updateWeekDropdown(year) {
-    dropdownMenu.innerHTML = "";
-    const results = getEventResultsByWeek(currentEventID, year);
-    const totalWeeks = results.length > 0 ? results[results.length - 1].weekNumber : 0;
-
-    for (let i = 1; i <= totalWeeks; i++) {
-        let a = document.createElement("a");
-        a.href = "#";
-        a.textContent = `Week ${i}`;
-        //Kolla igenom denna koden och förklara till 100% inför kodredovisning
-        a.addEventListener("click", (e) => {
-            e.preventDefault();
-            dropBtn.textContent = `Week ${i}`;
-            let selectedWeekData = results.filter(r => r.weekNumber === i);
-            renderWeekBarCharts(selectedWeekData)
-            dropdownMenu.classList.remove("show");
-        });
-        dropdownMenu.append(a);
-    }
-    // =========================
-    // VISA SENASTE VECKAN DIREKT
-    // =========================
-
-    if (results.length > 0) {
-
-        let latestWeek =
-            results[results.length - 1].weekNumber;
-
-        let latestWeekData =
-            results.filter(result => {
-                return result.weekNumber === latestWeek;
-            });
-
-        dropBtn.textContent =
-            `Week ${latestWeek}`;
-
-        renderWeekBarCharts(latestWeekData);
-    }
-}
-
-
-
-
 
 
 // --- 4. D3 VISUALISERING --- SKRIV OM
 
 
 let hSvg = 650, wSvg = 1200;
-let threeDayChartSVG = d3.select("main").insert("svg", ":first-child")
+let monthChartSVG = d3.select("#monthChart").append("svg")
     .attr("height", hSvg).attr("width", wSvg)
     .style("border", "1px solid grey")
 
-
-
-
-function renderWeekBarCharts(weekData) {
+function drawScatterPlot(monthData) {
 
     // Rensa SVG
-    threeDayChartSVG.selectAll("*").remove();
+    monthChartSVG.selectAll("*").remove();
 
     // Storlek
     const margin = {
@@ -270,9 +261,15 @@ function renderWeekBarCharts(weekData) {
         "MacLeod": "#C8C800",
         "MacKinnon": "#5D5B2C",
     };
+}
+
+
+function renderWeekBarCharts(monthData) {
+
+
 
     // Loopa varje dag
-    weekData.forEach((dayData, index) => {
+    monthData.forEach((dayData, index) => {
 
         // Grupp för dagens diagram
         const chartGroup = threeDayChartSVG.append("g")
@@ -404,7 +401,9 @@ function getEventPoints(placement) {
 }
 let current_event = {
     name: "Moo Off",
-    id: 1
+    id: 1,
+    info: "Moo-off"
 }
-handleSeasonChange(9)
+//handleSeasonChange(9)
 handleEventChange(current_event)
+seasonButtons();
