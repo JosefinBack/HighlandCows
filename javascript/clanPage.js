@@ -332,9 +332,9 @@ function clanPointsPerMonth(clan, year) {
 
         for (let event of competition.events) {
             // sortera resultaten
-            let sortedScores = event.scores
-                .slice()
-                .sort((a, b) => b.score - a.score);
+            let sortedScores = [...event.scores];
+
+            sortedScores.sort((a, b) => b.score - a.score);
 
             let placement = 1;
 

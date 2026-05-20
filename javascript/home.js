@@ -19,10 +19,6 @@ function drawClanMap() {
     { clan: "MacDonall", x: 380, y: 200 },
   ];
 
-  let container = document.createElement("div");
-  container.classList.add("bigDiv");
-  main.append(container);
-
   let width = 600;
   let height = 500;
 
@@ -289,7 +285,7 @@ console.log(getBestClan(7));
 drawClanMap();
 displayTop3Players(9);
 displayTop3Clans(9);
-drawScatterPlot();
+drawLine();
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let clanTotalScore = 0;
@@ -365,7 +361,7 @@ function playerScores(year) {
   return activePlayers;
 }
 
-function drawScatterPlot() {
+function drawLine() {
   let firstPlace = [];
   let secondPlace = [];
   let thirdPlace = [];
