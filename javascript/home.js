@@ -77,20 +77,29 @@ function drawClanMap() {
         .text(d.clan);
 
       const allMapData = getBestClan(9);
-      const specificClanData = allMapData.find((item) => item.clan === d.clan);
+      let specificClanData = null;
 
-      d3.select(event.currentTarget)  //förklara event.currentTarget
-      .transition()
-      .attr("r", 12);
+      for (let i = 0; i < allMapData.length; i++) {
+        if (allMapData[i].clan === d.clan) {
+          specificClanData = allMapData[i];
+          break;
+        }
+      }
+
+      d3.select(event.currentTarget) //förklara event.currentTarget
+        .transition()
+        .attr("r", 12);
     })
     .on("mousemove", function (event) {
       tooltip
         .style("left", event.pageX + 15 + "px") //förklara detta
-        .style("top", event.pageY - 50 + "px")
+        .style("top", event.pageY - 50 + "px");
     })
     .on("mouseout", function (event) {
       tooltip.style("display", "none");
-      d3.select(event.currentTarget).transition().attr("r", 8);
+      d3.select(event.currentTarget)
+        .transition()
+        .attr("r", 8);
     });
 
   let labels = svg
@@ -100,13 +109,13 @@ function drawClanMap() {
     .append("g")
     .attr("class", "label")
     .attr("transform", function (d) {
-      return `translate(${d.x + 10}, ${d.y})`;
+      return `translate(${d.x + 10}, ${d.y})`; 
     });
 }
 
 function displayTop3Players(year) {
   const getBestPlayer = getBestPlayers(year);
-  const top3 = getBestPlayer.slice(0, 3); 
+  const top3 = getBestPlayer.slice(0, 3);
 
   const top3PlayerContainer = document.getElementById("top3Players");
   top3PlayerContainer.innerHTML = `<p id="top3PlayerTitle">Top 3 Players</p>`;
@@ -143,7 +152,7 @@ function displayTop3Players(year) {
 
 function displayTop3Clans(year) {
   const bestClans = getBestClan(year);
-  const top3 = bestClans.slice(0, 3); 
+  const top3 = bestClans.slice(0, 3);
 
   const top3ClansContainer = document.getElementById("top3Clans");
   top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
@@ -197,21 +206,35 @@ function getBestPlayers(year) {
   }
 
   // Sortera högst poäng först
-  resultArray.sort(function (a, b) { //förklara denna
+  resultArray.sort(function (a, b) {//förklara denna, ändrar arrayen? 
     return b.points - a.points;
   });
 
   return resultArray;
 }
 
-
 function calculatePlayerPoints(player_id, year) {
-  let thisYear = allSeasons.find((x) => x.year === year);
+  let thisYear = null; 
+
+  // 2. Loopa igenom alla säsonger för att hitta rätt år
+  for (let i = 0; i < allSeasons.length; i++) {
+    if (allSeasons[i].year === year) {
+      thisYear = allSeasons[i];
+      break; // Avbryt loopen direkt när vi har hittat rätt år (tidseffektivt!)
+    }
+  }
+
+  if (!thisYear) {
+    return 0; 
+  }
+
   let totalPoints = 0;
 
   for (let day of thisYear.competitionDays) {
     for (let event of day.events) {
-      let sortedScores = event.scores.slice().sort(function (a, b) { //förklara denna
+      let sortedScores = [...event.scores]; //förklara detta
+
+      sortedScores.sort(function (a, b) {
         return b.score - a.score;
       });
 
@@ -275,7 +298,7 @@ function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   for (let i = 0; i < allSeasons.length; i++) {
     if (allSeasons[i].year === year) {
       thisYear = allSeasons[i];
-      break; 
+      break;
     }
   }
 
@@ -321,7 +344,7 @@ function getScores(year, discipline_ID) {
   let scoreArray = [];
 
   for (let clan of clans) {
-    let scorePerClan = totalPointsPerDicipline(9, 1, "MacQueen");
+    let scorePerClan = totalPointsPerDicipline(year, discipline_ID, clan.name);
 
     scoreArray.push(scorePerClan);
   }
