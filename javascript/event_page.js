@@ -8,7 +8,10 @@ event_1DOM.addEventListener("click", function () {
     let event = {
         name: "Moo Off",
         id: 1,
-        info: "lorem"
+        info: `
+        <h3>The Great Moo-Off</h3>
+        <p>The most legendary vocal competition in the Highlands.<br>Contestants enter the arena one by one and attempt to produce the loudest, deepest and most emotionally powerful “MOO” imaginable. Judges score competitors based on tone, endurance and crowd reaction. Some participants train for years in remote mountain valleys to perfect their technique.<br> This discipline heavily rewards calmness and mental endurance — panicking mid-moo is considered a rookie mistake.
+        `
     }
     handleEventChange(event);
 });
@@ -51,12 +54,10 @@ event_5DOM.addEventListener("click", function () {
 
 
 // Se till att 'main' är ett enskilt element för D3
-const mainDOM = document.querySelector("main");
-let eventTitleDOM = document.getElementById("eventName")
+let eventTitleDOM = document.getElementById("eventName");
 const seasonRowDOM = document.getElementById("seasonRow");
 const monthRow = document.getElementById("monthRow");
 let eventInfoDOM = document.getElementById("event_info");
-let monthChartDOM = document.getElementById("monthChart");
 
 
 function seasonButtons() {
@@ -79,11 +80,24 @@ function seasonButtons() {
 
         seasonButtonDOM.addEventListener("click", () => {
 
+            // Ta bort active från alla säsongsknappar
+            document.querySelectorAll("#seasonRow button")
+                .forEach(button => {
+                    button.classList.remove("active");
+                });
+
+            // Lägg active på klickad knapp
+            seasonButtonDOM.classList.add("active");
+
             handleSeasonChange(season.year);
+
 
         });
 
         seasonRowDOM.append(seasonButtonDOM);
+        if (season.year === currentSeasonYear) {
+            seasonButtonDOM.classList.add("active");
+        }
     }
 }
 
@@ -151,6 +165,15 @@ function updateMonthButtons(eventID, year) {
 
             drawScatterPlot(monthData);
 
+            // Ta bort active från alla månadsknappar
+            document.querySelectorAll("#monthRow button")
+                .forEach(button => {
+                    button.classList.remove("active");
+                });
+
+            // Lägg active på klickad knapp
+            monthButton.classList.add("active");
+
         });
 
     }
@@ -168,6 +191,7 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
 
     let monthData = [];
 
+    console.log(chosenSeason);
     // Loopa igenom alla tävlingsdagar
     for (let day of chosenSeason.competitionDays) {
 
@@ -231,7 +255,7 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
 
 // --- 4. D3 VISUALISERING --- SKRIV OM
 
-let hSvg = 650, wSvg = 1000;
+let hSvg = 650, wSvg = 1200;
 let wPad = 60, hPad = 60; // Lite mer utrymme för att slippa clipping
 
 let monthChartSVG = d3.select("#monthChart").append("svg")
@@ -262,13 +286,9 @@ function drawScatterPlot(monthData) {
         "MacKinnon": "#5D5B2C",
     };
 
-    /*  // 1. Skapa X-SKALA (Numerisk, baserad på dagsnummer)
-     // Vi använder d3.extent() för att automatiskt få [minDag, maxDag]
-     const xScale = d3.scaleLinear()
-         .domain(d3.extent(monthData, d => d.day))
-         .range([wPad, wSvg - wPad]); // Definierar arbetsytan horisontellt */
 
     // Hämta min och max dag från datan
+    //kolla upp extent 
     const [minDay, maxDay] = d3.extent(monthData, d => d.day);
 
     // 1. Skapa X-SKALA med lite extra utrymme (domain) på sidorna
@@ -280,7 +300,7 @@ function drawScatterPlot(monthData) {
     const yScale = d3.scaleLinear()
         .domain([-1, 15])
         // Vi drar av 8 pixlar (cirkelns radie) från bottenläget:
-        .range([(hSvg - hPad) - 5, hPad]);
+        .range([(hSvg - hPad) - 8, hPad]);
 
 
     // 3. Rita X-axeln (Botten)
@@ -306,10 +326,10 @@ function drawScatterPlot(monthData) {
         .attr("cx", d => xScale(d.day))    // Korrekt mappning mot X-axeln
         .attr("cy", d => yScale(d.points)) // Korrekt mappning mot Y-axeln
         .attr("r", 8)
-        .attr("fill", d => clanColors[d.clan] || "black")
-        .attr("opacity", 0.8)
+        .attr("fill", d => clanColors[d.clan])
         .append("title")
         .text(d => `${d.participantName} (${d.clan}): ${d.points}p den ${d.day}/${d.month}`);
+
 }
 
 
@@ -322,11 +342,41 @@ function getEventPoints(placement) {
     if (placement === 5) return 1;
     if (placement === 6) return 0;// Här ser vi till att 5:e plats ger poäng
 }
-let current_event = {
-    name: "Moo Off",
-    id: 1,
-    info: "Moo-off"
+
+function startPage() {
+
+    let current_event = {
+        name: "Moo Off",
+        id: 1,
+        info: `
+        <h3 class="subtitle">The Great Moo-Off</h3>
+        <p>The most legendary vocal competition in the Highlands.<br>Contestants enter the arena one by one and attempt to produce the loudest, deepest and most emotionally powerful “MOO” imaginable. Judges score competitors based on tone, endurance and crowd reaction. Some participants train for years in remote mountain valleys to perfect their technique.<br> This discipline heavily rewards calmness and mental endurance — panicking mid-moo is considered a rookie mistake.
+        `
+    }
+    //handleSeasonChange(9)
+    handleEventChange(current_event)
+    seasonButtons();
+    // Hämtar alla månader för current season
+    let currentMonths = createMonths(currentSeasonYear);
+
+    // Hämtar sista månaden i arrayen
+    let latestMonth =
+        currentMonths[currentMonths.length - 1].month;
+
+    // Hämtar datan för senaste månaden
+    let startMonthData = getEventResultsByMonth(
+        currentEventID,
+        currentSeasonYear,
+        latestMonth
+    );
+    let monthButtons =
+        document.querySelectorAll("#monthRow button");
+
+    // Sista knappen = senaste månaden
+    monthButtons[monthButtons.length - 1]
+        .classList.add("active");
+
+    // Rita diagrammet direkt
+    drawScatterPlot(startMonthData);
 }
-//handleSeasonChange(9)
-handleEventChange(current_event)
-seasonButtons();
+startPage();

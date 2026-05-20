@@ -16,7 +16,7 @@ for (let game of seasons) {
     if (game.year === 9) {
         let filteredDays = [];
         for (let competition of game.competitionDays) {
-            if (competition.date.month < 6) {
+            if (competition.date.month < 8) {
                 filteredDays.push(competition);
             }
         }
@@ -507,68 +507,35 @@ function createMonths(year) {
 
     
 
-        let thisYear = allSeasons.find(season => {
-            return season.year === year;
-        });
+    let thisYear = allSeasons.find(season => {
+        return season.year === year;
+    });
 
-        if (!thisYear) {
-            return [];
-        }
-
-        let uniqueMonths = [];
-
-        for (let competition of thisYear.competitionDays) {
-
-            let month = competition.date.month;
-
-            // Lägg bara till månaden om den inte redan finns
-            if (!uniqueMonths.includes(month)) {
-                uniqueMonths.push(month);
-            }
-        }
-
-        // Gör om till samma struktur som tidigare
-        let monthObjects = uniqueMonths.map(month => {
-            return {
-                month: month
-            };
-        });
-
-        return monthObjects;
-    
-/*     let thisYear = allSeasons.find(x => x.year === year);
     if (!thisYear) {
         return [];
     }
-    let allMonths = [];
 
-    for (let month = 2; month <= 11; month++) {
-        let weekOne = [];
-        let weekTwo = [];
-        let weekThree = [];
-        let weekFour = [];
+    let uniqueMonths = [];
 
-        for (let competition of thisYear.competitionDays) {
-            if (competition.date.month === month) {
-                if (weekOne.length < 3) {
-                    weekOne.push(competition);
-                } else if (weekTwo.length < 3) {
-                    weekTwo.push(competition);
-                } else if (weekThree.length < 3) {
-                    weekThree.push(competition);
-                } else {
-                    weekFour.push(competition);
-                }
-            }
+    for (let competition of thisYear.competitionDays) {
+
+        let month = competition.date.month;
+
+        // Lägg bara till månaden om den inte redan finns
+        if (!uniqueMonths.includes(month)) {
+                uniqueMonths.push(month);
         }
-        let allWeeks = [weekOne, weekTwo, weekThree, weekFour];
-
-        allMonths.push({
-            month: month,
-            weeks: allWeeks
-        });
     }
-    return allMonths; */
+
+        // Gör om till samma struktur som tidigare
+    let monthObjects = uniqueMonths.map(month => {
+        return {
+                month: month
+        };
+    });
+
+    return monthObjects;
+    
 };
 
 //Funktion för att få de tre bästa klanerna i säsongen 
