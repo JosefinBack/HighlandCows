@@ -502,12 +502,12 @@ function membersClan(clanName) {
     return members;
 }
 
-
+//Kanske kan användas för at hämta veckorna för en säsong?
 function createWeeks(year) {
     let thisYear = allSeasons.find(x => x.year === year);
     let allMonths = [];
 
-    for (let month = 2; month <= 11; month++) {
+    for (let month = 1; month <= 12; month++) {
         let weekOne = [];
         let weekTwo = [];
         let weekThree = [];
