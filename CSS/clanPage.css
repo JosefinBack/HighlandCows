@@ -66,6 +66,10 @@
     background-color: white;
 }
 
+.cowMembers:hover{
+    border: 5px solid #FDEFC7;
+}
+
 #clanMembers {
     display: flex;
     flex-wrap: wrap;
@@ -88,7 +92,7 @@
 
 #clanInfo {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #clanInfoPictures {
@@ -128,6 +132,8 @@
 
 .memberChoosen {
     border: 5px solid #FDEFC7;
+    width: 240px;
+    height: 230px;
 }
 
 .picCrestAndTartan {

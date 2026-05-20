@@ -4,13 +4,24 @@ const eventButton = document.getElementById("event-Button");
 const clansButton = document.getElementById("clans-Button");
 const historyButton = document.getElementById("history-Button");
 const main = document.querySelector("main");
-
+const color = document.querySelector("color");
+const pDiscipline = document.querySelector("p-discipline");
 const top3PlayerWrapper = document.getElementById("top3Players");
 
-
-
-//Funktioner
 function drawClanMap() {
+  let mapData = getBestClan(9);
+
+  let clanPositions = [
+    { clan: "MacThomas", x: 300, y: 170 },
+    { clan: "Macqueen", x: 360, y: 360 },
+    { clan: "Macleod of the Lewes", x: 300, y: 390 },
+    { clan: "Mackinnon", x: 350, y: 270 },
+    { clan: "MacDonall", x: 380, y: 200 },
+  ];
+
+  let container = document.createElement("div");
+  container.classList.add("bigDiv");
+  main.append(container);
 
   let width = 600;
   let height = 500;
@@ -27,22 +38,15 @@ function drawClanMap() {
     .attr("width", width)
     .attr("height", height);
 
-  let clanPositions = [
-    { clan: "MacThomas", x: 300, y: 170 },
-    { clan: "Macqueen", x: 360, y: 360 },
-    { clan: "Macleod of the Lewes", x: 300, y: 390 },
-    { clan: "Mackinnon", x: 350, y: 270 },
-    { clan: "MacDonall", x: 380, y: 200 },
-  ];
-
   let colorScale = d3
     .scaleOrdinal()
     .domain(clanPositions.map((d) => d.clan))
-    .range(["#3C4360", "#C80000", "#C8C800", "#5D5B2C", "#6C82BC"]); //ändra mackenzie till maxdonall
+    .range(["#3C4360", "#C80000", "#C8C800", "#5D5B2C", "#6C82BC"]);
 
   let tooltip = d3
     .select("body")
     .append("div")
+    .attr("id", "clan-tooltip")
     .style("position", "absolute")
     .style("background", "#FBE49F")
     .style("font-family", "Irish Grover")
@@ -64,29 +68,29 @@ function drawClanMap() {
     .attr("fill", (d) => colorScale(d.clan))
 
     .on("mouseover", function (event, d) {
+      tooltip.style("display", "block").html("");
+
       tooltip
+        .append("strong")
         .style("display", "block")
+        .style("text-align", "center")
         .text(d.clan);
 
-      d3.select(event.currentTarget).attr("r", 12); // gör cirkeln större
-    })
+      const allMapData = getBestClan(9);
+      const specificClanData = allMapData.find((item) => item.clan === d.clan);
 
+      d3.select(event.currentTarget)  //förklara event.currentTarget
+      .transition()
+      .attr("r", 12);
+    })
     .on("mousemove", function (event) {
       tooltip
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY + "px");
+        .style("left", event.pageX + 15 + "px") //förklara detta
+        .style("top", event.pageY - 50 + "px")
     })
-
     .on("mouseout", function (event) {
-      tooltip
-        .style("display", "none");
-
-      d3.select(event.currentTarget).attr("r", 8); // tillbaka till normal
-    })
-
-    .on("click", function (event, d) {
-      localStorage.setItem("selectedClan", d.clan);
-      window.location.href = "../html/clanPage.html";
+      tooltip.style("display", "none");
+      d3.select(event.currentTarget).transition().attr("r", 8);
     });
 
   let labels = svg
@@ -102,7 +106,7 @@ function drawClanMap() {
 
 function displayTop3Players(year) {
   const getBestPlayer = getBestPlayers(year);
-  const top3 = getBestPlayer.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
+  const top3 = getBestPlayer.slice(0, 3); 
 
   const top3PlayerContainer = document.getElementById("top3Players");
   top3PlayerContainer.innerHTML = `<p id="top3PlayerTitle">Top 3 Players</p>`;
@@ -139,7 +143,7 @@ function displayTop3Players(year) {
 
 function displayTop3Clans(year) {
   const bestClans = getBestClan(year);
-  const top3 = bestClans.slice(0, 3); // Ta de 3 första (index 0, 1, 2)
+  const top3 = bestClans.slice(0, 3); 
 
   const top3ClansContainer = document.getElementById("top3Clans");
   top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
@@ -168,6 +172,11 @@ function displayTop3Clans(year) {
     imgCrest.classList.add("rankingImg");
     imgCrest.src = clan.crest;
     clanDiv.append(imgCrest);
+
+    const imgTartan = document.createElement("img");
+    imgTartan.classList.add("rankingImg");
+    imgTartan.src = clan.tartan;
+    clanDiv.append(imgTartan);
   }
 }
 
@@ -182,12 +191,13 @@ function getBestPlayers(year) {
       id: person.id,
       name: person.name,
       points: result,
-      img: person.img
+      img: person.img,
+      clan: person.clan,
     });
   }
 
   // Sortera högst poäng först
-  resultArray.sort(function (a, b) {
+  resultArray.sort(function (a, b) { //förklara denna
     return b.points - a.points;
   });
 
@@ -196,22 +206,18 @@ function getBestPlayers(year) {
 
 
 function calculatePlayerPoints(player_id, year) {
-
-  let thisYear = allSeasons.find(x => x.year === year);
+  let thisYear = allSeasons.find((x) => x.year === year);
   let totalPoints = 0;
 
   for (let day of thisYear.competitionDays) {
-
     for (let event of day.events) {
-
-      let sortedScores = event.scores.slice().sort(function (a, b) {
+      let sortedScores = event.scores.slice().sort(function (a, b) { //förklara denna
         return b.score - a.score;
       });
 
       let placement = 1;
 
       for (let score of sortedScores) {
-
         if (score.participantId === player_id) {
           let points = getPoints(placement);
           totalPoints = totalPoints + points;
@@ -241,7 +247,7 @@ function getBestClan(year) {
           img: person.img,
           crest: clan.crest,
           tartan: clan.tartan,
-          clanName: clan.name
+          clanName: clan.name,
         });
       }
     }
@@ -253,62 +259,74 @@ function getBestClan(year) {
 
   return resultArray;
 }
-
-
+console.log(getBestClan(7));
 
 //Funktionsanrop
 
 drawClanMap();
 displayTop3Players(9);
 displayTop3Clans(9);
-
+drawScatterPlot();
 
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
-  let thisYear = threeSeasons.find(x => x.year === year);
   let clanTotalScore = 0;
+
+  let thisYear = null;
+  for (let i = 0; i < allSeasons.length; i++) {
+    if (allSeasons[i].year === year) {
+      thisYear = allSeasons[i];
+      break; 
+    }
+  }
+
+  if (!thisYear) {
+    return { clan: clanName, points: 0 };
+  }
 
   for (let competition of thisYear.competitionDays) {
     for (let event of competition.events) {
       if (event.disciplineId === dicipline_ID) {
-        let copyEventArray = [...event.scores]
+        for (let score of event.scores) {
+          let placement = 1;
+          for (let otherScore of event.scores) {
+            if (otherScore.score > score.score) {
+              placement++;
+            }
+          }
 
-        let scoreSorted = copyEventArray.sort((a, b) => b.score - a.score);
-
-        let placement = 1;
-
-
-        for (let score of scoreSorted) {
-          let player = allParticipants.find(x => Number(x.id) === Number(score.participantId));
+          let player = null;
+          for (let p = 0; p < allParticipants.length; p++) {
+            if (Number(allParticipants[p].id) === Number(score.participantId)) {
+              player = allParticipants[p];
+              break;
+            }
+          }
 
           if (player) {
             if (player.clan === clanName) {
               let pointsMember = getPoints(placement);
-
               clanTotalScore = clanTotalScore + pointsMember;
             }
           }
-          placement++;
         }
       }
     }
   }
-  let result = { clan: clanName, points: clanTotalScore };
 
+  let result = { clan: clanName, points: clanTotalScore };
   return result;
 }
-
 
 function getScores(year, discipline_ID) {
   let scoreArray = [];
 
   for (let clan of clans) {
-    let scorePerClan = totalPointsPerDicipline(year, discipline_ID, clan.name);
+    let scorePerClan = totalPointsPerDicipline(9, 1, "MacQueen");
 
     scoreArray.push(scorePerClan);
   }
-  console.log(scoreArray);
   return scoreArray;
-};
+}
 
 function playerScores(year) {
   let allPlayersScore = getBestPlayers(year);
@@ -318,32 +336,27 @@ function playerScores(year) {
   for (let player of allPlayersScore) {
     if (player.points != 0) {
       activePlayers.push(player);
-    };
-  };
+    }
+  }
 
   return activePlayers;
-};
-
-
-//värdena för scatterplot
+}
 
 function drawScatterPlot() {
-
   let firstPlace = [];
   let secondPlace = [];
   let thirdPlace = [];
 
-  //ta bara hela säsonger, ej säsong 9
   for (let i = 0; i < 8; i++) {
     let allPlayers = playerScores(i);
 
     firstPlace.push(allPlayers[0]);
     secondPlace.push(allPlayers[1]);
     thirdPlace.push(allPlayers[2]);
-  };
+  }
 
   let dataArrayer = [firstPlace, secondPlace, thirdPlace];
-  let seasongs = firstPlace.map(x => x.season);
+  let seasongs = firstPlace.map((x) => x.season); //gör en ny array med lika många element
 
   let highestPoint = 0;
 
@@ -351,69 +364,77 @@ function drawScatterPlot() {
     for (let score of array) {
       if (score.points > highestPoint) {
         highestPoint = score.points;
-      };
-    };
-  };
+      }
+    }
+  }
 
   let hSvg = 400;
   let wSvg = 800;
   let hPad = 50;
   let wPad = 100;
 
-
-  let svg = d3.select("#linjediagram")
+  let svg = d3
+    .select("#linjediagram")
     .append("svg")
     .attr("height", hSvg)
     .attr("width", wSvg)
-    .style("border", "1px solid black");
+    .style("border", "1px solid black")
+    .style("border-radius", "20px");
 
+  let clanInformation = d3
+    .select("body")
+    .append("div")
+    .attr("id", "clan-information")
+    .style("pointer-events", "none");
 
-  let xScale = d3.scaleBand()
+  let xScale = d3
+    .scaleBand()
     .domain(seasongs)
     .range([wPad, wSvg - wPad])
     .paddingInner(0.2)
     .paddingOuter(0.2);
 
-  let yScale = d3.scaleLinear()
+  let yScale = d3
+    .scaleLinear()
     .domain([1000, highestPoint + 100])
     .range([hSvg - hPad, hPad]);
 
-  let dMaker = d3.line()
-    .x(d => xScale(d.season) + xScale.bandwidth() / 2)
-    .y(d => yScale(d.points));
-
+  let dMaker = d3
+    .line()
+    .x((d) => xScale(d.season) + xScale.bandwidth() / 2)
+    .y((d) => yScale(d.points));
 
   let xAxel = d3.axisBottom(xScale);
   let yAxel = d3.axisLeft(yScale);
 
-  svg.append("g")
+  svg
+    .append("g")
     .call(xAxel)
-    .attr("transform", `translate(0, ${hSvg - hPad})`)
+    .attr("transform", `translate(0, ${hSvg - hPad})`);
 
-  svg.append("g")
-    .call(yAxel)
-    .attr("transform", `translate(${wPad}, 0)`);
+  svg.append("g").call(yAxel).attr("transform", `translate(${wPad}, 0)`);
 
-
-  svg.append("g")
+  svg
+    .append("g")
     .selectAll("path")
     .data(dataArrayer)
     .enter()
     .append("path")
     .attr("stroke", "black")
+    .attr("stroke-width", 5.0)
     .attr("fill", "none")
     .attr("stroke", setColor)
     .attr("stroke-width", 2)
-    .attr("d", d => dMaker(d))
+    .attr("d", (d) => dMaker(d));
 
   function setColor(d, i) {
     let colors = ["gold", "silver", "#cd7f32"];
     return colors[i];
   }
 
-
   for (let array of dataArrayer) {
-    svg.append("g")
+    svg
+      .append("g")
       .selectAll("circle")
       .data(array)
       .enter()
@@ -422,17 +443,53 @@ function drawScatterPlot() {
       .attr("cx", setX)
       .attr("cy", setY)
       .attr("r", 2)
+      .on("mouseover", function (event, d) {
+        clanInformation.style("display", "block").html("");
 
+        clanInformation
+          .append("strong")
+          .style("display", "block")
+          .style("text-align", "center")
+          .text(`Player: ${d.name}`);
+
+        clanInformation
+          .append("strong")
+          .style("display", "block")
+          .style("text-align", "center")
+          .text(`Clan: ${d.clan}`);
+
+        clanInformation
+          .append("strong")
+          .style("display", "block")
+          .style("text-align", "center")
+          .text(`Points: ${d.points}`);
+
+        console.log(d.name);
+        console.log(d.clan);
+        console.log(d.points);
+
+        d3.select(event.currentTarget).transition().attr("r", 12);
+      })
+      .on("mousemove", function (event) {
+        clanInformation
+          .style("left", event.pageX + 15 + "px")
+
+          .style("top", event.pageY - 50 + "px");
+      })
+      .on("mouseout", function (event) {
+        clanInformation.style("display", "none");
+        d3.select(event.currentTarget).transition().attr("r", 2);
+      });
+    console.log(array);
 
     function setX(d) {
-      let valueX = xScale(d.season) + xScale.bandwidth() / 2;
+      let valueX = xScale(d.season) + xScale.bandwidth() / 2; //förklara
       return valueX;
-    };
+    }
 
     function setY(d) {
-      let valueY = yScale(d.points)
+      let valueY = yScale(d.points);
       return valueY;
-    };
+    }
   }
 }
-drawScatterPlot()
