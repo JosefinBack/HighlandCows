@@ -489,22 +489,21 @@ function drawLineDiagram() {
 
 };
 
-// drawLineDiagram()
 
-function getMainSkill(disciplineID) {
-    let discipline = disciplines.find(d => d.id === disciplineID);
-    let highestSkill = "";
-    let highestValue = 0;
+// function getMainSkill(disciplineID) {
+//     let discipline = disciplines.find(d => d.id === disciplineID);
+//     let highestSkill = "";
+//     let highestValue = 0;
 
-    for (let skill in discipline.skillFactors) {
-        let value = discipline.skillFactors[skill];
-        if (value > highestValue) {
-            highestValue = value;
-            highestSkill = skill;
-        }
-    }
-    return highestSkill;
-};
+//     for (let skill in discipline.skillFactors) {
+//         let value = discipline.skillFactors[skill];
+//         if (value > highestValue) {
+//             highestValue = value;
+//             highestSkill = skill;
+//         }
+//     }
+//     return highestSkill;
+// };
 
 
 
@@ -530,6 +529,7 @@ function calculatePlayerSkills(player_id, year) {
         for (let event of day.events) {
 
             let sortedScores = [...event.scores];
+            console.log(sortedScores)
 
             sortedScores.sort(function (a, b) {
                 return b.score - a.score;
@@ -573,7 +573,6 @@ function calculatePlayerSkills(player_id, year) {
 function drawSkillArc(playerID, year, skillName, chartDiv) {
 
     let playerSkills = calculatePlayerSkills(playerID, year);
-
 
     let totalSkills = 0;
     for (let skill in playerSkills) {
@@ -725,7 +724,7 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
     //     .attr("y", height - 10)
     //     .attr("text-anchor", "middle")
     //     .style("font-size", "12px");
-}
+};
 
 
 
@@ -748,248 +747,233 @@ function drawAllArcs(player_id, year) {
 
 
 
+// function testingDraw() {
+//     const discipline = {
+//         "id": 1,
+//         "name": "The great Moo-of",
+//         "skillFactors": {
+//             "Mental endurance": 4,
+//             "Lugn-capacity": 5,
+//             "Personal-hygien": 2,
+//             "Speed": 1,
+//             "Leg-strength": 3
+//         }
+//     };
+
+
+//     // -----------------------------
+//     // GÖR OM TILL ARRAY
+//     // -----------------------------
+
+//     let skillData = Object.entries(discipline.skillFactors)
+//         .map(([skill, value]) => ({
+//             skill,
+//             value
+//         }));
+
+//     console.log(skillData);
+
+
+//     // -----------------------------
+//     // SVG
+//     // -----------------------------
+
+//     let width = 700;
+//     let height = 700;
+
+//     let svg = d3.select("#chart2")
+//         .append("svg")
+//         .attr("width", width)
+//         .attr("height", height);
+
+//     // Flytta mitten till center
+//     let chart = svg.append("g")
+//         .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+
+//     // -----------------------------
+//     // SCALE FÖR VINKLAR
+//     // -----------------------------
+
+//     let angleScale = d3.scaleBand()
+//         .domain(skillData.map(d => d.skill))
+//         .range([0, Math.PI * 2]);
+
+
+//     // -----------------------------
+//     // SCALE FÖR STORLEK
+//     // -----------------------------
+
+//     let radiusScale = d3.scaleLinear()
+//         .domain([0, 5])
+//         .range([0, 220]);
+
+
+//     // -----------------------------
+//     // RITA CIRKLAR I BAKGRUNDEN
+//     // -----------------------------
+
+//     let levels = [1, 2, 3, 4, 5];
+
+//     chart.selectAll(".background-circles")
+//         .data(levels)
+//         .enter()
+//         .append("circle")
+//         .attr("r", d => radiusScale(d))
+//         .attr("fill", "none")
+//         .attr("stroke", "white")
+//         .attr("opacity", 0.3);
+
+
+//     // -----------------------------
+//     // RITA LINJER FRÅN MITTEN
+//     // -----------------------------
+
+//     chart.selectAll(".axis-lines")
+//         .data(skillData)
+//         .enter()
+//         .append("line")
+//         .attr("x1", 0)
+//         .attr("y1", 0)
+
+//         .attr("x2", d => {
+
+//             let angle =
+//                 angleScale(d.skill) +
+//                 angleScale.bandwidth() / 2;
+
+//             return Math.cos(angle - Math.PI / 2)
+//                 * radiusScale(5);
+
+//         })
+
+//         .attr("y2", d => {
+
+//             let angle =
+//                 angleScale(d.skill) +
+//                 angleScale.bandwidth() / 2;
+
+//             return Math.sin(angle - Math.PI / 2)
+//                 * radiusScale(5);
+
+//         })
+
+//         .attr("stroke", "white")
+//         .attr("opacity", 0.5);
+
+
+//     // -----------------------------
+//     // LABELS
+//     // -----------------------------
+
+//     chart.selectAll(".labels")
+//         .data(skillData)
+//         .enter()
+//         .append("text")
+
+//         .text(d => d.skill)
+
+//         .attr("x", d => {
+
+//             let angle =
+//                 angleScale(d.skill) +
+//                 angleScale.bandwidth() / 2;
+
+//             return Math.cos(angle - Math.PI / 2)
+//                 * (radiusScale(5) + 40);
+
+//         })
+
+//         .attr("y", d => {
+
+//             let angle =
+//                 angleScale(d.skill) +
+//                 angleScale.bandwidth() / 2;
+
+//             return Math.sin(angle - Math.PI / 2)
+//                 * (radiusScale(5) + 40);
+
+//         })
+
+//         .attr("text-anchor", "middle");
+
+
+//     // -----------------------------
+//     // SKAPA PUNKTER
+//     // -----------------------------
+
+//     let points = skillData.map(d => {
+
+//         let angle =
+//             angleScale(d.skill) +
+//             angleScale.bandwidth() / 2;
+
+//         let radius = radiusScale(d.value);
+
+//         return {
+//             x: Math.cos(angle - Math.PI / 2) * radius,
+//             y: Math.sin(angle - Math.PI / 2) * radius
+//         };
+
+//     });
+
+//     console.log(points);
+//     // -----------------------------
+//     // LINE GENERATOR
+//     // -----------------------------
+
+//     let lineGenerator = d3.line()
+//         .x(d => d.x)
+//         .y(d => d.y);
+
+
+//     // -----------------------------
+//     // RITA RADAR CHART
+//     // -----------------------------
+
+//     chart.append("path")
+//         .datum(points)
+
+//         .attr("d", lineGenerator(points) + "Z")
+
+//         .attr("fill", "#d4a373")
+//         .attr("stroke", "white")
+//         .attr("stroke-width", 3)
+//         .attr("opacity", 0.8);
+
+
+//     // -----------------------------
+//     // RITA PUNKTER
+//     // -----------------------------
+
+//     chart.selectAll(".points")
+//         .data(points)
+//         .enter()
+//         .append("circle")
+
+//         .attr("cx", d => d.x)
+//         .attr("cy", d => d.y)
+
+//         .attr("r", 7)
+//         .attr("fill", "white");
+
+
+//     // -----------------------------
+//     // TITEL
+//     // -----------------------------
+
+//     svg.append("text")
+//         .attr("x", width / 2)
+//         .attr("y", 40)
+//         .attr("text-anchor", "middle")
+//         .attr("font-size", "28px")
+//         .attr("fill", "white")
+//         .text(discipline.name);
+// }
+
+
 //===========================//
 //===== ANROP =====//
 //===========================//
 cowInCompetition.style.display = "block";
-
-
-
-
-
-
-
-function testingDraw() {
-    const discipline = {
-        "id": 1,
-        "name": "The great Moo-of",
-        "skillFactors": {
-            "Mental endurance": 4,
-            "Lugn-capacity": 5,
-            "Personal-hygien": 2,
-            "Speed": 1,
-            "Leg-strength": 3
-        }
-    };
-
-
-    // -----------------------------
-    // GÖR OM TILL ARRAY
-    // -----------------------------
-
-    let skillData = Object.entries(discipline.skillFactors)
-        .map(([skill, value]) => ({
-            skill,
-            value
-        }));
-
-    console.log(skillData);
-
-
-    // -----------------------------
-    // SVG
-    // -----------------------------
-
-    let width = 700;
-    let height = 700;
-
-    let svg = d3.select("#chart2")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    // Flytta mitten till center
-    let chart = svg.append("g")
-        .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-
-    // -----------------------------
-    // SCALE FÖR VINKLAR
-    // -----------------------------
-
-    let angleScale = d3.scaleBand()
-        .domain(skillData.map(d => d.skill))
-        .range([0, Math.PI * 2]);
-
-
-    // -----------------------------
-    // SCALE FÖR STORLEK
-    // -----------------------------
-
-    let radiusScale = d3.scaleLinear()
-        .domain([0, 5])
-        .range([0, 220]);
-
-
-    // -----------------------------
-    // RITA CIRKLAR I BAKGRUNDEN
-    // -----------------------------
-
-    let levels = [1, 2, 3, 4, 5];
-
-    chart.selectAll(".background-circles")
-        .data(levels)
-        .enter()
-        .append("circle")
-        .attr("r", d => radiusScale(d))
-        .attr("fill", "none")
-        .attr("stroke", "white")
-        .attr("opacity", 0.3);
-
-
-    // -----------------------------
-    // RITA LINJER FRÅN MITTEN
-    // -----------------------------
-
-    chart.selectAll(".axis-lines")
-        .data(skillData)
-        .enter()
-        .append("line")
-        .attr("x1", 0)
-        .attr("y1", 0)
-
-        .attr("x2", d => {
-
-            let angle =
-                angleScale(d.skill) +
-                angleScale.bandwidth() / 2;
-
-            return Math.cos(angle - Math.PI / 2)
-                * radiusScale(5);
-
-        })
-
-        .attr("y2", d => {
-
-            let angle =
-                angleScale(d.skill) +
-                angleScale.bandwidth() / 2;
-
-            return Math.sin(angle - Math.PI / 2)
-                * radiusScale(5);
-
-        })
-
-        .attr("stroke", "white")
-        .attr("opacity", 0.5);
-
-
-    // -----------------------------
-    // LABELS
-    // -----------------------------
-
-    chart.selectAll(".labels")
-        .data(skillData)
-        .enter()
-        .append("text")
-
-        .text(d => d.skill)
-
-        .attr("x", d => {
-
-            let angle =
-                angleScale(d.skill) +
-                angleScale.bandwidth() / 2;
-
-            return Math.cos(angle - Math.PI / 2)
-                * (radiusScale(5) + 40);
-
-        })
-
-        .attr("y", d => {
-
-            let angle =
-                angleScale(d.skill) +
-                angleScale.bandwidth() / 2;
-
-            return Math.sin(angle - Math.PI / 2)
-                * (radiusScale(5) + 40);
-
-        })
-
-        .attr("text-anchor", "middle");
-
-
-    // -----------------------------
-    // SKAPA PUNKTER
-    // -----------------------------
-
-    let points = skillData.map(d => {
-
-        let angle =
-            angleScale(d.skill) +
-            angleScale.bandwidth() / 2;
-
-        let radius = radiusScale(d.value);
-
-        return {
-
-            x:
-                Math.cos(angle - Math.PI / 2)
-                * radius,
-
-            y:
-                Math.sin(angle - Math.PI / 2)
-                * radius
-
-        };
-
-    });
-
-    console.log(points);
-
-
-    // -----------------------------
-    // LINE GENERATOR
-    // -----------------------------
-
-    let lineGenerator = d3.line()
-        .x(d => d.x)
-        .y(d => d.y);
-
-
-    // -----------------------------
-    // RITA RADAR CHART
-    // -----------------------------
-
-    chart.append("path")
-        .datum(points)
-
-        .attr("d", lineGenerator(points) + "Z")
-
-        .attr("fill", "#d4a373")
-        .attr("stroke", "white")
-        .attr("stroke-width", 3)
-        .attr("opacity", 0.8);
-
-
-    // -----------------------------
-    // RITA PUNKTER
-    // -----------------------------
-
-    chart.selectAll(".points")
-        .data(points)
-        .enter()
-        .append("circle")
-
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
-
-        .attr("r", 7)
-        .attr("fill", "white");
-
-
-    // -----------------------------
-    // TITEL
-    // -----------------------------
-
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", 40)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "28px")
-        .attr("fill", "white")
-        .text(discipline.name);
-}
-
-testingDraw()
+// testingDraw()

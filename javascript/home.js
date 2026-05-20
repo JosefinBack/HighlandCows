@@ -204,6 +204,7 @@ function getBestPlayers(year) {
   return resultArray;
 }
 
+
 function calculatePlayerPoints(player_id, year) {
   let thisYear = allSeasons.find((x) => x.year === year);
   let totalPoints = 0;
