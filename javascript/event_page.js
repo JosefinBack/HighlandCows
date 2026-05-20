@@ -10,7 +10,15 @@ event_1DOM.addEventListener("click", function () {
         id: 1,
         info: `
         <h3>The Great Moo-Off</h3>
-        <p>The most legendary vocal competition in the Highlands.<br>Contestants enter the arena one by one and attempt to produce the loudest, deepest and most emotionally powerful “MOO” imaginable. Judges score competitors based on tone, endurance and crowd reaction. Some participants train for years in remote mountain valleys to perfect their technique.<br> This discipline heavily rewards calmness and mental endurance — panicking mid-moo is considered a rookie mistake.
+        <p>The Great Moo-Off is the most iconic event in the entire Highland Championship circuit and is often considered the spiritual heart of the tournament season. Thousands of spectators gather every year to witness competitors attempt to produce the loudest, deepest and most emotionally powerful “MOO” ever heard in the Highlands.<br>The discipline began centuries ago when farmers competed across valleys to see whose cattle calls carried the furthest through the mountains. Over time, the tradition evolved into a fully organized championship event with judges, cheering crowds and surprisingly intense rivalries between clans.<br>Competitors are scored on:</p>
+        <ul>
+        <li>Volume</li>
+        <li>Vocal depth</li>
+        <li>Breath control</li>
+        <li>Emotional delivery</li>
+        <li>Audience reaction</li>
+        </ul>
+        <p>Some participants spend months training their lungs in cold mountain air to increase vocal endurance, while others focus on achieving the perfect resonance technique known as “The Thunder Moo”.<br>The event heavily rewards calmness and mental endurance. Contestants who panic, lose rhythm or crack their voice during the performance rarely recover their score.<br>Despite its ridiculous appearance, The Great Moo-Off is taken extremely seriously throughout the Highlands.</p>
         `
     }
     handleEventChange(event);
@@ -20,7 +28,18 @@ event_2DOM.addEventListener("click", function () {
     let event = {
         name: "Fluff Styling",
         id: 2,
-        info: "lorem"
+        info: `
+            <h3 class=”subtitle”>Fluff Styling</h3>
+            <p>Fluff Styling is where fashion, patience and cow-management collide in one of the most visually spectacular events of the season. Participants are given several hours to wash, groom, braid and decorate Highland cows before presenting them on the ceremonial runway stage.<br>What outsiders mistake for a “cute beauty contest” is actually one of the most technically demanding disciplines in the championship. Competitors must work under pressure while handling unpredictable animals, changing weather conditions and extremely judgmental style critics.<br>Contestants are judged on:<br></p>
+            <ul>
+            <li>Fluff symmetry</li>
+            <li>Coat cleanliness</li>
+            <li>Horn decoration</li>
+            <li>Creativity</li>
+            <li>Overall presentation</li>
+            </ul>
+            <p>Each year introduces new styling trends across the Highlands. Some stylists prefer traditional braided wool decorations, while others experiment with flowers, ribbons, glitter oils and clan-inspired patterns.<br>Backstage tensions are legendary. Stylists race between grooming stations while cows stubbornly refuse to cooperate, occasionally escaping mid-preparation and causing complete chaos.<br>Winning Fluff Styling brings enormous prestige, especially among younger fans and fashion-focused clans.</p>
+        `
     }
     handleEventChange(event);
 });
@@ -29,7 +48,19 @@ event_3DOM.addEventListener("click", function () {
     let event = {
         name: "Mountain Race",
         id: 3,
-        info: "lorem"
+        info: `
+            <h3 class=”subtitle”>Mountain Race</h3>
+            <p>The Mountain Race is the ultimate test of physical endurance and survival instincts. Competitors must navigate steep hills, muddy trails, river crossings and dangerous rocky terrain while racing against both opponents and the brutal Highland weather.<br>The course changes slightly every season depending on storms, landslides and mountain conditions, meaning no competitor can rely entirely on memory or preparation.<br>Success in the Mountain Race depends on:<br></p>
+            <ul>
+            <li>Explosive speed</li>
+            <li>Leg strength</li>
+            <li>Endurance</li>
+            <li>Terrain awareness</li>
+            <li>Mental resilience</li>
+            </ul>
+            <p>Racers often train at high altitudes for months before the championship begins. Some even carry weighted barrels uphill daily to prepare for the extreme conditions.<br>The most feared section of the course is known as “The Widow’s Descent”, a steep downhill slope responsible for countless slips, tumbles and dramatic finishes over the years.<br>Spectators love the event for its unpredictability. Even heavily favored competitors can lose everything with a single bad step in the mud.</p>
+
+        `
     }
     handleEventChange(event);
 });
@@ -38,7 +69,19 @@ event_4DOM.addEventListener("click", function () {
     let event = {
         name: "Whiskey Barrell Kicking",
         id: 4,
-        info: "lorem"
+        info: `
+            <h3 class=”subtitle”>Whiskey Kicking</h3>
+            <p>Whiskey Kicking is one of the oldest surviving Highland traditions and easily the loudest event in the championship arena. Participants compete to launch an empty whiskey barrel as far as possible using only a single kick and perfect technique.<br>What began centuries ago as a drunken village challenge slowly evolved into a respected competitive discipline celebrated across the region.<br>The event rewards:<br></p>
+            <ul>
+            <li>Raw leg strength</li>
+            <li>Balance</li>
+            <li>Timing</li>
+            <li>Explosive movement</li>
+            <li>Technical precision</li>
+            </ul>
+            <p>Barrels are carefully standardized before every tournament to ensure fairness, although competitors constantly debate whether humidity, temperature or barrel wood quality affect performance.<br>The crowd especially enjoys failed attempts. Poor technique often sends barrels spinning sideways into fences, spectators or occasionally back toward the competitor themselves.<br>Legend says one famous champion launched a barrel completely across a river during the Season 3 finals, a record that still remains unbeaten.<br>Despite its chaotic reputation, Whiskey Kicking requires far more skill and coordination than most newcomers expect.</p>
+
+        `
     }
     handleEventChange(event);
 });
@@ -47,7 +90,19 @@ event_5DOM.addEventListener("click", function () {
     let event = {
         name: "Bagpipe Napping",
         id: 5,
-        info: "lorem"
+        info: `
+            <h3 class=”subtitle”>The Bagpipe Test</h3>
+            <p>The Bagpipe Test is feared by nearly every competitor and respected by every champion. Unlike the physically demanding disciplines, this event is purely psychological.<br>Contestants must stand beside an aggressively loud live bagpipe performance for as long as possible while maintaining focus, posture and emotional control. Leaving the marked circle, covering the ears or visibly breaking composure results in immediate disqualification.<br>The discipline was originally created by Highland military trainers who believed that true mental strength could only be measured through prolonged exposure to unbearable noise.<br>Competitors are judged on:<br></p>
+            <ul>
+            <li>Concentration</li>
+            <li>Emotional stability</li>
+            <li>Stress resistance</li>
+            <li>Calmness under pressure</li>
+            <li>Facial control</li>
+            </ul>
+            <p>The challenge becomes increasingly difficult as musicians intentionally alter rhythm, volume and tempo to mentally exhaust participants. Advanced performers are trained specifically to disrupt concentration and provoke emotional reactions.<br>Many physically strong athletes fail within minutes, while quieter and more patient competitors often dominate through sheer mental resilience.<br>Veteran competitors claim that after surviving The Bagpipe Test, every other discipline in the tournament feels easy by comparison.</p>
+
+        `
     }
     handleEventChange(event);
 });
@@ -57,6 +112,7 @@ event_5DOM.addEventListener("click", function () {
 let eventTitleDOM = document.getElementById("eventName");
 const seasonRowDOM = document.getElementById("seasonRow");
 const monthRow = document.getElementById("monthRow");
+let monthChartDOM = document.getElementById("monthChart");
 let eventInfoDOM = document.getElementById("event_info");
 
 
@@ -104,6 +160,7 @@ function seasonButtons() {
 function handleEventChange(event) {
 
     eventInfoDOM.innerHTML = ``;
+
     currentEventID = event.id;
     let eventInformation = event.info;
 
@@ -179,6 +236,7 @@ function updateMonthButtons(eventID, year) {
     }
 }
 
+//KOLLA IGENOM!!
 function getEventResultsByMonth(eventID, seasonYear, month) {
 
     let chosenSeason = allSeasons.find(season => {
@@ -242,7 +300,7 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
 
                 placement: index + 1,
 
-                points: getEventPoints(index + 1),
+                points: getEventPoints(index + 1), //Kolla upp detta!!
 
                 rawScore: scoreObject.score
 
@@ -264,7 +322,7 @@ let monthChartSVG = d3.select("#monthChart").append("svg")
     .style("border", "1px solid grey")
     .style("background-color", "white")
 
-
+//KOLLA IGENOM!!
 function drawScatterPlot(monthData) {
 
     // Om ingen data, rensa och avbryt
@@ -349,9 +407,17 @@ function startPage() {
         name: "Moo Off",
         id: 1,
         info: `
-        <h3 class="subtitle">The Great Moo-Off</h3>
-        <p>The most legendary vocal competition in the Highlands.<br>Contestants enter the arena one by one and attempt to produce the loudest, deepest and most emotionally powerful “MOO” imaginable. Judges score competitors based on tone, endurance and crowd reaction. Some participants train for years in remote mountain valleys to perfect their technique.<br> This discipline heavily rewards calmness and mental endurance — panicking mid-moo is considered a rookie mistake.
-        `
+            <h3 class=”subtitle”>The Great Moo-off</h3>
+            <p>The Great Moo-Off is the most iconic event in the entire Highland Championship circuit and is often considered the spiritual heart of the tournament season. Thousands of spectators gather every year to witness competitors attempt to produce the loudest, deepest and most emotionally powerful “MOO” ever heard in the Highlands.<br>The discipline began centuries ago when farmers competed across valleys to see whose cattle calls carried the furthest through the mountains. Over time, the tradition evolved into a fully organized championship event with judges, cheering crowds and surprisingly intense rivalries between clans.<br>Competitors are scored on:<br></p>
+            <ul>
+            <li>Volume</li>
+            <li>Vocal depth</li>
+            <li>Breath control</li>
+            <li>Emotional delivery</li>
+            <li>Audience reaction</li>
+            </ul>
+            <p>Some participants spend months training their lungs in cold mountain air to increase vocal endurance, while others focus on achieving the perfect resonance technique known as “The Thunder Moo”.<br>The event heavily rewards calmness and mental endurance. Contestants who panic, lose rhythm or crack their voice during the performance rarely recover their score.<br>Despite its ridiculous appearance, The Great Moo-Off is taken extremely seriously throughout the Highlands.</p>
+            `
     }
     //handleSeasonChange(9)
     handleEventChange(current_event)

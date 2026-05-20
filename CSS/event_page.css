@@ -9,10 +9,13 @@
 }
 
 p {
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 5px;
 }
 
+li{
+    font-size: 20px;
+}
 /* Själva knappen */
 .monthButton {
     background-color: #7629ae;
