@@ -376,9 +376,11 @@ function clanPointsPerMonth(clan, year) {
 };
 
 function fillInfobox() {
+
     let infoText = clanPointsPerMonth(selectedClan, currentSeason);
-    console.log(infoText)
-    let infoBox = document.getElementById("infobox");
+    let contentInfobox = document.getElementById("contentInfobox");
+
+    contentInfobox.innerHTML = "";
 
     for (let text of infoText) {
         let divInfo = document.createElement("div");
@@ -397,9 +399,9 @@ function fillInfobox() {
         pPointsDiv.append(pPoints);
 
         divInfo.append(pMonthDiv, pPointsDiv);
-        infoBox.append(divInfo);
+        contentInfobox.append(divInfo);
     }
-};
+}
 
 
 function drawLineDiagram() {
@@ -454,30 +456,6 @@ function drawLineDiagram() {
         .call(yAxel)
         .attr("transform", `translate(${wPad}, 0)`);
 
-    // let legend = svg.append("g");
-
-    // legend.append("rect")
-    //     .attr("x", wSvg - 100)
-    //     .attr("y", 20)
-    //     .attr("width", 180)
-    //     .attr("height", 180)
-    //     .attr("fill", "#FBE49F")
-    //     .attr("stroke", "white")
-    //     .attr("rx", 10);
-
-    // legend.selectAll("text")
-    //     .data(points)
-    //     .enter()
-    //     .append("text")
-    //     .attr("x", wSvg - 200)
-    //     .attr("y", function (d, i) {
-    //         return 50 + i * 25;
-    //     })
-    //     .style("font-size", "14px")
-    //     .text(function (d) {
-    //         return d.month + ": " + d.points + " points";
-    //     });
-
 
     svg.append("g")
         .selectAll("rect")
@@ -490,18 +468,6 @@ function drawLineDiagram() {
         .attr("d", dMaker)
         ;
 
-    let hoverText = d3.select("body")
-        .append("div")
-        .style("position", "absolute")
-        .style("background", "#FBE49F")
-        .style("font-family", "Irish Grover")
-        .style("padding", "6px")
-        .style("border-radius", "5px")
-        .style("display", "none")
-        .style("pointer-events", "none")
-        .style("border", "1px solid white")
-        ;
-
 
     svg.append("g")
         .selectAll("circle")
@@ -511,25 +477,7 @@ function drawLineDiagram() {
         .attr("cx", setX)
         .attr("cy", setY)
         .attr("r", 6)
-        .attr("fill", "white")
-
-        .on("mouseover", function (event, d) {
-            hoverText
-                .style("display", "block")
-                .text(d.points + " points");
-        })
-
-        .on("mousemove", function (event, d) {
-            hoverText
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 20 + "px");
-        })
-
-        .on("mouseout", function (event) {
-            hoverText
-                .style("display", "none");
-        })
-        ;
+        .attr("fill", "white");
 
 
     function setX(d) {
@@ -541,8 +489,6 @@ function drawLineDiagram() {
         let placement = yScale(d.points);
         return placement;
     };
-
-
 };
 
 //Erics variant med arraymetoder
