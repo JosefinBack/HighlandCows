@@ -67,36 +67,37 @@ function drawClanMap() {
       tooltip.style("display", "block").html("");
 
       tooltip
-        .append("strong")
         .style("display", "block")
         .style("text-align", "center")
         .text(d.clan);
 
       const allMapData = getBestClan(9);
-      const specificClanData = allMapData.find((item) => item.clan === d.clan);
+      let specificClanData = null;
 
-      d3.select(event.currentTarget)  //förklara event.currentTarget
+      for (let i = 0; i < allMapData.length; i++) {
+        if (allMapData[i].clan === d.clan) {
+          specificClanData = allMapData[i];
+          break;
+        }
+      }
+
+      //queryselector är en metod på document (man hämtar button som man har gjort)
+      //när man sätter button.addeventlistener("click", function() => button = DOM-objekt, addeventlistener(metod), firefox som gör att funktuinen fungerar
+
+      //event.currentTarget
+      //När man använder event är det ett objekt. I det objektet finns currentTarget. När man använder d3.select innan blir det en d3 selection. Men event,currentarget är alltid ett DOM objekt.
+      d3.select(event.currentTarget) //förklara event.currentTarget, event ett objekt som skickas med som min listener som anropas
         .transition()
         .attr("r", 12);
     })
     .on("mousemove", function (event) {
       tooltip
-        .style("left", event.pageX + 15 + "px") //förklara detta
-        .style("top", event.pageY - 50 + "px")
+        .style("left", event.pageX + 15 + "px") 
+        .style("top", event.pageY - 50 + "px"); //tal, där kordinaterna möts, där musen befinner sig. den finns i event objektet. precis som currenttarget, pagey, pagex
     })
     .on("mouseout", function (event) {
       tooltip.style("display", "none");
       d3.select(event.currentTarget).transition().attr("r", 8);
-    });
-
-  let labels = svg
-    .selectAll("g.label")
-    .data(clanPositions)
-    .enter()
-    .append("g")
-    .attr("class", "label")
-    .attr("transform", function (d) {
-      return `translate(${d.x + 10}, ${d.y})`;
     });
 }
 
@@ -192,26 +193,44 @@ function getBestPlayers(year) {
     });
   }
 
-  // Sortera högst poäng först
-  resultArray.sort(function (a, b) { //förklara denna
+  resultArray.sort(function (a, b) {
     return b.points - a.points;
   });
 
   return resultArray;
 }
 
-
 function calculatePlayerPoints(player_id, year) {
-  let thisYear = allSeasons.find((x) => x.year === year);
+  let thisYear = null;
+
+  for (let i = 0; i < allSeasons.length; i++) {
+    if (allSeasons[i].year === year) {
+      thisYear = allSeasons[i];
+      break;
+    }
+  }
+
+  if (!thisYear) {
+    return 0;
+  }
+
   let totalPoints = 0;
 
   for (let day of thisYear.competitionDays) {
     for (let event of day.events) {
-      let sortedScores = event.scores.slice().sort(function (a, b) { //förklara denna
+      
+      let sortedScores = [];
+
+      for(let i = 0; i < event.scores.length; i++){
+        sortedScores.push(event.scores[i]);
+      }
+
+
+      sortedScores.sort(function (a, b) {
         return b.score - a.score;
       });
 
-      let placement = 1;
+      let placement = 1; //kommer den 1, får den 15 osv
 
       for (let score of sortedScores) {
         if (score.participantId === player_id) {
@@ -249,9 +268,11 @@ function getBestClan(year) {
     }
   }
 
-  resultArray.sort(function (a, b) {
-    return b.points - a.points;
-  });
+  resultArray.sort( //sort är en metod som innehåller en funktion som har två argument a,b. Den returnerar ingenting som filter, att den måste få den tilldelad till en const e = rsult.filter..... den transformerar (isch) arrayen, den kollar om b är större än a. 
+    function (a, b) {  
+      return b.points - a.points;
+    }
+  );
 
   return resultArray;
 }
@@ -283,7 +304,9 @@ function totalPointsPerDicipline(year, dicipline_ID, clanName) {
     for (let event of competition.events) {
       if (event.disciplineId === dicipline_ID) {
         for (let score of event.scores) {
+
           let placement = 1;
+
           for (let otherScore of event.scores) {
             if (otherScore.score > score.score) {
               placement++;
@@ -317,7 +340,7 @@ function getScores(year, discipline_ID) {
   let scoreArray = [];
 
   for (let clan of clans) {
-    let scorePerClan = totalPointsPerDicipline(9, 1, "MacQueen");
+    let scorePerClan = totalPointsPerDicipline(year, discipline_ID, clan.name);
 
     scoreArray.push(scorePerClan);
   }
@@ -334,7 +357,6 @@ function playerScores(year) {
       activePlayers.push(player);
     }
   }
-
   return activePlayers;
 }
 
@@ -352,7 +374,7 @@ function drawLine() {
   }
 
   let dataArrayer = [firstPlace, secondPlace, thirdPlace];
-  let seasongs = firstPlace.map((x) => x.season); //gör en ny array med lika många element
+  let seasons = firstPlace.map((x) => x.season); //gör en ny array med lika många element, räcker den förklarin
 
   let highestPoint = 0;
 
@@ -375,7 +397,8 @@ function drawLine() {
     .attr("height", hSvg)
     .attr("width", wSvg)
     .style("border", "1px solid black")
-    .style("border-radius", "20px");
+    .style("border-radius", "20px")
+    .style("background-color", "white");
 
   let clanInformation = d3
     .select("body")
@@ -385,7 +408,7 @@ function drawLine() {
 
   let xScale = d3
     .scaleBand()
-    .domain(seasongs)
+    .domain(seasons)
     .range([wPad, wSvg - wPad])
     .paddingInner(0.2)
     .paddingOuter(0.2);
@@ -443,37 +466,33 @@ function drawLine() {
         clanInformation.style("display", "block").html("");
 
         clanInformation
-          .append("strong")
+          .append("div")
           .style("display", "block")
           .style("text-align", "center")
           .text(`Player: ${d.name}`);
 
         clanInformation
-          .append("strong")
+          .append("div")
           .style("display", "block")
           .style("text-align", "center")
           .text(`Clan: ${d.clan}`);
 
         clanInformation
-          .append("strong")
+          .append("div")
           .style("display", "block")
           .style("text-align", "center")
           .text(`Points: ${d.points}`);
-
-        console.log(d.name);
-        console.log(d.clan);
-        console.log(d.points);
 
         d3.select(event.currentTarget).transition().attr("r", 12);
       })
       .on("mousemove", function (event) {
         clanInformation
           .style("left", event.pageX + 15 + "px")
-
           .style("top", event.pageY - 50 + "px");
       })
       .on("mouseout", function (event) {
         clanInformation.style("display", "none");
+
         d3.select(event.currentTarget).transition().attr("r", 2);
       });
     console.log(array);
