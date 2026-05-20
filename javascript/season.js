@@ -216,7 +216,6 @@ function drawDiagram(year, disciplines_id) {
   let svg = d3.select(svgDIV)
     .attr("height", hSvg)
     .attr("width", wSvg)
-    .style("border", "1px solid black");
 
   let xScale = d3.scaleBand()
     .domain(clanNameArray)
