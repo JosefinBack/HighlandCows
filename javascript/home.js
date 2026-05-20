@@ -96,81 +96,6 @@ function drawClanMap() {
     });
 }
 
-function displayTop3Players(year) {
-  const getBestPlayer = getBestPlayers(year);
-  const top3 = getBestPlayer.slice(0, 3);
-
-  const top3PlayerContainer = document.getElementById("top3Players");
-  top3PlayerContainer.innerHTML = `<p id="top3PlayerTitle">Top 3 Players</p>`;
-
-  for (let i = 0; i < top3.length; i++) {
-    let player = top3[i];
-    const playerDiv = document.createElement("div");
-    playerDiv.classList.add("ranking-card");
-    top3PlayerContainer.append(playerDiv);
-
-    const textWrapper = document.createElement("div");
-    textWrapper.classList.add("player-text-content");
-    playerDiv.append(textWrapper);
-
-    const nameInfo = document.createElement("p");
-    nameInfo.classList.add("fontStyleRanking");
-    textWrapper.append(nameInfo);
-
-    const pointsInfo = document.createElement("p");
-    pointsInfo.classList.add("fontStyleRanking");
-    textWrapper.append(pointsInfo);
-
-    playerDiv.append(textWrapper);
-
-    nameInfo.textContent = `Name: ${player.name}`;
-    pointsInfo.textContent = `Points: ${player.points}`;
-
-    const imgPlayer = document.createElement("img");
-    imgPlayer.classList.add("rankingImg");
-    imgPlayer.src = player.img;
-    playerDiv.append(imgPlayer);
-  }
-}
-
-function displayTop3Clans(year) {
-  const bestClans = getBestClan(year);
-  const top3 = bestClans.slice(0, 3);
-
-  const top3ClansContainer = document.getElementById("top3Clans");
-  top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
-
-  for (let i = 0; i < top3.length; i++) {
-    let clan = top3[i];
-    const clanDiv = document.createElement("div");
-    clanDiv.classList.add("ranking-card");
-    top3ClansContainer.append(clanDiv);
-
-    const textWrapper = document.createElement("div");
-    textWrapper.classList.add("player-text-content");
-    clanDiv.append(textWrapper);
-
-    const nameInfo = document.createElement("p");
-    nameInfo.classList.add("fontStyleRanking");
-    nameInfo.textContent = `Clan: ${clan.clanName}`;
-    textWrapper.append(nameInfo);
-
-    const pointsInfo = document.createElement("p");
-    pointsInfo.classList.add("fontStyleRanking");
-    pointsInfo.textContent = `Points: ${clan.points}`;
-    textWrapper.append(pointsInfo);
-
-    const imgCrest = document.createElement("img");
-    imgCrest.classList.add("rankingImg");
-    imgCrest.src = clan.crest;
-    clanDiv.append(imgCrest);
-
-    const imgTartan = document.createElement("img");
-    imgTartan.classList.add("rankingImg");
-    imgTartan.src = clan.tartan;
-    clanDiv.append(imgTartan);
-  }
-}
 
 function getBestPlayers(year) {
   let resultArray = [];
@@ -416,15 +341,18 @@ function drawLine() {
     .x((d) => xScale(d.season) + xScale.bandwidth() / 2)
     .y((d) => yScale(d.points));
 
+
   let xAxel = d3.axisBottom(xScale);
   let yAxel = d3.axisLeft(yScale);
 
   svg
     .append("g")
     .call(xAxel)
-    .attr("transform", `translate(0, ${hSvg - hPad})`);
+    .attr("transform", `translate(0, ${hSvg - hPad})`)
 
-  svg.append("g").call(yAxel).attr("transform", `translate(${wPad}, 0)`);
+  svg.append("g")
+    .call(yAxel)
+    .attr("transform", `translate(${wPad}, 0)`)
 
   svg
     .append("g")
@@ -499,5 +427,81 @@ function drawLine() {
       let valueY = yScale(d.points);
       return valueY;
     }
+  }
+}
+
+function displayTop3Players(year) {
+  const getBestPlayer = getBestPlayers(year);
+  const top3 = getBestPlayer.slice(0, 3);
+
+  const top3PlayerContainer = document.getElementById("top3Players");
+  top3PlayerContainer.innerHTML = `<p id="top3PlayerTitle">Top 3 Players</p>`;
+
+  for (let i = 0; i < top3.length; i++) {
+    let player = top3[i];
+    const playerDiv = document.createElement("div");
+    playerDiv.classList.add("ranking-card");
+    top3PlayerContainer.append(playerDiv);
+
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("player-text-content");
+    playerDiv.append(textWrapper);
+
+    const nameInfo = document.createElement("p");
+    nameInfo.classList.add("fontStyleRanking");
+    textWrapper.append(nameInfo);
+
+    const pointsInfo = document.createElement("p");
+    pointsInfo.classList.add("fontStyleRanking");
+    textWrapper.append(pointsInfo);
+
+    playerDiv.append(textWrapper);
+
+    nameInfo.textContent = `Name: ${player.name}`;
+    pointsInfo.textContent = `Points: ${player.points}`;
+
+    const imgPlayer = document.createElement("img");
+    imgPlayer.classList.add("rankingImg");
+    imgPlayer.src = player.img;
+    playerDiv.append(imgPlayer);
+  }
+}
+
+function displayTop3Clans(year) {
+  const bestClans = getBestClan(year);
+  const top3 = bestClans.slice(0, 3);
+
+  const top3ClansContainer = document.getElementById("top3Clans");
+  top3ClansContainer.innerHTML = `<p id="top3ClansTitle">Top 3 Clans</p>`;
+
+  for (let i = 0; i < top3.length; i++) {
+    let clan = top3[i];
+    const clanDiv = document.createElement("div");
+    clanDiv.classList.add("ranking-card");
+    top3ClansContainer.append(clanDiv);
+
+    const textWrapper = document.createElement("div");
+    textWrapper.classList.add("player-text-content");
+    clanDiv.append(textWrapper);
+
+    const nameInfo = document.createElement("p");
+    nameInfo.classList.add("fontStyleRanking");
+    nameInfo.textContent = `Clan: ${clan.clanName}`;
+    textWrapper.append(nameInfo);
+
+    const pointsInfo = document.createElement("p");
+    pointsInfo.classList.add("fontStyleRanking");
+    pointsInfo.textContent = `Points: ${clan.points}`;
+    textWrapper.append(pointsInfo);
+
+    const imgCrest = document.createElement("img");
+    imgCrest.classList.add("rankingImg");
+    imgCrest.src = clan.crest;
+    clanDiv.append(imgCrest);
+
+    const imgTartan = document.createElement("img");
+    imgTartan.classList.add("rankingImg");
+    imgTartan.src = clan.tartan;
+    clanDiv.append(imgTartan);
   }
 }
