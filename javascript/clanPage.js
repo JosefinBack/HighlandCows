@@ -529,7 +529,6 @@ function calculatePlayerSkills(player_id, year) {
         for (let event of day.events) {
 
             let sortedScores = [...event.scores];
-            console.log(sortedScores)
 
             sortedScores.sort(function (a, b) {
                 return b.score - a.score;
@@ -544,15 +543,19 @@ function calculatePlayerSkills(player_id, year) {
                     let points = getPoints(placement);
 
                     //Hämta diciplinen
-                    let discipline = disciplines.find(function (d) {
+                    let rightDicipline = disciplines.find(function (d) {
                         return d.id === event.disciplineId;
                     });
 
-                    // LÄGG TILL SKILL-POÄNG
-                    for (let skill in discipline.skillFactors) {
+                    // let rightDicipline = disciplines.find(x => x.id === disciplines.id);
 
-                        // hur viktig skillen är
-                        let factor = discipline.skillFactors[skill];
+
+
+                    // LÄGG TILL SKILL-POÄNG
+                    for (let skill in rightDicipline.skillFactors) {
+
+                        // hur viktig skillen är (får fram dess värde mellan 1 - 5)
+                        let factor = rightDicipline.skillFactors[skill];
 
                         // poäng * faktor
                         let skillPoints = points * factor;
@@ -564,7 +567,7 @@ function calculatePlayerSkills(player_id, year) {
             }
         }
     }
-    console.log(skillTotals)
+    // console.log(skillTotals)
     return skillTotals;
 }
 
@@ -573,6 +576,7 @@ function calculatePlayerSkills(player_id, year) {
 function drawSkillArc(playerID, year, skillName, chartDiv) {
 
     let playerSkills = calculatePlayerSkills(playerID, year);
+    console.log(playerSkills)
 
     let totalSkills = 0;
     for (let skill in playerSkills) {
@@ -587,20 +591,20 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
                 cowName.textContent = cow.name;
             }
         };
-
         popupNotCompeting.style.display = "block";
         return;
     } else {
         popupNotCompeting.style.display = "none";
-    }
+    };
 
 
-    //Hämta spevifik skill
+    //Hämta specifik skillvärde från objektet i playserSkills
     let rawSkillValue = playerSkills[skillName];
+    // console.log(rawSkillValue)
 
     let highestSkillValue = 0;
 
-    // LOOPA IGENOM ALLA SKILLS
+    // loopa igenom alla skills
     for (let skill in playerSkills) {
         let value = playerSkills[skill];
 

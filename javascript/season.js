@@ -216,6 +216,9 @@ function drawDiagram(year, disciplines_id) {
   let hPad = 50;
 
   let svg = d3.select(svgDIV)
+  svg.selectAll("*").remove();
+
+  svg
     .attr("height", hSvg)
     .attr("width", wSvg)
 
