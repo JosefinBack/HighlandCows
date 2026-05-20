@@ -138,33 +138,33 @@ function calculateTotalPoints(playerPlacings) {
 };
 
 
-//ska vi ha denna???
 function calculatePlayerPoints(player_id, year) {
+
     let thisYear = allSeasons.find(x => x.year === year);
-    let playerID = player_id;
-    let playerPlacings = [];
+    let totalPoints = 0;
 
-    for (let playerPart of thisYear.competitionDays) {
-        for (let event of playerPart.events) {
+    for (let day of thisYear.competitionDays) {
 
-            let sortedScores = event.scores.slice().sort((a, b) => b.score - a.score);
-            let i = 1;
+        for (let event of day.events) {
+
+            let sortedScores = event.scores.slice().sort(function (a, b) {
+                return b.score - a.score;
+            });
+
+            let placement = 1;
 
             for (let score of sortedScores) {
-                if (score.participantId === playerID) {
-                    playerPlacings.push({
-                        year: thisYear.year,
-                        discipline: event.disciplineId,
-                        placement: i
-                    });
+
+                if (score.participantId === player_id) {
+                    let points = getPoints(placement);
+                    totalPoints = totalPoints + points;
                 }
-                i++;
+                placement++;
             }
         }
     }
-
-    return calculateTotalPoints(playerPlacings);
-};
+    return totalPoints;
+}
 
 
 
@@ -619,20 +619,20 @@ function getClanPlacementPointBySeason(season) {
         for (let member of members) {
             totalPoints += calculatePlayerPoints(member.id, season)
         }
-        clanScores.push( {clan: clan, points: totalPoints} );
+        clanScores.push({ clan: clan, points: totalPoints });
     }
     return clanScores;
 }
 
 //Funktion för att göra stacked-diagram i seasons-page
 function getStackedClanData(season) {
-    const disciplineIds = [1,2,3,4,5];
+    const disciplineIds = [1, 2, 3, 4, 5];
     const result = [];
 
     for (let clan of clanNames) {
         let row = { clan: clan };
         for (let id of disciplineIds) {
-            row[id] = totalPointsPerDicipline (season, id, clan).points;
+            row[id] = totalPointsPerDicipline(season, id, clan).points;
         }
         result.push(row);
     }
