@@ -2,7 +2,9 @@
     max-width: 1200px;
     margin: 0 auto;
     font-family: Instrumental serif;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px 0;
 }
 
