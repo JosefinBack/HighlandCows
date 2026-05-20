@@ -38,30 +38,35 @@ let buttonMacKinnon = document.getElementById("MK");
 buttonMacThomas.addEventListener("click", function () {
     selectedClan = "MacThomas";
     showClanHomePage(selectedClan);
+    fillInfobox();
     drawLineDiagram();
 });
 
 buttonMacDowall.addEventListener("click", function () {
     selectedClan = "MacDowall";
     showClanHomePage(selectedClan);
+    fillInfobox();
     drawLineDiagram();
 });
 
 buttonMacQueen.addEventListener("click", function () {
     selectedClan = "MacQueen";
     showClanHomePage(selectedClan);
+    fillInfobox();
     drawLineDiagram();
 });
 
 buttonMacLeod.addEventListener("click", function () {
     selectedClan = "MacLeod";
     showClanHomePage(selectedClan);
+    fillInfobox();
     drawLineDiagram();
 });
 
 buttonMacKinnon.addEventListener("click", function () {
     selectedClan = "MacKinnon";
     showClanHomePage(selectedClan);
+    fillInfobox();
     drawLineDiagram();
 });
 
@@ -294,11 +299,11 @@ function personalInfo(player_id) {
 
     for (let i = 0; i < seasonButtons.length; i++) {
         let button = seasonButtons[i];
-        let playerSkills = calculatePlayerSkills(player_id, i);
+        let playerScores = calculatePlayerSkills(player_id, i);
         let totalPoints = 0;
 
-        for (let skill in playerSkills) {
-            totalPoints = totalPoints + playerSkills[skill];
+        for (let skill in playerScores) {
+            totalPoints = totalPoints + playerScores[skill];
         };
 
         if (totalPoints === 0) {
@@ -370,6 +375,32 @@ function clanPointsPerMonth(clan, year) {
     return allScores;
 };
 
+function fillInfobox() {
+    let infoText = clanPointsPerMonth(selectedClan, currentSeason);
+    console.log(infoText)
+    let infoBox = document.getElementById("infobox");
+
+    for (let text of infoText) {
+        let divInfo = document.createElement("div");
+        divInfo.style.display = "flex";
+
+        let pMonthDiv = document.createElement("div");
+        pMonthDiv.style.width = "50%";
+        let pMonth = document.createElement("p");
+        pMonth.textContent = text.month;
+        pMonthDiv.append(pMonth);
+
+        let pPointsDiv = document.createElement("div");
+        pPointsDiv.style.width = "50%";
+        let pPoints = document.createElement("p");
+        pPoints.textContent = text.points;
+        pPointsDiv.append(pPoints);
+
+        divInfo.append(pMonthDiv, pPointsDiv);
+        infoBox.append(divInfo);
+    }
+};
+
 
 function drawLineDiagram() {
     document.getElementById("svgElement").innerHTML = "";
@@ -386,7 +417,7 @@ function drawLineDiagram() {
 
     let hSvg = 400;
     let wSvg = 900;
-    let wPad = 100;
+    let wPad = 50;
     let hPad = 50;
 
     let svg = d3.select("#svgElement")
@@ -402,31 +433,50 @@ function drawLineDiagram() {
         .domain(months)
         .range([wPad, wSvg - wPad])
         .paddingInner(1)
-        .paddingOuter(0.3)
-        ;
+        .paddingOuter(0.3);
 
     let yScale = d3.scaleLinear()
         .domain([0, highestScore + 10])
-        .range([hSvg - hPad, hPad])
-        ;
+        .range([hSvg - hPad, hPad]);
 
     let xAxel = d3.axisBottom(xScale);
     let yAxel = d3.axisLeft(yScale);
 
     let dMaker = d3.line()
         .x(d => xScale(d.month) + xScale.bandwidth() / 2)
-        .y(d => yScale(d.points))
-        ;
+        .y(d => yScale(d.points));
 
     svg.append("g")
         .call(xAxel)
-        .attr("transform", `translate(0, ${hSvg - hPad})`)
-        ;
+        .attr("transform", `translate(0, ${hSvg - hPad})`);
 
     svg.append("g")
         .call(yAxel)
-        .attr("transform", `translate(${wPad}, 0)`)
-        ;
+        .attr("transform", `translate(${wPad}, 0)`);
+
+    // let legend = svg.append("g");
+
+    // legend.append("rect")
+    //     .attr("x", wSvg - 100)
+    //     .attr("y", 20)
+    //     .attr("width", 180)
+    //     .attr("height", 180)
+    //     .attr("fill", "#FBE49F")
+    //     .attr("stroke", "white")
+    //     .attr("rx", 10);
+
+    // legend.selectAll("text")
+    //     .data(points)
+    //     .enter()
+    //     .append("text")
+    //     .attr("x", wSvg - 200)
+    //     .attr("y", function (d, i) {
+    //         return 50 + i * 25;
+    //     })
+    //     .style("font-size", "14px")
+    //     .text(function (d) {
+    //         return d.month + ": " + d.points + " points";
+    //     });
 
 
     svg.append("g")
@@ -495,6 +545,76 @@ function drawLineDiagram() {
 
 };
 
+//Erics variant med arraymetoder
+
+// function calculatePlayerSkills(player_id, year) {
+//     let skillTotals = {
+//         "Mental endurance": {
+//             totalScore: 0,
+//             participations: 0
+//         },
+//         "Lugn-capacity": {
+//             totalScore: 0,
+//             participations: 0
+//         },
+//         "Personal-hygien": {
+//             totalScore: 0,
+//             participations: 0
+//         },
+//         "Speed": {
+//             totalScore: 0,
+//             participations: 0
+//         },
+//         "Leg-strength": {
+//             totalScore: 0,
+//             participations: 0
+//         }
+//     };
+
+//     let thisYear = allSeasons.find(function (season) {
+//         let yearFound = season.year === year;
+//         return yearFound;
+//     });
+
+//     let playerScores = thisYear.competitionDays.map(cd => {
+//         const events = cd.events;
+//         const event = events.find(e => e.scores.some(score => score.participantId == player_id));
+//         const scoreObject = event.find(s => s.participantId == player_id);
+//         return {
+//             score: scoreObject.score,
+//             disciplineId: event.disciplineId,
+//         };
+//     });
+
+//     playerScores.forEach(score => {
+
+//         let rightDiscipline = disciplines.find(function (d) {
+//             return d.id === score.disciplineId;
+//         });
+
+//         skillTotals[rightDiscipline.name].totalScore += score.score;
+//         skillTotals[rightDiscipline.name].participations++;
+//     });
+
+//     // =========================
+//     // RÄKNA UT AVERAGE
+//     // =========================
+//     let averageSkills = {};
+//     for (let skill in skillTotals) {
+
+//         let total = skillTotals[skill].totalScore;
+
+//         let participations = skillTotals[skill].participations;
+
+//         if (participations > 0) {
+//             averageSkills[skill] = Math.round(total / participations);
+//         } else {
+//             averageSkills[skill] = 0;
+//         }
+//     }
+//     console.log(averageSkills)
+//     return averageSkills;
+// }
 
 function calculatePlayerSkills(player_id, year) {
 
@@ -502,132 +622,119 @@ function calculatePlayerSkills(player_id, year) {
         return season.year === year;
     });
 
-    // =========================
-    // SPARAR ALLA SKILL-VÄRDEN
-    // =========================
-
     let skillTotals = {
-        "Mental endurance": 0,
-        "Lugn-capacity": 0,
-        "Personal-hygien": 0,
-        "Speed": 0,
-        "Leg-strength": 0
+        "Mental endurance": {
+            totalScore: 0,
+            participations: 0
+        },
+        "Lugn-capacity": {
+            totalScore: 0,
+            participations: 0
+        },
+        "Personal-hygien": {
+            totalScore: 0,
+            participations: 0
+        },
+        "Speed": {
+            totalScore: 0,
+            participations: 0
+        },
+        "Leg-strength": {
+            totalScore: 0,
+            participations: 0
+        }
     };
 
+    // LOOPA ALLA DAGAR
     for (let day of thisYear.competitionDays) {
+
+        // LOOPA EVENTS
         for (let event of day.events) {
 
-            let sortedScores = [...event.scores];
-
-            sortedScores.sort(function (a, b) {
-                return b.score - a.score;
+            // HITTA DISCIPLINE
+            let rightDiscipline = disciplines.find(function (disc) {
+                let foundDisc = disc.id === event.disciplineId;
+                return foundDisc;
             });
 
-            for (let i = 0; i < sortedScores.length; i++) {
-                // rätt spelare?
-                if (sortedScores[i].participantId === player_id) {
-                    // placering
-                    let placement = i + 1;
-                    //omvandla placering till poäng
-                    let points = getPoints(placement);
+            // LOOPA ALLA SCORES
+            for (let score of event.scores) {
 
-                    //Hämta diciplinen
-                    let rightDicipline = disciplines.find(function (d) {
-                        return d.id === event.disciplineId;
-                    });
+                // RÄTT SPELARE?
+                if (score.participantId === player_id) {
 
-                    // let rightDicipline = disciplines.find(x => x.id === disciplines.id);
+                    // score.score = själva poängen
+                    let rawScore = score.score;
 
+                    // LOOPA ALLA SKILLS
+                    for (let skill in rightDiscipline.skillFactors) {
 
+                        // hur viktig skillen är
+                        let factor = rightDiscipline.skillFactors[skill];
 
-                    // LÄGG TILL SKILL-POÄNG
-                    for (let skill in rightDicipline.skillFactors) {
+                        // multiplicera score med factor
+                        let factorizedScore = rawScore * factor;
 
-                        // hur viktig skillen är (får fram dess värde mellan 1 - 5)
-                        let factor = rightDicipline.skillFactors[skill];
+                        // lägg till total score
+                        skillTotals[skill].totalScore += factorizedScore;
 
-                        // poäng * faktor
-                        let skillPoints = points * factor;
-
-                        // lägg till på totalen
-                        skillTotals[skill] = skillTotals[skill] + skillPoints;
+                        // öka antal deltaganden
+                        skillTotals[skill].participations++;
                     }
                 }
             }
         }
     }
-    // console.log(skillTotals)
-    return skillTotals;
+
+    // =========================
+    // RÄKNA UT AVERAGE
+    // =========================
+    let averageSkills = {};
+    for (let skill in skillTotals) {
+
+        let total = skillTotals[skill].totalScore;
+
+        let participations = skillTotals[skill].participations;
+
+        if (participations > 0) {
+            averageSkills[skill] = Math.round(total / participations);
+        } else {
+            averageSkills[skill] = 0;
+        }
+    }
+    console.log(averageSkills)
+    return averageSkills;
 }
 
+calculatePlayerSkills(189, 1)
+
+//score är hur bra man är på något, points visar bara hur många gånger man har vunnit 
+//måste kolla hur många gånger varje spelare deltar i en gren, för om alla deltar samma amtal gånger så behöver jag inte 
+//Skala om minsta värdet och högsta värdet till något som är lättare att arbeta med, t.ex. [10, 30]
 
 
 function drawSkillArc(playerID, year, skillName, chartDiv) {
-    // =========================================
-    // HÄMTA ALLA SKILL-VÄRDEN FÖR SPELAREN
-    // =========================================
 
-    // Funktionen calculatePlayerSkills() returnerar ett objekt
-    // med alla spelarens skills.
-    //
-    // Exempel:
-    // {
-    //    strength: 120,
-    //    speed: 80,
-    //    fluffiness: 200
-    // }
-
-    let playerSkills = calculatePlayerSkills(playerID, year);
-
-    // =========================================
-    // KONTROLLERA OM SPELAREN HAR TÄVLAT
-    // =========================================
-
-    // Vi summerar alla skill-värden.
-    // Om summan blir 0 betyder det att spelaren
-    // inte deltagit i någon tävling.
+    let playerScores = calculatePlayerSkills(playerID, year);
 
     let totalSkills = 0;
 
-    // "for in" används för objekt.
-    // skill blir nyckeln:
-    //
-    // "strength"
-    // "speed"
-    // osv.
-
-    for (let skill in playerSkills) {
-
-        // playerSkills[skill]
-        // hämtar värdet från objektet
-        //
-        // Exempel:
-        // playerSkills["strength"] -> 120
-
-        totalSkills = totalSkills + playerSkills[skill];
+    for (let skill in playerScores) {
+        totalSkills = totalSkills + playerScores[skill];
     };
 
     // Om spelaren inte tävlat:
     if (totalSkills === 0) {
-
         let cowName = document.getElementById("cowName");
 
-        // hitta rätt namn
         for (let cow of allParticipants) {
-
             if (cow.id === playerID) {
                 cowName.textContent = cow.name;
             }
         };
-
-        // visa popup
         popupNotCompeting.style.display = "block";
-
-        // avsluta funktionen direkt
         return;
-
     } else {
-
         popupNotCompeting.style.display = "none";
     };
 
@@ -642,9 +749,9 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
     //
     // Då hämtas:
     //
-    // playerSkills["strength"]
+    // playerScores["strength"]
 
-    let rawSkillValue = playerSkills[skillName];
+    let rawSkillValue = playerScores[skillName];
 
     // =========================================
     // HITTA HÖGSTA SKILL-VÄRDET
@@ -656,17 +763,21 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
     //
     // vilket skill-värde som är högst.
 
-    let highestSkillValue = 0;
+    let highestSkillValue = -Infinity;
+    let lowestSkillValue = Infinity;
 
-    for (let skill in playerSkills) {
+    for (let skill in playerScores) {
 
-        let value = playerSkills[skill];
+        let value = playerScores[skill];
 
         if (value > highestSkillValue) {
-
             highestSkillValue = value;
-        };
-    };
+        }
+
+        if (value < lowestSkillValue) {
+            lowestSkillValue = value;
+        }
+    }
 
     // =========================================
     // SKALA OM VÄRDET
@@ -683,9 +794,9 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
 
     let scaleSkill = d3.scaleLinear()
         // originalvärden
-        .domain([0, highestSkillValue])
+        .domain([lowestSkillValue, highestSkillValue])
         // nya värden
-        .range([0, 100]);
+        .range([10, 50]);
 
     // Omvandla spelarens riktiga skillvärde
     // till ett procentvärde mellan 0-100
@@ -703,8 +814,8 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
     // Säkerställer att värdet aldrig går över 100
     // eller under 0.
 
-    if (gaugeValue > 100) {
-        gaugeValue = 100;
+    if (gaugeValue > 50) {
+        gaugeValue = 50;
     }
 
     if (gaugeValue < 0) {
@@ -769,7 +880,7 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
 
     let angleScale = d3.scaleLinear()
 
-        .domain([0, 100])
+        .domain([0, 50])
         .range([startAngle, endAngle]);
 
     // =========================================
@@ -802,13 +913,13 @@ function drawSkillArc(playerID, year, skillName, chartDiv) {
     // delar upp värden i olika färggrupper.
 
     let colorScale = d3.scaleQuantize()
-        .domain([0, 100])
+        .domain([10, 50])
         .range([
             "#E53935",
             "#FF9800",
             "#3498DB",
             "#4CAF50",
-            "#FFD700"
+            "#ffd700"
         ]);
 
     // Hämta rätt färg för värdet

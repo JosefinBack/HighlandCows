@@ -1,7 +1,16 @@
+@font-face {
+    font-family: "Irish Grover";
+    src: url(../fonts/Irish_Grover/IrishGrover-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Instrumental serif";
+    src: url(../fonts/Instrument_Serif/InstrumentSerif-Regular.ttf);
+}
+
 body {
     background-color: rgba(113, 145, 136, 0.3);
 }
-
 
 button {
     background-color: #4F3524;
@@ -16,70 +25,8 @@ button {
     background-color: rgb(113, 145, 136);
 }
 
-.bigDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-    background-color: #fafafa;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-}
-
-.dayContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 80vw;
-}
-
-footer {
-    height: 150px;
-}
-
-
-.clickTitleClan:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
 main {
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: Instrumental serif;
-}
-
-.clanDiv {
-    border: 1px solid black;
-    width: 360px;
-
-}
-
-.weekDiv {
-    border: 1px solid black;
-    margin-bottom: 20px
-}
-
-.dayRow {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.eventDiv {
-    border: 1px solid black;
-    padding: 20px;
-}
-
-.rowDiv {
-    border: 1px solid black;
-    padding: 10px;
-}
-
-.titleEvent {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }

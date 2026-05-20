@@ -314,7 +314,7 @@ const participants = [{
   "clan": "MacDowall",
   "age": 6,
   "furcolor": "Dark brown",
-  "img": "../pic/MacDowall/Alistair_Buchanan.png"
+  "img": "../pic/MacDowall/Malcolm_Stewart.png"
 }, {
   "id": 169,
   "name": "Bruce MacDonald",
@@ -410,11 +410,11 @@ const participants = [{
 
 {
   "id": "Hamish MacEwen",
-  "name": "P190",
+  "name": "Murray MacBain",
   "clan": "MacKinnon",
   "age": 9,
   "furcolor": "Red",
-  "img": "../pic/MacKinnon/Niall_MacKellar.png"
+  "img": "../pic/MacKinnon/Murray_MacBain.png"
 }, {
   "id": 179,
   "name": "Steve MacFluff",
@@ -429,7 +429,7 @@ const participants = [{
   "age": 7,
   "furcolor": "Dark Brown",
   "img": "../pic/MacKinnon/Keir_MacLennan.png"
-  }, {
+}, {
   "id": 296,
   "name": "Melvin MacKenzie",
   "clan": "MacThomas",

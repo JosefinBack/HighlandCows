@@ -8,6 +8,15 @@
     margin: 5px;
 }
 
+#borderBottomDiv {
+    border-bottom: 1px solid black;
+}
+
+#borderBottomDiv p {
+    font-weight: bold;
+    text-align: center;
+}
+
 #chart {
     display: flex;
     justify-content: center;
@@ -66,7 +75,8 @@
     background-color: white;
 }
 
-.cowMembers:hover{
+
+.cowMembers:hover {
     border: 5px solid #FDEFC7;
 }
 
@@ -117,11 +127,33 @@
     text-align: center;
 }
 
+#h2Div {
+    z-index: 2;
+    text-align: center;
+}
+
+#h2Div h4,
+#h2Div h2 {
+    margin: 5px;
+}
 
 #history {
     width: 40%;
     font-size: 18px;
     line-height: 1.5;
+}
+
+#infobox {
+    border: 1px solid black;
+    background-color: #FDEFC7;
+    height: 220px;
+    width: 100px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#infobox p {
+    margin: 5px;
 }
 
 
@@ -197,6 +229,13 @@
     z-index: 1;
 }
 
+
+#svgAndInfo {
+    display: flex;
+    gap: 20px;
+}
+
+
 #svgElement {
     display: flex;
     justify-content: center;
@@ -243,5 +282,5 @@
     gap: 30px;
     justify-content: center;
     align-items: center;
-    margin: 20px 0px;
+    margin: 20px auto 0px;
 }
