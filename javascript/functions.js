@@ -16,7 +16,7 @@ for (let game of seasons) {
     if (game.year === 9) {
         let filteredDays = [];
         for (let competition of game.competitionDays) {
-            if (competition.date.day < 8) {
+            if (competition.date.month < 6) {
                 filteredDays.push(competition);
             }
         }
@@ -503,11 +503,46 @@ function membersClan(clanName) {
 }
 
 //Kanske kan användas för at hämta veckorna för en säsong?
-function createWeeks(year) {
-    let thisYear = allSeasons.find(x => x.year === year);
+function createMonths(year) {
+
+    
+
+        let thisYear = allSeasons.find(season => {
+            return season.year === year;
+        });
+
+        if (!thisYear) {
+            return [];
+        }
+
+        let uniqueMonths = [];
+
+        for (let competition of thisYear.competitionDays) {
+
+            let month = competition.date.month;
+
+            // Lägg bara till månaden om den inte redan finns
+            if (!uniqueMonths.includes(month)) {
+                uniqueMonths.push(month);
+            }
+        }
+
+        // Gör om till samma struktur som tidigare
+        let monthObjects = uniqueMonths.map(month => {
+            return {
+                month: month
+            };
+        });
+
+        return monthObjects;
+    
+/*     let thisYear = allSeasons.find(x => x.year === year);
+    if (!thisYear) {
+        return [];
+    }
     let allMonths = [];
 
-    for (let month = 1; month <= 12; month++) {
+    for (let month = 2; month <= 11; month++) {
         let weekOne = [];
         let weekTwo = [];
         let weekThree = [];
@@ -533,7 +568,7 @@ function createWeeks(year) {
             weeks: allWeeks
         });
     }
-    return allMonths;
+    return allMonths; */
 };
 
 //Funktion för att få de tre bästa klanerna i säsongen 
@@ -606,7 +641,7 @@ function getClanTotalScoreBySeason(season) {
     return clanScores;
 }
 
-// console.log(getClanTotalScoreBySeason(0));
+console.log(getClanTotalScoreBySeason(0));
 
 //Funktion som ger rätt poäng utifrån vilken placering en klan hade i tävlingen 
 function getClanPlacementPointBySeason(season) {
