@@ -606,7 +606,7 @@ function getClanTotalScoreBySeason(season) {
     return clanScores;
 }
 
-console.log(getClanTotalScoreBySeason(0));
+// console.log(getClanTotalScoreBySeason(0));
 
 //Funktion som ger rätt poäng utifrån vilken placering en klan hade i tävlingen 
 function getClanPlacementPointBySeason(season) {
