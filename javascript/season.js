@@ -46,9 +46,6 @@ function getGlobalStackedMax() {
   return globalMax;
 }
 
-
-
-
 //total poäng per klan per tävlingsgren
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let thisYear = allSeasons.find(x => x.year === year);
@@ -172,6 +169,12 @@ legendRow.append("text")
 
 }
 
+for (let btn of seasonButtons) {
+  btn.addEventListener("click", function () {
+      const season = Number(btn.dataset.season);
+      drawStackedChart(season);
+  });
+}
 //Stapeldiagram
 function drawDiagram(year, disciplines_id) {
   let svgDIV;
@@ -251,7 +254,7 @@ function drawDiagram(year, disciplines_id) {
     .attr("y", setY)
     .attr("width", xScale.bandwidth())
     .attr("height", setH)
-    .attr("fill", (d, i) => colors[i]);
+    .attr("fill", (d, i) => colors[disciplines_id]);
   ;
 
   function setX(d) {
@@ -278,13 +281,6 @@ function drawAllDiagrams(year) {
   drawDiagram(year, 4);
   drawDiagram(year, 5);
 };
-
-for (let btn of seasonButtons) {
-  btn.addEventListener("click", function () {
-      const season = Number(btn.dataset.season);
-      drawStackedChart(season);
-  });
-}
 
 drawAllDiagrams(0);
 drawStackedChart(1);
