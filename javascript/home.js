@@ -81,19 +81,14 @@ function drawClanMap() {
         }
       }
 
-      //queryselector är en metod på document (man hämtar button som man har gjort)
-      //när man sätter button.addeventlistener("click", function() => button = DOM-objekt, addeventlistener(metod), firefox som gör att funktuinen fungerar
-
-      //event.currentTarget
-      //När man använder event är det ett objekt. I det objektet finns currentTarget. När man använder d3.select innan blir det en d3 selection. Men event,currentarget är alltid ett DOM objekt.
-      d3.select(event.currentTarget) //förklara event.currentTarget, event ett objekt som skickas med som min listener som anropas
+      d3.select(event.currentTarget) 
         .transition()
         .attr("r", 12);
     })
     .on("mousemove", function (event) {
       tooltip
         .style("left", event.pageX + 15 + "px") 
-        .style("top", event.pageY - 50 + "px"); //tal, där kordinaterna möts, där musen befinner sig. den finns i event objektet. precis som currenttarget, pagey, pagex
+        .style("top", event.pageY - 50 + "px")
     })
     .on("mouseout", function (event) {
       tooltip.style("display", "none");
@@ -230,7 +225,7 @@ function calculatePlayerPoints(player_id, year) {
         return b.score - a.score;
       });
 
-      let placement = 1; //kommer den 1, får den 15 osv
+      let placement = 1; 
 
       for (let score of sortedScores) {
         if (score.participantId === player_id) {
@@ -268,7 +263,7 @@ function getBestClan(year) {
     }
   }
 
-  resultArray.sort( //sort är en metod som innehåller en funktion som har två argument a,b. Den returnerar ingenting som filter, att den måste få den tilldelad till en const e = rsult.filter..... den transformerar (isch) arrayen, den kollar om b är större än a. 
+  resultArray.sort( 
     function (a, b) {  
       return b.points - a.points;
     }
@@ -276,9 +271,7 @@ function getBestClan(year) {
 
   return resultArray;
 }
-console.log(getBestClan(7));
 
-//Funktionsanrop
 
 drawClanMap();
 displayTop3Players(9);
