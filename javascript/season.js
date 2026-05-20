@@ -26,9 +26,27 @@ function getGlobalMax () {
   }
   return globalMax;
 }
-getGlobalMax();
 
-console.log("Hej", getGlobalMax());
+function getGlobalStackedMax() {
+  let globalMax = 0;
+  for (let season of allSeasons) {
+    let stackedData = getStackedClanData(season.year);
+    for (let clan of stackedData) {
+      let total = 0;
+      for (let id of disciplineIds) {
+        if(clan[id]) {
+          total = total + clan[id];
+        }
+      }
+      if (total > globalMax) {
+        globalMax = total;
+      }
+    }
+  }
+  return globalMax;
+}
+
+
 
 
 //total poäng per klan per tävlingsgren
@@ -87,7 +105,7 @@ function drawStackedChart(season) {
   const stack = d3.stack().keys(disciplineIds);
   const series = stack(stacked_Data);
 
-  const yMax = d3.max(series, layer => d3.max(layer, d => d[1]));
+  const yMax = getGlobalStackedMax();
   const xStack = d3.scaleBand()
         .domain(stacked_Data.map(d => d.clan))
         .range([mStack.left, wStack - mStack.right])
