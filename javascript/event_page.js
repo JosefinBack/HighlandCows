@@ -224,7 +224,7 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
             });
         }
     }
-
+    console.log(monthData);
     return monthData;
 }
 
@@ -261,6 +261,9 @@ function drawScatterPlot(monthData) {
         "MacLeod": "#C8C800",
         "MacKinnon": "#5D5B2C",
     };
+
+    
+
 }
 
 
