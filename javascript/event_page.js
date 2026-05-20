@@ -2,7 +2,6 @@
 let currentEventID = 1;
 let currentSeasonYear = 9;
 
-
 //Event knappar
 let event_1DOM = document.getElementById("event_1");
 event_1DOM.addEventListener("click", function () {
@@ -56,6 +55,8 @@ const mainDOM = document.querySelector("main");
 let eventTitleDOM = document.getElementById("eventName")
 const seasonRowDOM = document.getElementById("seasonRow");
 const monthRow = document.getElementById("monthRow");
+let eventInfoDOM = document.getElementById("event_info");
+let monthChartDOM = document.getElementById("monthChart");
 
 
 function seasonButtons() {
@@ -64,8 +65,6 @@ function seasonButtons() {
 
         let seasonButtonDOM =
             document.createElement("button");
-
-        seasonButtonDOM.classList.add("btn");
 
         if (season.year === 9) {
 
@@ -90,11 +89,15 @@ function seasonButtons() {
 
 function handleEventChange(event) {
 
+    eventInfoDOM.innerHTML = ``;
     currentEventID = event.id;
+    let eventInformation = event.info;
 
     eventTitleDOM.innerHTML = event.name;
 
     handleSeasonChange(currentSeasonYear);
+    eventInfoDOM.innerHTML = `${eventInformation}`
+
 }
 
 function handleSeasonChange(seasonYear) {
@@ -134,6 +137,7 @@ function updateMonthButtons(eventID, year) {
         }
         let chosenMonth = monthIndex.month;
         let monthButton = document.createElement("button");
+        monthButton.classList.add("monthButton");
         monthButton.textContent = monthNames[monthIndex.month];
         monthRow.append(monthButton);
         monthButton.addEventListener("click", function () {
@@ -229,21 +233,14 @@ function getEventResultsByMonth(eventID, seasonYear, month) {
 
 
 let hSvg = 650, wSvg = 1200;
-let threeDayChartSVG = d3.select("main").insert("svg", ":first-child")
+let monthChartSVG = d3.select("#monthChart").append("svg")
     .attr("height", hSvg).attr("width", wSvg)
     .style("border", "1px solid grey")
 
-
-
 function drawScatterPlot(monthData) {
-    
-}
-
-
-function renderWeekBarCharts(monthData) {
 
     // Rensa SVG
-    threeDayChartSVG.selectAll("*").remove();
+    monthChartSVG.selectAll("*").remove();
 
     // Storlek
     const margin = {
@@ -264,6 +261,12 @@ function renderWeekBarCharts(monthData) {
         "MacLeod": "#C8C800",
         "MacKinnon": "#5D5B2C",
     };
+}
+
+
+function renderWeekBarCharts(monthData) {
+
+
 
     // Loopa varje dag
     monthData.forEach((dayData, index) => {
@@ -398,7 +401,8 @@ function getEventPoints(placement) {
 }
 let current_event = {
     name: "Moo Off",
-    id: 1
+    id: 1,
+    info: "Moo-off"
 }
 //handleSeasonChange(9)
 handleEventChange(current_event)
