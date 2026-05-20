@@ -77,7 +77,6 @@ function drawStackedChart(season) {
         .nice()   
         .range([hStack - mStack.bottom, mStack.top]);
 
-
         svg.append("g")
         .attr("transform", `translate(${mStack.left}, 0)`)
         .call(d3.axisLeft(yStack));

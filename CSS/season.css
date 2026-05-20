@@ -2,33 +2,17 @@ h1 {
     text-align: center;
 }
 
-/* #filteringBoxes {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    gap: 40px;
-} */
 
 #seasonButtons {
     display: flex;
-    align-content: center;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.filteringBoxesDIV {
-    color: aliceblue;
-    font-size: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 30px;
-    padding: 5px;
-    background-color: #4a3728;
-    border-radius: 10px;
-}
+
 
 #svgElement {
     display: flex;
