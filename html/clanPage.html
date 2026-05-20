@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clan</title>
-    <link rel="stylesheet" href="../CSS/fonts.css">
     <link rel="stylesheet" href="../CSS/nav.css">
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="../CSS/clanPage.css">
@@ -51,15 +50,19 @@
 
             <div class="DIV-flex">
                 <h3>Clanpoints per month in current season</h3>
-                <div id="svgElement"></div>
+                <div id="svgAndInfo">
+                    <div id="svgElement"></div>
+                    <div id="infobox">
+                        <div id="borderBottomDiv">
+                            <p>Points</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="DIV-flex">
                 <h3>Members</h3>
-                <div id="clanMembers">
-                    <div id="activeMembers"></div>
-                    <div id="notActiveMembers"></div>
-                </div>
+                <div id="clanMembers"></div>
             </div>
 
             <div id="popUpCowInfo">
@@ -86,6 +89,11 @@
                     <button id="s9">Current Season</button>
                 </div>
 
+                <div id="h2Div">
+                    <h2>Score per dicipline</h2>
+                    <h4>Between 10 and 50</h4>
+                </div>
+
                 <div id="chart">
                     <div id="chartOne"></div>
                     <div id="chartTwo"></div>
@@ -93,8 +101,6 @@
                     <div id="chartFour"></div>
                     <div id="chartFive"></div>
                 </div>
-
-                <div id="chart2"></div>
 
                 <div id="popupNotCompeting">
                     <p><span id="cowName"></span> did not compete this season.</p>
