@@ -11,6 +11,26 @@ const wStack = 1000;
 const hStack = 500;
 const mStack = { top: 20, right: 180, bottom: 60, left: 60 };
 
+function getGlobalMax () {
+  let globalMax = 0;
+
+  for (let season of allSeasons) {
+    for (let disciplineId of disciplineIds) {
+      let scores = getScores(season.year, disciplineId);
+      for (let score of scores) {
+        if (score.points > globalMax) {
+          globalMax = score.points;
+        }
+      }
+    }
+  }
+  return globalMax;
+}
+getGlobalMax();
+
+console.log("Hej", getGlobalMax());
+
+
 //total poäng per klan per tävlingsgren
 function totalPointsPerDicipline(year, dicipline_ID, clanName) {
   let thisYear = allSeasons.find(x => x.year === year);
@@ -185,11 +205,11 @@ function drawDiagram(year, disciplines_id) {
     ;
 
   let yScale = d3.scaleLinear()
-    .domain([0, highestScore])
+    .domain([0, getGlobalMax()])
     .range([hSvg - hPad, hPad]);
 
   let hScale = d3.scaleLinear()
-    .domain([0, highestScore])
+    .domain([0, getGlobalMax()])
     .range([0, hSvg - hPad * 2]);
 
 
